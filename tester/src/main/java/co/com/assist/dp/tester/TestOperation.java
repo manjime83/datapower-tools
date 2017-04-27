@@ -85,8 +85,8 @@ public class TestOperation {
 		File bin;
 		File src;
 		try {
-			bin = new File("..", project + File.separator + "bin").getCanonicalFile();
-			src = new File("..", project + File.separator + "src").getCanonicalFile();
+			bin = new File(project + File.separator + "bin").getCanonicalFile();
+			src = new File(project + File.separator + "src").getCanonicalFile();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -146,9 +146,7 @@ public class TestOperation {
 				}
 
 				Document request = buildDoImportRequest(d.getName(), bytes);
-				// Element requestElement =
-				// request.getRootElement().getChild("Body",
-				// env).getChild("request", dp);
+				// Element requestElement = request.getRootElement().getChild("Body", env).getChild("request", dp);
 				// System.out.println(prettyOutputter.outputString(requestElement));
 
 				Document response = HttpClient.sendRequest(url, request, headers);
@@ -218,8 +216,8 @@ public class TestOperation {
 		File test;
 		File log;
 		try {
-			test = new File("..", project + File.separator + "test").getCanonicalFile();
-			log = new File("..", project + File.separator + "log").getCanonicalFile();
+			test = new File(project + File.separator + "test").getCanonicalFile();
+			log = new File(project + File.separator + "log").getCanonicalFile();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
