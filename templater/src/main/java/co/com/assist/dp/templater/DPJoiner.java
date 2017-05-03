@@ -24,8 +24,12 @@ public class DPJoiner {
 		XMLOutputter prettyOutputter = new XMLOutputter(
 				Format.getPrettyFormat().setOmitDeclaration(true).setIndent("\t"));
 
-		File input = new File("C:\\manujimenez\\workspaces\\bgeneral\\bgeneral.services\\src");
-		File output = new File("C:\\manujimenez\\workspaces\\bgeneral\\bgeneral.services.all\\src\\bgeneral.services");
+		String project = "bgeneral.commons";
+		// String project = "bgeneral.services";
+
+		File input = new File("C:\\manujimenez\\workspaces\\bgeneral\\" + project + "\\src");
+		File output = new File("C:\\manujimenez\\workspaces\\bgeneral\\bgeneral.services.all\\src\\" + project);
+		FileUtils.deleteQuietly(output);
 
 		Map<String, Element> dpConfigurations = new HashMap<String, Element>();
 
@@ -48,10 +52,14 @@ public class DPJoiner {
 				}
 
 				Element export = builder.build(new File(domain, "export.xml")).getRootElement();
-				dpConfigurations.get(domain.getName()).getChild("configuration")
-						.addContent(export.getChild("configuration").cloneContent());
-				dpConfigurations.get(domain.getName()).getChild("files")
-						.addContent(export.getChild("files").cloneContent());
+				Element c = export.getChild("configuration");
+				if (c != null) {
+					dpConfigurations.get(domain.getName()).getChild("configuration").addContent(c.cloneContent());
+				}
+				Element f = export.getChild("files");
+				if (f != null) {
+					dpConfigurations.get(domain.getName()).getChild("files").addContent(f.cloneContent());
+				}
 
 				FileUtils.copyDirectoryToDirectory(domain, output);
 			}
