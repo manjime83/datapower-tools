@@ -1,0 +1,610 @@
+<datapower-configuration version="3">
+	<configuration domain="dom_desa">
+		<WSEndpointRewritePolicy name="${service_name}">
+			<mAdminState>enabled</mAdminState>
+			<WSEndpointLocalRewriteRule>
+				<ServicePortMatchRegexp>^{${namespace}}${port_name}$</ServicePortMatchRegexp>
+				<LocalEndpointProtocol>default</LocalEndpointProtocol>
+				<LocalEndpointHostname>0.0.0.0</LocalEndpointHostname>
+				<LocalEndpointPort>0</LocalEndpointPort>
+				<LocalEndpointURI>${uri}</LocalEndpointURI>
+				<FrontProtocol class="HTTPSourceProtocolHandler">service.http</FrontProtocol>
+				<UseFrontProtocol>on</UseFrontProtocol>
+				<WSDLBindingProtocol>soap-11</WSDLBindingProtocol>
+				<FrontsidePortSuffix />
+			</WSEndpointLocalRewriteRule>
+			<WSEndpointLocalRewriteRule>
+				<ServicePortMatchRegexp>^{${namespace}}${port_name}$</ServicePortMatchRegexp>
+				<LocalEndpointProtocol>default</LocalEndpointProtocol>
+				<LocalEndpointHostname>0.0.0.0</LocalEndpointHostname>
+				<LocalEndpointPort>0</LocalEndpointPort>
+				<LocalEndpointURI>${uri}</LocalEndpointURI>
+				<FrontProtocol class="HTTPSSourceProtocolHandler">service.https</FrontProtocol>
+				<UseFrontProtocol>on</UseFrontProtocol>
+				<WSDLBindingProtocol>soap-11</WSDLBindingProtocol>
+				<FrontsidePortSuffix>ssl</FrontsidePortSuffix>
+			</WSEndpointLocalRewriteRule>
+			<WSEndpointRemoteRewriteRule>
+				<ServicePortMatchRegexp>^{${namespace}}${port_name}$</ServicePortMatchRegexp>
+				<RemoteEndpointProtocol>http</RemoteEndpointProtocol>
+				<RemoteEndpointHostname>iib.bgeneral.com</RemoteEndpointHostname>
+				<RemoteEndpointPort>80</RemoteEndpointPort>
+				<RemoteEndpointURI>${uri}</RemoteEndpointURI>
+				<RemoteMQQM />
+				<RemoteTibcoEMS />
+				<RemoteWebSphereJMS />
+			</WSEndpointRemoteRewriteRule>
+		</WSEndpointRewritePolicy>
+		<Matching name="${service_name}_match_all">
+			<mAdminState>enabled</mAdminState>
+			<MatchRules>
+				<Type>url</Type>
+				<HttpTag />
+				<HttpValue />
+				<Url>*</Url>
+				<ErrorCode />
+				<XPATHExpression />
+				<Method>default</Method>
+				<CustomMethod />
+			</MatchRules>
+			<MatchWithPCRE>off</MatchWithPCRE>
+			<CombineWithOr>off</CombineWithOr>
+		</Matching>
+		<SLMPolicy name="${service_name}">
+			<mAdminState>enabled</mAdminState>
+			<ExecutionPolicy>execute-all-statements</ExecutionPolicy>
+			<APIMgmt>off</APIMgmt>
+		</SLMPolicy>
+		<StylePolicyAction name="${service_name}_default_request-rule_defaultaction_slm">
+			<mAdminState>enabled</mAdminState>
+			<Type>slm</Type>
+			<Input>INPUT</Input>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>NULL</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<Transactional>off</Transactional>
+			<SLMPolicy>${service_name}</SLMPolicy>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="${service_name}_default_request-rule_xform_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>xform</Type>
+			<Input>NULL</Input>
+			<Transform>local:///xsl/commons/set.config.xsl</Transform>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>config</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<OutputType>default</OutputType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="${service_name}_default_request-rule_conditional_0_refaction_verify_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>filter</Type>
+			<Input>INPUT</Input>
+			<Transform>store:///verify.xsl</Transform>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>NULL</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<StylesheetParameters>
+				<ParameterName>{http://www.datapower.com/param/config}valcred</ParameterName>
+				<ParameterValue>datapower.sign.valcreds</ParameterValue>
+			</StylesheetParameters>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="${service_name}_default_request-rule_conditional_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>conditional</Type>
+			<Input>config</Input>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<Condition>
+				<Expression>/Config/VerifySignature/text() = 'true'</Expression>
+				<ConditionAction>${service_name}_default_request-rule_conditional_0_refaction_verify_0</ConditionAction>
+			</Condition>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="${service_name}_default_request-rule_conditional_1_refaction_filter_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>filter</Type>
+			<Input>INPUT</Input>
+			<Transform>store:///SQL-Injection-Filter.xsl</Transform>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>NULL</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="${service_name}_default_request-rule_conditional_1">
+			<mAdminState>enabled</mAdminState>
+			<Type>conditional</Type>
+			<Input>config</Input>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<Condition>
+				<Expression>/Config/InjectionAttackProtection/text() = 'true'</Expression>
+				<ConditionAction>${service_name}_default_request-rule_conditional_1_refaction_filter_0</ConditionAction>
+			</Condition>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="${service_name}_default_request-rule_xform_1">
+			<mAdminState>enabled</mAdminState>
+			<Type>xform</Type>
+			<Input>INPUT</Input>
+			<Transform>store:///strip-security-header.xsl</Transform>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>PIPE</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<OutputType>default</OutputType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="${service_name}_default_request-rule_defaultaction_result">
+			<mAdminState>enabled</mAdminState>
+			<Type>results</Type>
+			<Input>PIPE</Input>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>OUTPUT</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<OutputType>default</OutputType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<WSStylePolicyRule name="${service_name}_default_request-rule">
+			<mAdminState>enabled</mAdminState>
+			<Direction>request-rule</Direction>
+			<InputFormat>none</InputFormat>
+			<OutputFormat>none</OutputFormat>
+			<NonXMLProcessing>off</NonXMLProcessing>
+			<Unprocessed>off</Unprocessed>
+			<Actions class="StylePolicyAction">${service_name}_default_request-rule_defaultaction_slm</Actions>
+			<Actions class="StylePolicyAction">${service_name}_default_request-rule_xform_0</Actions>
+			<Actions class="StylePolicyAction">${service_name}_default_request-rule_conditional_0</Actions>
+			<Actions class="StylePolicyAction">${service_name}_default_request-rule_conditional_1</Actions>
+			<Actions class="StylePolicyAction">${service_name}_default_request-rule_xform_1</Actions>
+			<Actions class="StylePolicyAction">${service_name}_default_request-rule_defaultaction_result</Actions>
+		</WSStylePolicyRule>
+		<StylePolicyAction name="${service_name}_default_response-rule_xform_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>xform</Type>
+			<Input>NULL</Input>
+			<Transform>local:///xsl/commons/set.config.xsl</Transform>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>config</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<OutputType>default</OutputType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="${service_name}_default_response-rule_conditional_0_refaction_sign_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>xform</Type>
+			<Input>INPUT</Input>
+			<Transform>store:///sign-wssec.xsl</Transform>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>response</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<StylesheetParameters>
+				<ParameterName>{http://www.datapower.com/param/config}hashalg</ParameterName>
+				<ParameterValue>sha512</ParameterValue>
+			</StylesheetParameters>
+			<StylesheetParameters>
+				<ParameterName>{http://www.datapower.com/param/config}keypair-cert</ParameterName>
+				<ParameterValue>datapower.sign.cer</ParameterValue>
+			</StylesheetParameters>
+			<StylesheetParameters>
+				<ParameterName>{http://www.datapower.com/param/config}keypair-key</ParameterName>
+				<ParameterValue>datapower.sign.key</ParameterValue>
+			</StylesheetParameters>
+			<StylesheetParameters>
+				<ParameterName>{http://www.datapower.com/param/config}sigalg</ParameterName>
+				<ParameterValue>rsa-sha512</ParameterValue>
+			</StylesheetParameters>
+			<OutputType>default</OutputType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="${service_name}_default_response-rule_conditional_0_refaction_xform_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>xform</Type>
+			<Input>INPUT</Input>
+			<Transform>store:///identity.xsl</Transform>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>response</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<OutputType>default</OutputType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="${service_name}_default_response-rule_conditional_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>conditional</Type>
+			<Input>config</Input>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<Condition>
+				<Expression>/Config/SignResponse/text() = 'true'</Expression>
+				<ConditionAction>${service_name}_default_response-rule_conditional_0_refaction_sign_0</ConditionAction>
+			</Condition>
+			<Condition>
+				<Expression>/Config/SignResponse/text() != 'true'</Expression>
+				<ConditionAction>${service_name}_default_response-rule_conditional_0_refaction_xform_0</ConditionAction>
+			</Condition>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="${service_name}_default_response-rule_defaultaction_result">
+			<mAdminState>enabled</mAdminState>
+			<Type>results</Type>
+			<Input>response</Input>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>OUTPUT</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<OutputType>default</OutputType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<WSStylePolicyRule name="${service_name}_default_response-rule">
+			<mAdminState>enabled</mAdminState>
+			<Direction>response-rule</Direction>
+			<InputFormat>none</InputFormat>
+			<OutputFormat>none</OutputFormat>
+			<NonXMLProcessing>off</NonXMLProcessing>
+			<Unprocessed>off</Unprocessed>
+			<Actions class="StylePolicyAction">${service_name}_default_response-rule_xform_0</Actions>
+			<Actions class="StylePolicyAction">${service_name}_default_response-rule_conditional_0</Actions>
+			<Actions class="StylePolicyAction">${service_name}_default_response-rule_defaultaction_result</Actions>
+		</WSStylePolicyRule>
+		<WSStylePolicy name="${service_name}">
+			<mAdminState>enabled</mAdminState>
+			<DefStylesheetForSoap>store:///filter-reject-all.xsl</DefStylesheetForSoap>
+			<DefStylesheetForXsl>store:///identity.xsl</DefStylesheetForXsl>
+			<PolicyMaps>
+				<WSDLComponentType>fragmentid</WSDLComponentType>
+				<WSDLComponentValue />
+				<Match class="Matching">${service_name}_match_all</Match>
+				<Rule class="WSStylePolicyRule">${service_name}_default_request-rule</Rule>
+				<Subscription />
+				<WSDLFragmentID>http://www.datapower.com/fragment-id#dp.all()</WSDLFragmentID>
+			</PolicyMaps>
+			<PolicyMaps>
+				<WSDLComponentType>fragmentid</WSDLComponentType>
+				<WSDLComponentValue />
+				<Match class="Matching">${service_name}_match_all</Match>
+				<Rule class="WSStylePolicyRule">${service_name}_default_response-rule</Rule>
+				<Subscription />
+				<WSDLFragmentID>http://www.datapower.com/fragment-id#dp.all()</WSDLFragmentID>
+			</PolicyMaps>
+		</WSStylePolicy>
+		<WSGateway name="${service_name}">
+			<mAdminState>enabled</mAdminState>
+			<Priority>normal</Priority>
+			<XMLManager class="XMLManager">standard.message.manager</XMLManager>
+			<SSLClientConfigType>client</SSLClientConfigType>
+			<SSLClient class="SSLClientProfile">service.https.ssl</SSLClient>
+			<DefaultParamNamespace>http://www.datapower.com/param/config</DefaultParamNamespace>
+			<QueryParamNamespace>http://www.datapower.com/param/query</QueryParamNamespace>
+			<PropagateURI>off</PropagateURI>
+			<MonitorProcessingPolicy>terminate-at-first-throttle</MonitorProcessingPolicy>
+			<RequestAttachments>strip</RequestAttachments>
+			<ResponseAttachments>strip</ResponseAttachments>
+			<RequestAttachmentsFlowControl>off</RequestAttachmentsFlowControl>
+			<ResponseAttachmentsFlowControl>off</ResponseAttachmentsFlowControl>
+			<RootPartNotFirstAction>process-in-order</RootPartNotFirstAction>
+			<FrontAttachmentFormat>dynamic</FrontAttachmentFormat>
+			<BackAttachmentFormat>dynamic</BackAttachmentFormat>
+			<MIMEFrontHeaders>on</MIMEFrontHeaders>
+			<MIMEBackHeaders>on</MIMEBackHeaders>
+			<StreamOutputToBack>buffer-until-verification</StreamOutputToBack>
+			<StreamOutputToFront>buffer-until-verification</StreamOutputToFront>
+			<MaxMessageSize>0</MaxMessageSize>
+			<GatewayParserLimits>off</GatewayParserLimits>
+			<ParserLimitsElementDepth>512</ParserLimitsElementDepth>
+			<ParserLimitsAttributeCount>128</ParserLimitsAttributeCount>
+			<ParserLimitsMaxNodeSize>33554432</ParserLimitsMaxNodeSize>
+			<ParserLimitsForbidExternalReferences>on</ParserLimitsForbidExternalReferences>
+			<ParserLimitsExternalReferences>forbid</ParserLimitsExternalReferences>
+			<ParserLimitsMaxPrefixes>1024</ParserLimitsMaxPrefixes>
+			<ParserLimitsMaxNamespaces>1024</ParserLimitsMaxNamespaces>
+			<ParserLimitsMaxLocalNames>60000</ParserLimitsMaxLocalNames>
+			<ParserLimitsAttachmentByteCount>2000000000</ParserLimitsAttachmentByteCount>
+			<ParserLimitsAttachmentPackageByteCount>0</ParserLimitsAttachmentPackageByteCount>
+			<DebugMode persisted="false">off</DebugMode>
+			<DebuggerType>internal</DebuggerType>
+			<DebugHistory>25</DebugHistory>
+			<FlowControl>off</FlowControl>
+			<SOAPSchemaURL>store:///schemas/soap-envelope.xsd</SOAPSchemaURL>
+			<FrontTimeout>55</FrontTimeout>
+			<BackTimeout>54</BackTimeout>
+			<FrontPersistentTimeout>180</FrontPersistentTimeout>
+			<BackPersistentTimeout>180</BackPersistentTimeout>
+			<IncludeResponseTypeEncoding>on</IncludeResponseTypeEncoding>
+			<BackHTTPVersion>HTTP/1.1</BackHTTPVersion>
+			<PersistentConnections>on</PersistentConnections>
+			<LoopDetection>off</LoopDetection>
+			<DoHostRewriting>on</DoHostRewriting>
+			<DoChunkedUpload>off</DoChunkedUpload>
+			<ProcessHTTPErrors>on</ProcessHTTPErrors>
+			<HTTPClientIPLabel>X-Client-IP</HTTPClientIPLabel>
+			<HTTPLogCorIDLabel>X-Global-Transaction-ID</HTTPLogCorIDLabel>
+			<InOrderMode>
+				<Request>off</Request>
+				<Backend>off</Backend>
+				<Response>off</Response>
+			</InOrderMode>
+			<WSAMode>sync2sync</WSAMode>
+			<WSARequireAAA>on</WSARequireAAA>
+			<WSAStrip>on</WSAStrip>
+			<WSADefaultReplyTo>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</WSADefaultReplyTo>
+			<WSADefaultFaultTo>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</WSADefaultFaultTo>
+			<WSAForce>off</WSAForce>
+			<WSAGenStyle>sync</WSAGenStyle>
+			<WSAHTTPAsyncResponseCode>204</WSAHTTPAsyncResponseCode>
+			<WSATimeout>120</WSATimeout>
+			<WSRMEnabled>off</WSRMEnabled>
+			<WSRMSequenceExpiration>3600</WSRMSequenceExpiration>
+			<WSRMDestinationAcceptCreateSequence>on</WSRMDestinationAcceptCreateSequence>
+			<WSRMDestinationMaximumSequences>400</WSRMDestinationMaximumSequences>
+			<WSRMDestinationInOrder>off</WSRMDestinationInOrder>
+			<WSRMDestinationMaximumInOrderQueueLength>10</WSRMDestinationMaximumInOrderQueueLength>
+			<WSRMDestinationAcceptOffers>off</WSRMDestinationAcceptOffers>
+			<WSRMFrontForce>off</WSRMFrontForce>
+			<WSRMBackForce>off</WSRMBackForce>
+			<WSRMBackCreateSequence>off</WSRMBackCreateSequence>
+			<WSRMFrontCreateSequence>off</WSRMFrontCreateSequence>
+			<WSRMSourceMakeOffer>off</WSRMSourceMakeOffer>
+			<WSRMUsesSequenceSSL>off</WSRMUsesSequenceSSL>
+			<WSRMSourceMaximumSequences>400</WSRMSourceMaximumSequences>
+			<WSRMSourceRetransmissionInterval>10</WSRMSourceRetransmissionInterval>
+			<WSRMSourceExponentialBackoff>on</WSRMSourceExponentialBackoff>
+			<WSRMSourceMaximumRetransmissions>4</WSRMSourceMaximumRetransmissions>
+			<WSRMSourceMaximumQueueLength>30</WSRMSourceMaximumQueueLength>
+			<WSRMSourceRequestAckCount>1</WSRMSourceRequestAckCount>
+			<WSRMSourceInactivityClose>360</WSRMSourceInactivityClose>
+			<ForcePolicyExec>off</ForcePolicyExec>
+			<RewriteErrors>on</RewriteErrors>
+			<DelayErrors>on</DelayErrors>
+			<DelayErrorsDuration>3000</DelayErrorsDuration>
+			<RequestType>soap</RequestType>
+			<ResponseType>soap</ResponseType>
+			<FollowRedirects>on</FollowRedirects>
+			<AllowCompression>off</AllowCompression>
+			<AllowCacheControlHeader>off</AllowCacheControlHeader>
+			<Type>static-from-wsdl</Type>
+			<AutoCreateSources>off</AutoCreateSources>
+			<SSLServerConfigType>proxy</SSLServerConfigType>
+			<EndpointRewritePolicy class="WSEndpointRewritePolicy">${service_name}</EndpointRewritePolicy>
+			<StylePolicy class="WSStylePolicy">${service_name}</StylePolicy>
+			<RemoteFetchRetry>
+				<AutomaticRetry>off</AutomaticRetry>
+				<RetryInterval>1</RetryInterval>
+				<ReportingInterval>1</ReportingInterval>
+				<TotalRetries>1</TotalRetries>
+			</RemoteFetchRetry>
+			<BaseWSDL>
+				<WSDLSourceLocation>local:///wsdl/${wsdl}</WSDLSourceLocation>
+				<WSDLName>${wsdl}</WSDLName>
+				<PolicyAttachments />
+			</BaseWSDL>
+			<UserToggles>
+				<WSDLName />
+				<ServiceName />
+				<ServicePortName />
+				<PortTypeName />
+				<BindingName />
+				<OperationName />
+				<Toggles>
+					<Enable>on</Enable>
+					<Publish>off</Publish>
+					<VerifyFaults>on</VerifyFaults>
+					<VerifyHeaders>off</VerifyHeaders>
+					<NoRequestValidation>off</NoRequestValidation>
+					<NoResponseValidation>off</NoResponseValidation>
+					<SuppressFaultsElementsForRPCWrappers>off</SuppressFaultsElementsForRPCWrappers>
+					<NoWSA>off</NoWSA>
+					<NoWSRM>off</NoWSRM>
+					<AllowXOPInclude>on</AllowXOPInclude>
+				</Toggles>
+				<Subscription />
+				<UseFragmentID>on</UseFragmentID>
+				<FragmentID>${namespace}#dp.wsdlName(${wsdl})</FragmentID>
+			</UserToggles>
+			<DecryptKey class="CryptoKey">datapower.ssl.key</DecryptKey>
+			<EncryptedKeySHA1CacheLifeTime>0</EncryptedKeySHA1CacheLifeTime>
+			<PreserveKeyChain>off</PreserveKeyChain>
+			<DecryptWithKeyFromED>off</DecryptWithKeyFromED>
+			<SOAPActionPolicy>strict</SOAPActionPolicy>
+			<WSMAgentMonitor>on</WSMAgentMonitor>
+			<WSMAgentMonitorPCM>all-messages</WSMAgentMonitorPCM>
+			<ProcessRespRulesOnOneWayMEP>off</ProcessRespRulesOnOneWayMEP>
+		</WSGateway>
+	</configuration>
+	<files>
+		<file name="local:///config/${service_name}.xml" src="local/config/${service_name}.xml" location="local" />
+	</files>
+</datapower-configuration>
