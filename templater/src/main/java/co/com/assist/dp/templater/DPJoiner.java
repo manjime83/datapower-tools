@@ -24,51 +24,52 @@ public class DPJoiner {
 		XMLOutputter prettyOutputter = new XMLOutputter(
 				Format.getPrettyFormat().setOmitDeclaration(true).setIndent("\t"));
 
-		String project = "bgeneral.commons";
-		// String project = "bgeneral.services";
+		String[] projects = new String[] { "bgeneral.commons", "bgeneral.services" };
 
-		File input = new File("C:\\manujimenez\\workspaces\\bgeneral\\" + project + "\\src");
-		File output = new File("C:\\manujimenez\\workspaces\\bgeneral\\bgeneral.services.all\\src\\" + project);
-		FileUtils.deleteQuietly(output);
+		for (String project : projects) {
+			File input = new File("C:\\manujimenez\\workspaces\\bgeneral\\" + project + "\\src");
+			File output = new File("C:\\manujimenez\\workspaces\\bgeneral\\bgeneral.services.all\\src\\" + project);
+			FileUtils.deleteQuietly(output);
 
-		Map<String, Element> dpConfigurations = new HashMap<String, Element>();
+			Map<String, Element> dpConfigurations = new HashMap<String, Element>();
 
-		File[] modules = input.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
-		for (File module : modules) {
-			File[] domains = module.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
-			for (File domain : domains) {
-				if (!dpConfigurations.containsKey(domain.getName())) {
-					Element dpConfiguration = new Element("datapower-configuration");
-					dpConfiguration.setAttribute("version", "3");
+			File[] modules = input.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
+			for (File module : modules) {
+				File[] domains = module.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
+				for (File domain : domains) {
+					if (!dpConfigurations.containsKey(domain.getName())) {
+						Element dpConfiguration = new Element("datapower-configuration");
+						dpConfiguration.setAttribute("version", "3");
 
-					Element configuration = new Element("configuration");
-					configuration.setAttribute("domain", domain.getName());
-					dpConfiguration.addContent(configuration);
+						Element configuration = new Element("configuration");
+						configuration.setAttribute("domain", domain.getName());
+						dpConfiguration.addContent(configuration);
 
-					Element files = new Element("files");
-					dpConfiguration.addContent(files);
+						Element files = new Element("files");
+						dpConfiguration.addContent(files);
 
-					dpConfigurations.put(domain.getName(), dpConfiguration);
+						dpConfigurations.put(domain.getName(), dpConfiguration);
+					}
+
+					Element export = builder.build(new File(domain, "export.xml")).getRootElement();
+					Element c = export.getChild("configuration");
+					if (c != null) {
+						dpConfigurations.get(domain.getName()).getChild("configuration").addContent(c.cloneContent());
+					}
+					Element f = export.getChild("files");
+					if (f != null) {
+						dpConfigurations.get(domain.getName()).getChild("files").addContent(f.cloneContent());
+					}
+
+					FileUtils.copyDirectoryToDirectory(domain, output);
 				}
-
-				Element export = builder.build(new File(domain, "export.xml")).getRootElement();
-				Element c = export.getChild("configuration");
-				if (c != null) {
-					dpConfigurations.get(domain.getName()).getChild("configuration").addContent(c.cloneContent());
-				}
-				Element f = export.getChild("files");
-				if (f != null) {
-					dpConfigurations.get(domain.getName()).getChild("files").addContent(f.cloneContent());
-				}
-
-				FileUtils.copyDirectoryToDirectory(domain, output);
 			}
-		}
 
-		Set<Entry<String, Element>> entrySet = dpConfigurations.entrySet();
-		for (Entry<String, Element> entry : entrySet) {
-			String prettyExport = prettyOutputter.outputString(entry.getValue());
-			FileUtils.writeStringToFile(new File(output, entry.getKey() + "/export.xml"), prettyExport, "UTF-8");
+			Set<Entry<String, Element>> entrySet = dpConfigurations.entrySet();
+			for (Entry<String, Element> entry : entrySet) {
+				String prettyExport = prettyOutputter.outputString(entry.getValue());
+				FileUtils.writeStringToFile(new File(output, entry.getKey() + "/export.xml"), prettyExport, "UTF-8");
+			}
 		}
 	}
 

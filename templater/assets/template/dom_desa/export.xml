@@ -8,17 +8,6 @@
 				<LocalEndpointHostname>0.0.0.0</LocalEndpointHostname>
 				<LocalEndpointPort>0</LocalEndpointPort>
 				<LocalEndpointURI>${uri}</LocalEndpointURI>
-				<FrontProtocol class="HTTPSourceProtocolHandler">service.http</FrontProtocol>
-				<UseFrontProtocol>on</UseFrontProtocol>
-				<WSDLBindingProtocol>soap-11</WSDLBindingProtocol>
-				<FrontsidePortSuffix />
-			</WSEndpointLocalRewriteRule>
-			<WSEndpointLocalRewriteRule>
-				<ServicePortMatchRegexp>^{${namespace}}${port_name}$</ServicePortMatchRegexp>
-				<LocalEndpointProtocol>default</LocalEndpointProtocol>
-				<LocalEndpointHostname>0.0.0.0</LocalEndpointHostname>
-				<LocalEndpointPort>0</LocalEndpointPort>
-				<LocalEndpointURI>${uri}</LocalEndpointURI>
 				<FrontProtocol class="HTTPSSourceProtocolHandler">service.https</FrontProtocol>
 				<UseFrontProtocol>on</UseFrontProtocol>
 				<WSDLBindingProtocol>soap-11</WSDLBindingProtocol>
@@ -26,9 +15,9 @@
 			</WSEndpointLocalRewriteRule>
 			<WSEndpointRemoteRewriteRule>
 				<ServicePortMatchRegexp>^{${namespace}}${port_name}$</ServicePortMatchRegexp>
-				<RemoteEndpointProtocol>http</RemoteEndpointProtocol>
+				<RemoteEndpointProtocol>https</RemoteEndpointProtocol>
 				<RemoteEndpointHostname>iib.bgeneral.com</RemoteEndpointHostname>
-				<RemoteEndpointPort>80</RemoteEndpointPort>
+				<RemoteEndpointPort>443</RemoteEndpointPort>
 				<RemoteEndpointURI>${uri}</RemoteEndpointURI>
 				<RemoteMQQM />
 				<RemoteTibcoEMS />
