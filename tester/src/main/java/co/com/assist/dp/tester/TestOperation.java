@@ -156,12 +156,6 @@ public class TestOperation {
 				System.out.println("elapsed time: " + HttpClient.getElapsedTime());
 				System.out.println();
 			}
-
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
 		}
 	}
 
