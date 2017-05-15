@@ -109,10 +109,10 @@ public class BuildPropertiesExperian {
 
 		for (String operation : operations) {
 			File routes = new File(output, "src/" + project_name + "/secure-gateway/local/routes/" + project_name + "/"
-					+ service_name + "/" + operation + ".routes.xml");
+					+ service_name + "/" + operation + ".route.xml");
 			FileUtils.writeStringToFile(routes, xml, "UTF-8");
 			File routesdmz = new File(output, "src/" + project_name + "/secure-gateway-dmz/local/routes/" + project_name
-					+ "/" + service_name + "/" + operation + ".routes.xml");
+					+ "/" + service_name + "/" + operation + ".route.xml");
 			FileUtils.writeStringToFile(routesdmz, xml, "UTF-8");
 		}
 	}

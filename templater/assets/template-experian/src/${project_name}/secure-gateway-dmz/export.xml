@@ -38,9 +38,15 @@
 			</WSEndpointLocalRewriteRule>
 			<WSEndpointRemoteRewriteRule>
 				<ServicePortMatchRegexp>^{${namespace}}${port_name}$</ServicePortMatchRegexp>
+				<#if balancer == "jboss.lbg">
+				<RemoteEndpointProtocol>https</RemoteEndpointProtocol>
+				<RemoteEndpointHostname>${balancer}</RemoteEndpointHostname>
+				<RemoteEndpointPort>443</RemoteEndpointPort>
+				<#else>
 				<RemoteEndpointProtocol>http</RemoteEndpointProtocol>
-				<RemoteEndpointHostname>localhost</RemoteEndpointHostname>
+				<RemoteEndpointHostname>${balancer}</RemoteEndpointHostname>
 				<RemoteEndpointPort>80</RemoteEndpointPort>
+				</#if>
 				<RemoteEndpointURI>${uri}</RemoteEndpointURI>
 				<RemoteMQQM />
 				<RemoteTibcoEMS />
