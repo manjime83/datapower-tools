@@ -20,7 +20,7 @@ public class BuildPropertiesExperian {
 	private static final Namespace soapns = Namespace.getNamespace("soap", "http://schemas.xmlsoap.org/wsdl/soap/");
 
 	public static void main(String[] args) throws Exception {
-		File wsdl = new File("M:\\workspaces\\experian\\utils\\wsdl");
+		File wsdl = new File("/home/mjimenez/eclipse/workspaces/experian/utils/wsdl");
 		Collection<File> files = FileUtils.listFiles(wsdl, new String[] { "wsdl" }, true);
 		for (File f : files) {
 			processFile(f);

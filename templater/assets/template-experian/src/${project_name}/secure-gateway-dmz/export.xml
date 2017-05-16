@@ -846,6 +846,29 @@
 				<WSDLName>${wsdl}</WSDLName>
 				<PolicyAttachments />
 			</BaseWSDL>
+			<UserToggles>
+				<WSDLName />
+				<ServiceName />
+				<ServicePortName />
+				<PortTypeName />
+				<BindingName />
+				<OperationName />
+				<Toggles>
+					<Enable>on</Enable>
+					<Publish>on</Publish>
+					<VerifyFaults>on</VerifyFaults>
+					<VerifyHeaders>off</VerifyHeaders>
+					<NoRequestValidation>off</NoRequestValidation>
+					<NoResponseValidation>on</NoResponseValidation>
+					<SuppressFaultsElementsForRPCWrappers>off</SuppressFaultsElementsForRPCWrappers>
+					<NoWSA>off</NoWSA>
+					<NoWSRM>off</NoWSRM>
+					<AllowXOPInclude>on</AllowXOPInclude>
+				</Toggles>
+				<Subscription />
+				<UseFragmentID>on</UseFragmentID>
+				<FragmentID>${namespace}#dp.wsdlName(${wsdl})</FragmentID>
+			</UserToggles>
 			<DecryptKey class="CryptoKey">experian.ssl.key</DecryptKey>
 			<EncryptedKeySHA1CacheLifeTime>0</EncryptedKeySHA1CacheLifeTime>
 			<PreserveKeyChain>off</PreserveKeyChain>
