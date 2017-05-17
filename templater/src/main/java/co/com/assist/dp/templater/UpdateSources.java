@@ -15,7 +15,7 @@ public class UpdateSources implements Runnable {
 
 	@Override
 	public void run() {
-		File workspace = new File("/home/mjimenez/eclipse/workspaces/experian");
+		File workspace = new File("C:\\Users\\manji\\Documents\\workspaces\\experian");
 		File output = new File("assets/output");
 		File[] directories = output.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
 

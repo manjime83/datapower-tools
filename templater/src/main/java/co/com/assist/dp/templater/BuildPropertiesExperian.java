@@ -20,7 +20,7 @@ public class BuildPropertiesExperian {
 	private static final Namespace soapns = Namespace.getNamespace("soap", "http://schemas.xmlsoap.org/wsdl/soap/");
 
 	public static void main(String[] args) throws Exception {
-		File wsdl = new File("/home/mjimenez/eclipse/workspaces/experian/utils/wsdl");
+		File wsdl = new File("C:\\Users\\manji\\Documents\\workspaces\\experian\\utils\\wsdl");
 		Collection<File> files = FileUtils.listFiles(wsdl, new String[] { "wsdl" }, true);
 		for (File f : files) {
 			processFile(f);
@@ -69,20 +69,25 @@ public class BuildPropertiesExperian {
 		lines.add("operations=" + String.join(",", operations));
 
 		String balancer;
+		int port;
 		if (uri.getHost().equals("172.24.14.62")) {
 			balancer = "jboss.lbg";
+			port = 80;
 		} else if (uri.getHost().equals("172.24.14.129")) {
 			balancer = "tomcat.lbg";
+			port = uri.getPort();
 		} else {
 			System.out.println(uri.getHost() + " " + uri.getPort());
 			balancer = "";
+			port = 0;
 		}
 		lines.add("balancer=" + balancer);
+		lines.add("port=" + port);
 
 		File properties = new File("assets/input", project_name + ".properties");
 		FileUtils.writeLines(properties, "UTF-8", lines);
 
-		String url = uri.getProtocol() + "://" + balancer + uri.getPath();
+		String url = uri.getProtocol() + "://" + balancer + ":" + port + uri.getPath();
 
 		createResources(f, project_name, service_name, url, operations);
 	}
