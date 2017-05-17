@@ -311,7 +311,7 @@ public class TestOperation {
 					StringWriter sw = new StringWriter();
 					e.printStackTrace(new PrintWriter(sw));
 					prettyResponse = sw.toString();
-					compactResponse = e.toString();
+					compactResponse = e.toString() + System.lineSeparator();
 				}
 
 				System.out.println(prettyResponse);

@@ -24,14 +24,13 @@ import org.apache.http.ssl.TrustStrategy;
 import org.apache.http.util.EntityUtils;
 import org.jdom2.Document;
 import org.jdom2.input.SAXBuilder;
-import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 public final class HttpClient {
 
 	private static final CloseableHttpClient httpClient = getHttpClient();
 
-	public static final XMLOutputter outputter = new XMLOutputter(Format.getCompactFormat().setOmitDeclaration(true));
+	public static final XMLOutputter outputter = new XMLOutputter();
 
 	private static long elapsedTime = 0L;
 
