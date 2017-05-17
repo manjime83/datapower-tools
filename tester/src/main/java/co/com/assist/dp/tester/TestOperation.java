@@ -6,6 +6,8 @@ import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
@@ -23,17 +25,29 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.wss4j.common.WSEncryptionPart;
+import org.apache.wss4j.common.crypto.CryptoFactory;
+import org.apache.wss4j.common.ext.WSSecurityException;
+import org.apache.wss4j.dom.WSConstants;
+import org.apache.wss4j.dom.message.WSSecHeader;
+import org.apache.wss4j.dom.message.WSSecSignature;
+import org.apache.wss4j.dom.message.WSSecTimestamp;
+import org.apache.wss4j.dom.message.WSSecUsernameToken;
 import org.jdom2.Attribute;
 import org.jdom2.Comment;
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
 import org.jdom2.filter.ContentFilter;
+import org.jdom2.input.DOMBuilder;
 import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.DOMOutputter;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import com.eclipsesource.json.Json;
+import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonObject.Member;
 
@@ -149,12 +163,20 @@ public class TestOperation {
 				// Element requestElement = request.getRootElement().getChild("Body", env).getChild("request", dp);
 				// System.out.println(prettyOutputter.outputString(requestElement));
 
-				Document response = HttpClient.sendRequest(url, request, headers);
-				Element importResultsElement = response.getRootElement().getChild("Body", env).getChild("response", dp)
-						.getChild("import", dp).getChild("import-results").setAttribute("module", m.getName());
-				System.out.println(prettyOutputter.outputString(importResultsElement));
-				System.out.println("elapsed time: " + HttpClient.getElapsedTime());
-				System.out.println();
+				try {
+					Document response = HttpClient.sendRequest(url, request, headers);
+					Element importResultsElement = response.getRootElement().getChild("Body", env)
+							.getChild("response", dp).getChild("import", dp).getChild("import-results")
+							.setAttribute("module", m.getName());
+					System.out.println(prettyOutputter.outputString(importResultsElement));
+				} catch (Exception e) {
+					StringWriter sw = new StringWriter();
+					e.printStackTrace(new PrintWriter(sw));
+					System.out.println(sw.toString());
+				} finally {
+					System.out.println("elapsed time: " + HttpClient.getElapsedTime());
+					System.out.println();
+				}
 			}
 		}
 	}
@@ -252,10 +274,6 @@ public class TestOperation {
 					throw new RuntimeException(e);
 				}
 
-				String prettyRequest = prettyOutputter.outputString(request);
-				String compactRequest = compactOutputter.outputString(request);
-				System.out.println(prettyRequest);
-
 				JsonObject object = getJsonObject(request);
 				String url = object.get("url").asString();
 
@@ -267,16 +285,35 @@ public class TestOperation {
 					}
 				}
 
-				Document response = HttpClient.sendRequest(url, request, headers);
+				if (object.get("security") != null) {
+					JsonObject members = object.get("security").asObject();
+					if (members.get("signature").asBoolean()) {
+						if (members.get("usernametoken") != null) {
+							JsonArray usernametoken = members.get("usernametoken").asArray();
+							request = sign(request, usernametoken.get(0).asString(), usernametoken.get(1).asString());
+						} else {
+							request = sign(request);
+						}
+					}
+				}
+
+				String prettyRequest = prettyOutputter.outputString(request);
+				String compactRequest = compactOutputter.outputString(request);
+				System.out.println(prettyRequest);
+
 				String prettyResponse;
 				String compactResponse;
-				if (response == null) {
-					prettyResponse = "EMPTY RESPONSE";
-					compactResponse = "EMPTY RESPONSE";
-				} else {
+				try {
+					Document response = HttpClient.sendRequest(url, request, headers);
 					prettyResponse = prettyOutputter.outputString(response);
 					compactResponse = compactOutputter.outputString(response);
+				} catch (Exception e) {
+					StringWriter sw = new StringWriter();
+					e.printStackTrace(new PrintWriter(sw));
+					prettyResponse = sw.toString();
+					compactResponse = e.toString();
 				}
+
 				System.out.println(prettyResponse);
 				System.out.println("elapsed time: " + HttpClient.getElapsedTime());
 				System.out.println();
@@ -315,6 +352,61 @@ public class TestOperation {
 				}
 			}
 		}
+	}
+
+	private Document sign(Document request) {
+		return sign(request, null, null);
+	}
+
+	private Document sign(Document request, String user, String password) {
+		org.w3c.dom.Document document;
+		try {
+			document = new DOMOutputter().output(request);
+		} catch (JDOMException e) {
+			throw new RuntimeException(e);
+		}
+
+		WSSecHeader secHeader = new WSSecHeader(document);
+		try {
+			org.w3c.dom.Element securityHeader = secHeader.insertSecurityHeader();
+			while (securityHeader.hasChildNodes()) {
+				securityHeader.removeChild(securityHeader.getFirstChild());
+			}
+		} catch (WSSecurityException e) {
+			throw new RuntimeException(e);
+		}
+
+		WSSecTimestamp timestamp = new WSSecTimestamp();
+		timestamp.setTimeToLive(300);
+		timestamp.setPrecisionInMilliSeconds(false);
+		timestamp.build(document, secHeader);
+
+		WSSecSignature signature = new WSSecSignature();
+		signature.setUserInfo("assist.sign", "assist");
+		signature.setKeyIdentifierType(WSConstants.BST_DIRECT_REFERENCE);
+		signature.setSignatureAlgorithm(WSConstants.RSA_SHA1);
+		signature.setSigCanonicalization(WSConstants.C14N_EXCL_OMIT_COMMENTS);
+		signature.setDigestAlgo(WSConstants.SHA1);
+		signature.setUseSingleCertificate(true);
+		signature.getParts().add(new WSEncryptionPart("Timestamp",
+				"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd", "Content"));
+		if (user != null || password != null) {
+			WSSecUsernameToken usernameToken = new WSSecUsernameToken();
+			usernameToken.setPasswordType(WSConstants.PASSWORD_TEXT);
+			usernameToken.setUserInfo(user, password);
+			usernameToken.build(document, secHeader);
+
+			signature.getParts().add(new WSEncryptionPart("UsernameToken",
+					"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd", "Content"));
+		}
+		signature.getParts().add(new WSEncryptionPart("Body", "http://schemas.xmlsoap.org/soap/envelope/", "Content"));
+		try {
+			signature.build(document, CryptoFactory.getInstance(), secHeader);
+		} catch (WSSecurityException e) {
+			throw new RuntimeException(e);
+		}
+
+		return new DOMBuilder().build(document);
 	}
 
 	public JsonObject getJsonObject(Document document) {

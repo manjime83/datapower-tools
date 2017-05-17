@@ -1,6 +1,6 @@
 package co.com.assist.dp.tester;
 
-import java.io.IOException;
+import java.io.File;
 import java.io.StringReader;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -23,7 +23,6 @@ import org.apache.http.ssl.SSLContexts;
 import org.apache.http.ssl.TrustStrategy;
 import org.apache.http.util.EntityUtils;
 import org.jdom2.Document;
-import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
@@ -43,12 +42,15 @@ public final class HttpClient {
 
 	private static CloseableHttpClient getHttpClient() {
 		try {
-			SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(new TrustStrategy() {
-				@Override
-				public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-					return true;
-				}
-			}).build();
+			SSLContext sslContext = SSLContexts.custom()
+					.loadKeyMaterial(new File(HttpClient.class.getResource("/assist.ssl.jks").toURI()),
+							"assist".toCharArray(), "assist".toCharArray())
+					.loadTrustMaterial(new TrustStrategy() {
+						@Override
+						public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+							return true;
+						}
+					}).build();
 			HttpClientBuilder builder = HttpClients.custom();
 			builder.setSSLContext(sslContext);
 			builder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE);
@@ -58,7 +60,7 @@ public final class HttpClient {
 		}
 	}
 
-	public static Document sendRequest(String url, Document request, Map<String, String> headers) {
+	public static Document sendRequest(String url, Document request, Map<String, String> headers) throws Exception {
 		String req = outputter.outputString(request);
 
 		HttpPost httpPost = new HttpPost(url);
@@ -71,13 +73,10 @@ public final class HttpClient {
 		resquestDate = Calendar.getInstance().getTime();
 		long start = System.currentTimeMillis();
 		try (CloseableHttpResponse httpResponse = httpClient.execute(httpPost)) {
-			elapsedTime = System.currentTimeMillis() - start;
 			String res = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
 			return new SAXBuilder().build(new StringReader(res));
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		} catch (JDOMException e) {
-			return null;
+		} finally {
+			elapsedTime = System.currentTimeMillis() - start;
 		}
 	}
 
