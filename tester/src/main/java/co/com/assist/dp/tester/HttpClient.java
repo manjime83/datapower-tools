@@ -2,15 +2,18 @@ package co.com.assist.dp.tester;
 
 import java.io.File;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Map.Entry;
 
 import javax.net.ssl.SSLContext;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
@@ -22,6 +25,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.ssl.TrustStrategy;
 import org.apache.http.util.EntityUtils;
+import org.apache.wss4j.common.util.Loader;
 import org.jdom2.Document;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
@@ -41,9 +45,16 @@ public final class HttpClient {
 
 	private static CloseableHttpClient getHttpClient() {
 		try {
-			SSLContext sslContext = SSLContexts.custom()
-					.loadKeyMaterial(new File(HttpClient.class.getResource("/assist.ssl.jks").toURI()),
-							"assist".toCharArray(), "assist".toCharArray())
+			String keystoreFile = TestOperation.props.getProperty("ssl.keystore.file");
+			String keystorePassword;
+			try {
+				keystorePassword = new String(
+						Base64.decodeBase64(TestOperation.props.getProperty("ssl.keystore.password")), "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				throw new RuntimeException(e);
+			}
+			SSLContext sslContext = SSLContexts.custom().loadKeyMaterial(Loader.getResource(keystoreFile),
+					keystorePassword.toCharArray(), keystorePassword.toCharArray())
 					.loadTrustMaterial(new TrustStrategy() {
 						@Override
 						public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {

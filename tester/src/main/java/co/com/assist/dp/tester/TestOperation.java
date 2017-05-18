@@ -27,6 +27,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.wss4j.common.WSEncryptionPart;
 import org.apache.wss4j.common.crypto.CryptoFactory;
+import org.apache.wss4j.common.crypto.Merlin;
 import org.apache.wss4j.common.ext.WSSecurityException;
 import org.apache.wss4j.dom.WSConstants;
 import org.apache.wss4j.dom.message.WSSecHeader;
@@ -53,7 +54,7 @@ import com.eclipsesource.json.JsonObject.Member;
 
 public class TestOperation {
 
-	private static final Properties props = new Properties();
+	protected static final Properties props = new Properties();
 
 	static {
 		try (InputStream is = ClassLoader.getSystemResourceAsStream("tester.xml")) {
@@ -292,7 +293,7 @@ public class TestOperation {
 							JsonArray usernametoken = members.get("usernametoken").asArray();
 							request = sign(request, usernametoken.get(0).asString(), usernametoken.get(1).asString());
 						} else {
-							request = sign(request);
+							request = sign(request, null, null);
 						}
 					}
 				}
@@ -354,10 +355,6 @@ public class TestOperation {
 		}
 	}
 
-	private Document sign(Document request) {
-		return sign(request, null, null);
-	}
-
 	private Document sign(Document request, String user, String password) {
 		org.w3c.dom.Document document;
 		try {
@@ -376,20 +373,30 @@ public class TestOperation {
 			throw new RuntimeException(e);
 		}
 
-		WSSecTimestamp timestamp = new WSSecTimestamp();
-		timestamp.setTimeToLive(300);
-		timestamp.setPrecisionInMilliSeconds(false);
-		timestamp.build(document, secHeader);
+		String keystoreFile = props.getProperty("sign.keystore.file");
+		String keystorePassword;
+		try {
+			keystorePassword = new String(Base64.decodeBase64(props.getProperty("sign.keystore.password")), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}
+		String alias = props.getProperty("sign.keystore.alias");
 
 		WSSecSignature signature = new WSSecSignature();
-		signature.setUserInfo("assist.sign", "assist");
+		signature.setUserInfo(alias, keystorePassword);
 		signature.setKeyIdentifierType(WSConstants.BST_DIRECT_REFERENCE);
 		signature.setSignatureAlgorithm(WSConstants.RSA_SHA1);
 		signature.setSigCanonicalization(WSConstants.C14N_EXCL_OMIT_COMMENTS);
 		signature.setDigestAlgo(WSConstants.SHA1);
 		signature.setUseSingleCertificate(true);
+
+		WSSecTimestamp timestamp = new WSSecTimestamp();
+		timestamp.setTimeToLive(300);
+		timestamp.setPrecisionInMilliSeconds(false);
+		timestamp.build(document, secHeader);
 		signature.getParts().add(new WSEncryptionPart("Timestamp",
 				"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd", "Content"));
+
 		if (user != null || password != null) {
 			WSSecUsernameToken usernameToken = new WSSecUsernameToken();
 			usernameToken.setPasswordType(WSConstants.PASSWORD_TEXT);
@@ -399,10 +406,18 @@ public class TestOperation {
 			signature.getParts().add(new WSEncryptionPart("UsernameToken",
 					"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd", "Content"));
 		}
+
 		signature.getParts().add(new WSEncryptionPart("Body", "http://schemas.xmlsoap.org/soap/envelope/", "Content"));
+
+		Properties crypto = new Properties();
+		crypto.put("org.apache.wss4j.crypto.provider", Merlin.class.getName());
+		crypto.put(Merlin.PREFIX + Merlin.KEYSTORE_TYPE, "JKS");
+		crypto.put(Merlin.PREFIX + Merlin.KEYSTORE_FILE, keystoreFile);
+		crypto.put(Merlin.PREFIX + Merlin.KEYSTORE_PASSWORD, keystorePassword);
+
 		try {
-			signature.build(document, CryptoFactory.getInstance(), secHeader);
-		} catch (WSSecurityException e) {
+			signature.build(document, CryptoFactory.getInstance(crypto), secHeader);
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 
