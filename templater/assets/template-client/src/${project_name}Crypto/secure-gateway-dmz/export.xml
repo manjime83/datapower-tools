@@ -3,7 +3,7 @@
 	<configuration domain="secure-gateway-dmz">
 		<CryptoValCred name="${project_name}.sign.valcreds">
 			<mAdminState>enabled</mAdminState>
-			<Certificate class="CryptoCertificate">experian.ssl.cer</Certificate>
+			<Certificate class="CryptoCertificate">experian.sign.cer</Certificate>
 			<CertValidationMode>legacy</CertValidationMode>
 			<UseCRL>on</UseCRL>
 			<RequireCRL>off</RequireCRL>

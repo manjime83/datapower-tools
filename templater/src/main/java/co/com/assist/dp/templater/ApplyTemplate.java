@@ -24,7 +24,7 @@ public class ApplyTemplate {
 
 	public static void main(String[] args) throws IOException, TemplateException {
 		File input = new File("assets", "input");
-		File template = new File("assets", "template-experian");
+		File template = new File("assets", "template-client");
 		File output = new File("assets", "output");
 		FileUtils.deleteQuietly(output);
 
