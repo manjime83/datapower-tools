@@ -394,8 +394,7 @@ public class TestOperation {
 		timestamp.setTimeToLive(300);
 		timestamp.setPrecisionInMilliSeconds(false);
 		timestamp.build(document, secHeader);
-		signature.getParts().add(new WSEncryptionPart("Timestamp",
-				"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd", "Content"));
+		signature.getParts().add(new WSEncryptionPart(WSConstants.TIMESTAMP_TOKEN_LN, WSConstants.WSU_NS, ""));
 
 		if (user != null || password != null) {
 			WSSecUsernameToken usernameToken = new WSSecUsernameToken();
@@ -403,15 +402,13 @@ public class TestOperation {
 			usernameToken.setUserInfo(user, password);
 			usernameToken.build(document, secHeader);
 
-			signature.getParts().add(new WSEncryptionPart("UsernameToken",
-					"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd", "Content"));
+			signature.getParts().add(new WSEncryptionPart(WSConstants.USERNAME_TOKEN_LN, WSConstants.WSSE_NS, ""));
 		}
 
-		signature.getParts().add(new WSEncryptionPart("Body", "http://schemas.xmlsoap.org/soap/envelope/", "Content"));
+		signature.getParts().add(new WSEncryptionPart(WSConstants.ELEM_BODY, WSConstants.URI_SOAP11_ENV, ""));
 
 		Properties crypto = new Properties();
 		crypto.put("org.apache.wss4j.crypto.provider", Merlin.class.getName());
-		crypto.put(Merlin.PREFIX + Merlin.KEYSTORE_TYPE, "JKS");
 		crypto.put(Merlin.PREFIX + Merlin.KEYSTORE_FILE, keystoreFile);
 		crypto.put(Merlin.PREFIX + Merlin.KEYSTORE_PASSWORD, keystorePassword);
 
@@ -420,6 +417,8 @@ public class TestOperation {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+
+		timestamp.prependToHeader(secHeader);
 
 		return new DOMBuilder().build(document);
 	}
