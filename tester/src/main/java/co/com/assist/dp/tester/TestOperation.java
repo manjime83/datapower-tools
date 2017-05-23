@@ -411,6 +411,7 @@ public class TestOperation {
 		crypto.put("org.apache.wss4j.crypto.provider", Merlin.class.getName());
 		crypto.put(Merlin.PREFIX + Merlin.KEYSTORE_FILE, keystoreFile);
 		crypto.put(Merlin.PREFIX + Merlin.KEYSTORE_PASSWORD, keystorePassword);
+		crypto.put(Merlin.PREFIX + Merlin.KEYSTORE_ALIAS, alias);
 
 		try {
 			signature.build(document, CryptoFactory.getInstance(crypto), secHeader);

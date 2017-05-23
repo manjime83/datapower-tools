@@ -1,6 +1,5 @@
 package co.com.assist.dp.tester;
 
-import java.io.File;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.security.cert.CertificateException;
@@ -8,7 +7,6 @@ import java.security.cert.X509Certificate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Map.Entry;
 
 import javax.net.ssl.SSLContext;
