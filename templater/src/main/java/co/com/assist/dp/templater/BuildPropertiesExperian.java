@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.jdom2.Document;
@@ -59,7 +61,7 @@ public class BuildPropertiesExperian {
 		String project_name = componente + "." + servicio;
 		lines.add("project_name=" + project_name);
 
-		List<String> operations = new ArrayList<String>();
+		Set<String> operations = new LinkedHashSet<String>();
 		List<Element> operationList = wsdl.getRootElement().getChild("portType", wsdlns).getChildren("operation",
 				wsdlns);
 		for (Element operation : operationList) {
@@ -93,7 +95,7 @@ public class BuildPropertiesExperian {
 	}
 
 	private static void createResources(File f, String project_name, String service_name, String url,
-			List<String> operations) throws IOException {
+			Set<String> operations) throws IOException {
 		File output = new File("assets/input", project_name);
 		if (output.exists()) {
 			FileUtils.cleanDirectory(output);
