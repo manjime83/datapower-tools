@@ -67,6 +67,8 @@ public class ApplyTemplate {
 				FileUtils.copyDirectory(staticFiles, new File(output, name));
 			}
 		}
+
+		new UpdateSources().run();
 	}
 
 }

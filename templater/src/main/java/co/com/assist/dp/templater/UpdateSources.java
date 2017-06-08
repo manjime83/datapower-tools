@@ -15,7 +15,7 @@ public class UpdateSources implements Runnable {
 
 	@Override
 	public void run() {
-		File workspace = new File("C:\\Users\\manji\\workspaces\\experian\\experian\\src");
+		File workspace = new File("C:\\Users\\manji\\workspaces\\experian\\DataPower\\src");
 		File output = new File("assets/output");
 		File[] directories = output.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
 
@@ -23,6 +23,7 @@ public class UpdateSources implements Runnable {
 			directory = new File(directory, "src/002." + directory.getName());
 			
 			File project = new File(workspace, directory.getName());
+			System.out.println(directory.getPath());
 			System.out.println(project.getPath());
 			if (project.exists()) {
 				try {
@@ -35,3 +36,4 @@ public class UpdateSources implements Runnable {
 	}
 
 }
+

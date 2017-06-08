@@ -169,7 +169,14 @@ public class TestOperation {
 					Element importResultsElement = response.getRootElement().getChild("Body", env)
 							.getChild("response", dp).getChild("import", dp).getChild("import-results")
 							.setAttribute("module", m.getName());
-					System.out.println(prettyOutputter.outputString(importResultsElement));
+					String importResults = prettyOutputter.outputString(importResultsElement);
+					if (importResults.contains("status=\"missing-file\"") || importResults.contains("result=\"ERROR\"")
+							|| importResults.contains("status=\"ERROR\"")) {
+						System.err.println(importResults);
+						Thread.sleep(1000);
+					} else {
+						System.out.println(importResults);
+					}
 				} catch (Exception e) {
 					StringWriter sw = new StringWriter();
 					e.printStackTrace(new PrintWriter(sw));

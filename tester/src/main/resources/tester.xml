@@ -3,9 +3,9 @@
 <properties>
 	<comment>Program arguments: ${resource_path}</comment>
 
-	<entry key="dp.url">https://:5550/service/mgmt/current</entry>
+	<entry key="dp.url">https://172.24.122.117:5550/service/mgmt/current</entry>
 	<entry key="dp.username">mjimenez</entry>
-	<entry key="dp.password"></entry>
+	<entry key="dp.password">VGl0YW4wMzk3Kw==</entry>
 
 	<entry key="ssl.keystore.file">client.ssl.jks</entry>
 	<entry key="ssl.keystore.password">ZXhwZXJpYW4=</entry>

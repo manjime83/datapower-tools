@@ -911,6 +911,7 @@
 		</WSGateway>
 	</configuration>
 	<files>
+		<file name="local:///aaa/${project_name}/${service_name}.aaa.xml" src="local/aaa/${project_name}/${service_name}.aaa.xml" />
 		<file name="local:///wsdl/${project_name}/${wsdl}" src="local/wsdl/${project_name}/${wsdl}" />
 		<#list operations?split(",") as operation>
 		<file name="local:///routes/${project_name}/${service_name}/${operation}.route.xml" src="local/routes/${project_name}/${service_name}/${operation}.route.xml" />
