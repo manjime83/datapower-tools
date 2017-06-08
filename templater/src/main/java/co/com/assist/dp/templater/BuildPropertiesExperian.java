@@ -22,7 +22,7 @@ public class BuildPropertiesExperian {
 	private static final Namespace soapns = Namespace.getNamespace("soap", "http://schemas.xmlsoap.org/wsdl/soap/");
 
 	public static void main(String[] args) throws Exception {
-		File wsdl = new File("C:\\Users\\manji\\Documents\\workspaces\\experian\\utils\\wsdl");
+		File wsdl = new File("C:\\Users\\manji\\workspaces\\experian\\utils\\wsdl");
 		Collection<File> files = FileUtils.listFiles(wsdl, new String[] { "wsdl" }, true);
 		for (File f : files) {
 			processFile(f);
@@ -101,11 +101,8 @@ public class BuildPropertiesExperian {
 			FileUtils.cleanDirectory(output);
 		}
 
-		File wsdl1 = new File(output, "src/" + project_name + "/secure-gateway/local/wsdl");
+		File wsdl1 = new File(output, "src/002." + project_name + "/secure-gateway/local/wsdl");
 		FileUtils.copyDirectoryToDirectory(f.getParentFile(), wsdl1);
-
-		File wsdl2 = new File(output, "src/" + project_name + "/secure-gateway-dmz/local/wsdl");
-		FileUtils.copyDirectoryToDirectory(f.getParentFile(), wsdl2);
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
@@ -115,13 +112,26 @@ public class BuildPropertiesExperian {
 		String xml = sb.toString();
 
 		for (String operation : operations) {
-			File routes = new File(output, "src/" + project_name + "/secure-gateway/local/routes/" + project_name + "/"
-					+ service_name + "/" + operation + ".route.xml");
-			FileUtils.writeStringToFile(routes, xml, "UTF-8");
-			File routesdmz = new File(output, "src/" + project_name + "/secure-gateway-dmz/local/routes/" + project_name
+			File routes = new File(output, "src/002." + project_name + "/secure-gateway/local/routes/" + project_name
 					+ "/" + service_name + "/" + operation + ".route.xml");
-			FileUtils.writeStringToFile(routesdmz, xml, "UTF-8");
+			FileUtils.writeStringToFile(routes, xml, "UTF-8");
 		}
+
+		sb = new StringBuilder();
+		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
+		sb.append("<aaa:AAAInfo xmlns:aaa=\"http://www.datapower.com/AAAInfo\">\r\n");
+		sb.append("\t<aaa:FormatVersion>1</aaa:FormatVersion>\r\n");
+		sb.append("\t<aaa:Authenticate>\r\n");
+		sb.append("\t\t<aaa:IPNetwork>0.0.0.0/0</aaa:IPNetwork>\r\n");
+		sb.append("\t\t<aaa:OutputCredential>all</aaa:OutputCredential>\r\n");
+		sb.append("\t</aaa:Authenticate>\r\n");
+		sb.append("</aaa:AAAInfo>");
+		xml = sb.toString();
+
+		File aaa = new File(output, "src/002." + project_name + "/secure-gateway/local/aaa/" + project_name + "/"
+				+ service_name + ".aaa.xml");
+		FileUtils.writeStringToFile(aaa, xml, "UTF-8");
+
 	}
 
 }

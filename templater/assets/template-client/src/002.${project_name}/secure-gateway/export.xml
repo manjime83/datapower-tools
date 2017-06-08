@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <datapower-configuration version="3">
 	<configuration domain="secure-gateway">
+		<CryptoValCred name="${project_name}.sign.valcreds">
+			<mAdminState>enabled</mAdminState>
+			<Certificate class="CryptoCertificate">experian.sign.cer</Certificate>
+			<CertValidationMode>legacy</CertValidationMode>
+			<UseCRL>on</UseCRL>
+			<RequireCRL>off</RequireCRL>
+			<CRLDPHandling>ignore</CRLDPHandling>
+			<InitialPolicySet>2.5.29.32.0</InitialPolicySet>
+			<ExplicitPolicy>off</ExplicitPolicy>
+			<CheckDates>on</CheckDates>
+		</CryptoValCred>
 		<WSEndpointRewritePolicy name="${project_name}">
 			<mAdminState>enabled</mAdminState>
 			<WSEndpointLocalRewriteRule>
@@ -9,7 +20,7 @@
 				<LocalEndpointHostname>0.0.0.0</LocalEndpointHostname>
 				<LocalEndpointPort>0</LocalEndpointPort>
 				<LocalEndpointURI>/security${uri}</LocalEndpointURI>
-				<FrontProtocol class="HTTPSSourceProtocolHandler">wan.https</FrontProtocol>
+				<FrontProtocol class="HTTPSSourceProtocolHandler">dmz.https</FrontProtocol>
 				<UseFrontProtocol>on</UseFrontProtocol>
 				<WSDLBindingProtocol>soap-11</WSDLBindingProtocol>
 				<FrontsidePortSuffix />
@@ -20,10 +31,21 @@
 				<LocalEndpointHostname>0.0.0.0</LocalEndpointHostname>
 				<LocalEndpointPort>0</LocalEndpointPort>
 				<LocalEndpointURI>${uri}</LocalEndpointURI>
-				<FrontProtocol class="HTTPSSourceProtocolHandler">wan.https</FrontProtocol>
+				<FrontProtocol class="HTTPSSourceProtocolHandler">dmz.https</FrontProtocol>
 				<UseFrontProtocol>on</UseFrontProtocol>
 				<WSDLBindingProtocol>soap-11</WSDLBindingProtocol>
-				<FrontsidePortSuffix>0</FrontsidePortSuffix>
+				<FrontsidePortSuffix>dmz.https</FrontsidePortSuffix>
+			</WSEndpointLocalRewriteRule>
+			<WSEndpointLocalRewriteRule>
+				<ServicePortMatchRegexp>^{${namespace}}${port_name}$</ServicePortMatchRegexp>
+				<LocalEndpointProtocol>default</LocalEndpointProtocol>
+				<LocalEndpointHostname>0.0.0.0</LocalEndpointHostname>
+				<LocalEndpointPort>0</LocalEndpointPort>
+				<LocalEndpointURI>${uri}</LocalEndpointURI>
+				<FrontProtocol class="HTTPSourceProtocolHandler">dmz.http</FrontProtocol>
+				<UseFrontProtocol>on</UseFrontProtocol>
+				<WSDLBindingProtocol>soap-11</WSDLBindingProtocol>
+				<FrontsidePortSuffix>dmz.http</FrontsidePortSuffix>
 			</WSEndpointLocalRewriteRule>
 			<WSEndpointLocalRewriteRule>
 				<ServicePortMatchRegexp>^{${namespace}}${port_name}$</ServicePortMatchRegexp>
@@ -34,7 +56,18 @@
 				<FrontProtocol class="HTTPSourceProtocolHandler">wan.http</FrontProtocol>
 				<UseFrontProtocol>on</UseFrontProtocol>
 				<WSDLBindingProtocol>soap-11</WSDLBindingProtocol>
-				<FrontsidePortSuffix>1</FrontsidePortSuffix>
+				<FrontsidePortSuffix>wan.http</FrontsidePortSuffix>
+			</WSEndpointLocalRewriteRule>
+			<WSEndpointLocalRewriteRule>
+				<ServicePortMatchRegexp>^{${namespace}}${port_name}$</ServicePortMatchRegexp>
+				<LocalEndpointProtocol>default</LocalEndpointProtocol>
+				<LocalEndpointHostname>0.0.0.0</LocalEndpointHostname>
+				<LocalEndpointPort>0</LocalEndpointPort>
+				<LocalEndpointURI>${uri}</LocalEndpointURI>
+				<FrontProtocol class="HTTPSSourceProtocolHandler">wan.https</FrontProtocol>
+				<UseFrontProtocol>on</UseFrontProtocol>
+				<WSDLBindingProtocol>soap-11</WSDLBindingProtocol>
+				<FrontsidePortSuffix>wan.https</FrontsidePortSuffix>
 			</WSEndpointLocalRewriteRule>
 			<WSEndpointRemoteRewriteRule>
 				<ServicePortMatchRegexp>^{${namespace}}${port_name}$</ServicePortMatchRegexp>
@@ -112,6 +145,62 @@
 			<SQLSourceType>static</SQLSourceType>
 			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
 			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="${project_name}_default_request-rule_conditional_0_refaction_verify_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>filter</Type>
+			<Input>INPUT</Input>
+			<Transform>store:///verify.xsl</Transform>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>NULL</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<StylesheetParameters>
+				<ParameterName>{http://www.datapower.com/param/config}valcred</ParameterName>
+				<ParameterValue>${project_name}.sign.valcreds</ParameterValue>
+			</StylesheetParameters>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="${project_name}_default_request-rule_conditional_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>conditional</Type>
+			<Input>variables</Input>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<Condition>
+				<Expression>/variables/secure-context/text() = 'true'</Expression>
+				<ConditionAction>${project_name}_default_request-rule_conditional_0_refaction_verify_0</ConditionAction>
+			</Condition>
 			<ResultsMode>first-available</ResultsMode>
 			<RetryCount>0</RetryCount>
 			<RetryInterval>1000</RetryInterval>
@@ -288,15 +377,133 @@
 			<Unprocessed>off</Unprocessed>
 			<Actions class="StylePolicyAction">${project_name}_default_request-rule_defaultaction_slm</Actions>
 			<Actions class="StylePolicyAction">${project_name}_default_request-rule_xform_0</Actions>
+			<Actions class="StylePolicyAction">${project_name}_default_request-rule_conditional_0</Actions>
 			<Actions class="StylePolicyAction">${project_name}_default_request-rule_conditional_1</Actions>
 			<Actions class="StylePolicyAction">${project_name}_default_request-rule_route-action_0</Actions>
 			<Actions class="StylePolicyAction">${project_name}_default_request-rule_xform_1</Actions>
 			<Actions class="StylePolicyAction">${project_name}_default_request-rule_defaultaction_result</Actions>
 		</WSStylePolicyRule>
-		<StylePolicyAction name="${project_name}_default_response-rule_xform_1">
+		<StylePolicyAction name="${project_name}_default_response-rule_xform_0">
 			<mAdminState>enabled</mAdminState>
 			<Type>xform</Type>
 			<Input>INPUT</Input>
+			<Transform>local:///esb/set.variables.xsl</Transform>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>variables</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<OutputType>default</OutputType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="${project_name}_default_response-rule_conditional_0_refaction_sign_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>xform</Type>
+			<Input>INPUT</Input>
+			<Transform>store:///sign-wssec.xsl</Transform>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>response</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<StylesheetParameters>
+				<ParameterName>{http://www.datapower.com/param/config}keypair-cert</ParameterName>
+				<ParameterValue>experian.sign.cer</ParameterValue>
+			</StylesheetParameters>
+			<StylesheetParameters>
+				<ParameterName>{http://www.datapower.com/param/config}keypair-key</ParameterName>
+				<ParameterValue>experian.sign.key</ParameterValue>
+			</StylesheetParameters>
+			<OutputType>default</OutputType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="${project_name}_default_response-rule_conditional_0_refaction_xform_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>xform</Type>
+			<Input>INPUT</Input>
+			<Transform>store:///identity.xsl</Transform>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>response</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<OutputType>default</OutputType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="${project_name}_default_response-rule_conditional_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>conditional</Type>
+			<Input>variables</Input>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<Condition>
+				<Expression>/variables/secure-context/text() = 'true'</Expression>
+				<ConditionAction>${project_name}_default_response-rule_conditional_0_refaction_sign_0</ConditionAction>
+			</Condition>
+			<Condition>
+				<Expression>/variables/secure-context/text() = 'false'</Expression>
+				<ConditionAction>${project_name}_default_response-rule_conditional_0_refaction_xform_0</ConditionAction>
+			</Condition>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="${project_name}_default_response-rule_xform_1">
+			<mAdminState>enabled</mAdminState>
+			<Type>xform</Type>
+			<Input>response</Input>
 			<Transform>local:///esb/service.monitoring.xsl</Transform>
 			<TransformLanguage>none</TransformLanguage>
 			<ActionDebug persisted="false">off</ActionDebug>
@@ -322,7 +529,7 @@
 		<StylePolicyAction name="${project_name}_default_response-rule_defaultaction_result">
 			<mAdminState>enabled</mAdminState>
 			<Type>results</Type>
-			<Input>INPUT</Input>
+			<Input>response</Input>
 			<TransformLanguage>none</TransformLanguage>
 			<ActionDebug persisted="false">off</ActionDebug>
 			<NamedInOutLocationType>default</NamedInOutLocationType>
@@ -350,9 +557,37 @@
 			<OutputFormat>none</OutputFormat>
 			<NonXMLProcessing>off</NonXMLProcessing>
 			<Unprocessed>off</Unprocessed>
+			<Actions class="StylePolicyAction">${project_name}_default_response-rule_xform_0</Actions>
+			<Actions class="StylePolicyAction">${project_name}_default_response-rule_conditional_0</Actions>
 			<Actions class="StylePolicyAction">${project_name}_default_response-rule_xform_1</Actions>
 			<Actions class="StylePolicyAction">${project_name}_default_response-rule_defaultaction_result</Actions>
 		</WSStylePolicyRule>
+		<StylePolicyAction name="${project_name}_default_error-rule_xform_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>xform</Type>
+			<Input>INPUT</Input>
+			<Transform>local:///esb/set.variables.xsl</Transform>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>variables</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<OutputType>default</OutputType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
 		<StylePolicyAction name="${project_name}_default_error-rule_xform_1">
 			<mAdminState>enabled</mAdminState>
 			<Type>xform</Type>
@@ -369,6 +604,67 @@
 			<SQLSourceType>static</SQLSourceType>
 			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
 			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="${project_name}_default_error-rule_conditional_0_refaction_sign_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>xform</Type>
+			<Input>response</Input>
+			<Transform>store:///sign-wssec.xsl</Transform>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>response</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<StylesheetParameters>
+				<ParameterName>{http://www.datapower.com/param/config}keypair-cert</ParameterName>
+				<ParameterValue>experian.sign.cer</ParameterValue>
+			</StylesheetParameters>
+			<StylesheetParameters>
+				<ParameterName>{http://www.datapower.com/param/config}keypair-key</ParameterName>
+				<ParameterValue>experian.sign.key</ParameterValue>
+			</StylesheetParameters>
+			<OutputType>default</OutputType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="${project_name}_default_error-rule_conditional_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>conditional</Type>
+			<Input>variables</Input>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<Condition>
+				<Expression>/variables/secure-context/text() = 'true'</Expression>
+				<ConditionAction>${project_name}_default_error-rule_conditional_0_refaction_sign_0</ConditionAction>
+			</Condition>
 			<ResultsMode>first-available</ResultsMode>
 			<RetryCount>0</RetryCount>
 			<RetryInterval>1000</RetryInterval>
@@ -436,7 +732,9 @@
 			<OutputFormat>none</OutputFormat>
 			<NonXMLProcessing>off</NonXMLProcessing>
 			<Unprocessed>off</Unprocessed>
+			<Actions class="StylePolicyAction">${project_name}_default_error-rule_xform_0</Actions>
 			<Actions class="StylePolicyAction">${project_name}_default_error-rule_xform_1</Actions>
+			<Actions class="StylePolicyAction">${project_name}_default_error-rule_conditional_0</Actions>
 			<Actions class="StylePolicyAction">${project_name}_default_error-rule_xform_2</Actions>
 			<Actions class="StylePolicyAction">${project_name}_default_error-rule_defaultaction_result</Actions>
 		</WSStylePolicyRule>
