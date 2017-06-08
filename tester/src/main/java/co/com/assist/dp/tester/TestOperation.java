@@ -89,7 +89,7 @@ public class TestOperation {
 		if (type != null) {
 			if (type.equals("src")) {
 				test.importSource(project, module, object);
-				test.executeTest(project, module, object);
+				test.executeTest(project, module, null);
 			} else if (type.equals("test")) {
 				test.executeTest(project, module, object);
 			}

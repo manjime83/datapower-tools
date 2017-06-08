@@ -2,21 +2,11 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 	<comment>Program arguments: ${resource_path}</comment>
-	<!--
-		<entry key="dp.url">https://10.253.99.29:5550/service/mgmt/current</entry>
-		<entry key="dp.username">admin</entry>
-		<entry key="dp.password">bWFuYWdlcmRw</entry>
-		
-		<entry key="ssl.keystore.file">assist.ssl.jks</entry>
-		<entry key="ssl.keystore.password">YXNzaXN0</entry>
-		<entry key="sign.keystore.file">assist.sign.jks</entry>
-		<entry key="sign.keystore.password">YXNzaXN0</entry>
-		<entry key="sign.keystore.alias">assist.sign</entry>
-	-->
-	<entry key="dp.url">https://172.24.122.117:5550/service/mgmt/current</entry>
+
+	<entry key="dp.url">https://:5550/service/mgmt/current</entry>
 	<entry key="dp.username">mjimenez</entry>
-	<entry key="dp.password">VGl0YW4wMzk3Kw==</entry>
-	
+	<entry key="dp.password"></entry>
+
 	<entry key="ssl.keystore.file">client.ssl.jks</entry>
 	<entry key="ssl.keystore.password">ZXhwZXJpYW4=</entry>
 	<entry key="sign.keystore.file">client.sign.jks</entry>
