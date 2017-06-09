@@ -68,7 +68,7 @@ public class ApplyTemplate {
 			}
 		}
 
-		new UpdateSources().run();
+		new DPJoiner().run();
 	}
 
 }

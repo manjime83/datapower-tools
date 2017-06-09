@@ -122,8 +122,8 @@ public class BuildPropertiesExperian {
 		sb.append("<aaa:AAAInfo xmlns:aaa=\"http://www.datapower.com/AAAInfo\">\r\n");
 		sb.append("\t<aaa:FormatVersion>1</aaa:FormatVersion>\r\n");
 		sb.append("\t<aaa:Authenticate>\r\n");
-		sb.append("\t\t<aaa:IPNetwork>0.0.0.0/0</aaa:IPNetwork>\r\n");
-		sb.append("\t\t<aaa:OutputCredential>all</aaa:OutputCredential>\r\n");
+		sb.append("\t\t<aaa:IPNetwork>192.168.116.130/32</aaa:IPNetwork>\r\n");
+		sb.append("\t\t<aaa:OutputCredential>Assist Consultores de Sistemas</aaa:OutputCredential>\r\n");
 		sb.append("\t</aaa:Authenticate>\r\n");
 		sb.append("</aaa:AAAInfo>");
 		xml = sb.toString();

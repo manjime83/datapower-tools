@@ -236,17 +236,16 @@
 			<MethodType>POST</MethodType>
 			<MethodType2>POST</MethodType2>
 		</StylePolicyAction>
-		<StylePolicyAction name="${project_name}_default_request-rule_conditional_1_refaction_xform_0">
+		<StylePolicyAction name="${project_name}_default_request-rule_conditional_1_refaction_aaa_1">
 			<mAdminState>enabled</mAdminState>
-			<Type>xform</Type>
+			<Type>aaa</Type>
 			<Input>INPUT</Input>
-			<Transform>store:///identity.xsl</Transform>
 			<TransformLanguage>none</TransformLanguage>
 			<ActionDebug persisted="false">off</ActionDebug>
 			<Output>request</Output>
 			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<AAA class="AAAPolicy">legacy.aaa</AAA>
 			<SSLClientConfigType>proxy</SSLClientConfigType>
-			<OutputType>default</OutputType>
 			<Transactional>off</Transactional>
 			<SOAPValidation>body</SOAPValidation>
 			<SQLSourceType>static</SQLSourceType>
@@ -281,7 +280,7 @@
 			</Condition>
 			<Condition>
 				<Expression>/variables/secure-context/text() = 'false'</Expression>
-				<ConditionAction>${project_name}_default_request-rule_conditional_1_refaction_xform_0</ConditionAction>
+				<ConditionAction>${project_name}_default_request-rule_conditional_1_refaction_aaa_1</ConditionAction>
 			</Condition>
 			<ResultsMode>first-available</ResultsMode>
 			<RetryCount>0</RetryCount>
@@ -816,7 +815,7 @@
 			<DoHostRewriting>on</DoHostRewriting>
 			<DoChunkedUpload>off</DoChunkedUpload>
 			<ProcessHTTPErrors>on</ProcessHTTPErrors>
-			<HTTPClientIPLabel>X-Client-IP</HTTPClientIPLabel>
+			<HTTPClientIPLabel>X-Forwarded-For</HTTPClientIPLabel>
 			<HTTPLogCorIDLabel>X-Global-Transaction-ID</HTTPLogCorIDLabel>
 			<InOrderMode>
 				<Request>off</Request>
