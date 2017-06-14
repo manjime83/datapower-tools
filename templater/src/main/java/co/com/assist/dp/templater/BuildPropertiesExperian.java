@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -69,6 +70,13 @@ public class BuildPropertiesExperian {
 			operations.add(operationName);
 		}
 		lines.add("operations=" + String.join(",", operations));
+
+		boolean request_validation = true;
+		if (Arrays.asList("dhws.DHService", "dhws.DHService_v1-2", "dhws.DHService_v1-3", "dhws.DHService2",
+				"idws.ServicioIdentificacion", "idws2.ServicioIdentificacion").contains(project_name)) {
+			request_validation = false;
+		}
+		lines.add("request_validation=" + request_validation);
 
 		String balancer;
 		int port;

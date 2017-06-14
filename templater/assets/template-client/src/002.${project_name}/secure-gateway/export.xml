@@ -888,7 +888,11 @@
 					<Publish>on</Publish>
 					<VerifyFaults>on</VerifyFaults>
 					<VerifyHeaders>off</VerifyHeaders>
+					<#if request_validation == "true">
 					<NoRequestValidation>off</NoRequestValidation>
+					<#else>
+					<NoRequestValidation>on</NoRequestValidation>
+					</#if>
 					<NoResponseValidation>on</NoResponseValidation>
 					<SuppressFaultsElementsForRPCWrappers>off</SuppressFaultsElementsForRPCWrappers>
 					<NoWSA>off</NoWSA>
