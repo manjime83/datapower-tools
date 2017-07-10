@@ -46,6 +46,7 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.DOMOutputter;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
+import org.w3c.dom.NodeList;
 
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonArray;
@@ -55,14 +56,6 @@ import com.eclipsesource.json.JsonObject.Member;
 public class TestOperation {
 
 	protected static final Properties props = new Properties();
-
-	static {
-		try (InputStream is = ClassLoader.getSystemResourceAsStream("tester.xml")) {
-			props.loadFromXML(is);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
 
 	private static final XMLOutputter prettyOutputter = new XMLOutputter(
 			Format.getPrettyFormat().setOmitDeclaration(true).setIndent("\t"));
@@ -76,7 +69,13 @@ public class TestOperation {
 	private static final DateFormat logFileDateFormat = new SimpleDateFormat("MMMyyyy", Locale.US);
 
 	public static void main(String[] args) {
-		args = Arrays.copyOf(FilenameUtils.normalizeNoEndSeparator(args[0], true).substring(1).split("/"), 4);
+		try (InputStream is = ClassLoader.getSystemResourceAsStream(args[0] + ".xml")) {
+			props.loadFromXML(is);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+		args = Arrays.copyOf(FilenameUtils.normalizeNoEndSeparator(args[1], true).substring(1).split("/"), 4);
 		System.out.println("args: " + Arrays.toString(args) + System.lineSeparator());
 
 		TestOperation test = new TestOperation();
@@ -422,6 +421,8 @@ public class TestOperation {
 
 		try {
 			signature.build(document, CryptoFactory.getInstance(crypto), secHeader);
+			NodeList sv = signature.getSignatureElement().getElementsByTagNameNS(WSConstants.SIG_NS, "SignatureValue");
+			sv.item(0).setTextContent(sv.item(0).getTextContent().replaceAll("\\p{Cntrl}", ""));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
