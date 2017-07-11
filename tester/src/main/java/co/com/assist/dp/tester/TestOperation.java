@@ -159,7 +159,8 @@ public class TestOperation {
 					throw new RuntimeException(e);
 				}
 
-				Document request = buildDoImportRequest(d.getName(), bytes);
+				Document request = buildDoImportRequest(props.getProperty("domain.mapping." + d.getName(), d.getName()),
+						bytes);
 				// Element requestElement = request.getRootElement().getChild("Body", env).getChild("request", dp);
 				// System.out.println(prettyOutputter.outputString(requestElement));
 
