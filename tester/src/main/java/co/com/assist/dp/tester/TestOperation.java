@@ -89,9 +89,34 @@ public class TestOperation {
 			if (type.equals("src")) {
 				test.importSource(project, module, object);
 				test.executeTest(project, module, null);
+			} else if (type.equals("bin")) {
+				test.buildBinary(project, module, object);
 			} else if (type.equals("test")) {
 				test.executeTest(project, module, object);
 			}
+		}
+	}
+
+	private void buildBinary(String project, String domain, String object) {
+		File bin;
+		File src;
+		try {
+			bin = new File(project + File.separator + "bin").getCanonicalFile();
+			src = new File(project + File.separator + "src").getCanonicalFile();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+		String module = FilenameUtils.getBaseName(FilenameUtils.getBaseName(object));
+		System.out.println("Zipping module: " + module);
+
+		byte[] bytes = zip(new File(src, module + File.separator + domain));
+
+		try {
+			File export = new File(bin, domain + File.separator + object);
+			FileUtils.writeByteArrayToFile(export, bytes);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		}
 	}
 
