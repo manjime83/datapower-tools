@@ -1,0 +1,15 @@
+<datapower-configuration version="3">
+	<export-details>
+		<user>AOS</user>
+		<domain>BVirtual</domain>
+		<comment>$Id: export.xml 121 2017-07-04 17:13:23Z manuel.jimenez $</comment>
+		<device-name>IDG</device-name>
+		<firmware-version>IDG.7.5.1.0</firmware-version>
+		<current-date>2017-06-20</current-date>
+	</export-details>
+	<configuration domain="colpatria">s
+	</configuration>
+	<files>
+		<file name="local:///services/mbc.account.querysaproductdetails/xml/mbc.account.querysaproductdetails.aaa.xml" src="local/services/mbc.account.querysaproductdetails/xml/mbc.account.querysaproductdetails.aaa.xml" />
+	</files>
+</datapower-configuration>

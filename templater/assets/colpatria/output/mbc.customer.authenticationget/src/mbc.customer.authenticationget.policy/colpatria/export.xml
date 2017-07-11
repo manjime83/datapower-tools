@@ -1,0 +1,102 @@
+<datapower-configuration version="3">
+	<export-details>
+		<user>AOS</user>
+		<domain>BVirtual</domain>
+		<comment>$Id: export.xml 121 2017-07-04 17:13:23Z manuel.jimenez $</comment>
+		<device-name>IDG</device-name>
+		<firmware-version>IDG.7.5.1.0</firmware-version>
+		<current-date>2017-06-20</current-date>
+	</export-details>
+	<configuration domain="colpatria">
+		<StylePolicyAction name="mbc.customer.authenticationget.request_xformbin_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>xformbin</Type>
+			<Input>INPUT</Input>
+			<TransformLanguage>none</TransformLanguage>
+			<TxMap>local:///services/mbc.customer.authenticationget/dpa/XML_CANLGIN01.dpa</TxMap>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<TxMode>dpa</TxMode>
+			<Output>OUTPUT</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<OutputType>default</OutputType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyRule name="mbc.customer.authenticationget.request">
+			<mAdminState>enabled</mAdminState>
+			<Direction>request-rule</Direction>
+			<InputFormat>none</InputFormat>
+			<OutputFormat>none</OutputFormat>
+			<NonXMLProcessing>off</NonXMLProcessing>
+			<Unprocessed>off</Unprocessed>
+			<Actions class="StylePolicyAction">mbc.customer.authenticationget.request_xformbin_0</Actions>
+		</StylePolicyRule>
+		<StylePolicyAction name="mbc.customer.authenticationget.response_xformbin_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>xformbin</Type>
+			<Input>INPUT</Input>
+			<TransformLanguage>none</TransformLanguage>
+			<TxMap>local:///services/mbc.customer.authenticationget/dpa/CANLGIN01_XML.dpa</TxMap>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<TxMode>dpa</TxMode>
+			<Output>OUTPUT</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<OutputType>default</OutputType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyRule name="mbc.customer.authenticationget.response">
+			<mAdminState>enabled</mAdminState>
+			<Direction>response-rule</Direction>
+			<InputFormat>none</InputFormat>
+			<OutputFormat>none</OutputFormat>
+			<NonXMLProcessing>off</NonXMLProcessing>
+			<Unprocessed>off</Unprocessed>
+			<Actions class="StylePolicyAction">mbc.customer.authenticationget.response_xformbin_0</Actions>
+		</StylePolicyRule>
+		<StylePolicy name="mbc.customer.authenticationget">
+			<mAdminState>enabled</mAdminState>
+			<DefStylesheetForSoap>store:///filter-reject-all.xsl</DefStylesheetForSoap>
+			<DefStylesheetForXsl>store:///identity.xsl</DefStylesheetForXsl>
+			<DefXQueryForJSON>store:///reject-all-json.xq</DefXQueryForJSON>
+			<PolicyMaps>
+				<Match class="Matching">__default-accept-service-providers__</Match>
+				<Rule class="StylePolicyRule">mbc.customer.authenticationget.request</Rule>
+			</PolicyMaps>
+			<PolicyMaps>
+				<Match class="Matching">__default-accept-service-providers__</Match>
+				<Rule class="StylePolicyRule">mbc.customer.authenticationget.response</Rule>
+			</PolicyMaps>
+		</StylePolicy>
+	</configuration>
+	<files>
+		<file name="local:///services/mbc.customer.authenticationget/dpa/XML_CANLGIN01.dpa" src="local/services/mbc.customer.authenticationget/dpa/XML_CANLGIN01.dpa" />
+		<file name="local:///services/mbc.customer.authenticationget/dpa/CANLGIN01_XML.dpa" src="local/services/mbc.customer.authenticationget/dpa/CANLGIN01_XML.dpa" />
+	</files>
+</datapower-configuration>
