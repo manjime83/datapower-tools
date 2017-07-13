@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="COLPCO_QUERY_PRODUCTS_BALANCES" targetNamespace="http://www.colpatria.com/esb/services/sa/queryproductsbalances/" xmlns:esb="http://www.colpatria.com/ents/esb/MessageFormat-v1.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenv11="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tns="http://www.colpatria.com/esb/services/sa/queryproductsbalances/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://www.colpatria.com/esb/services/sa/queryproductsbalances/" xmlns:mrm="http://www.colpatria.com/esb/services/sa/queryproductsbalances/">
+			<xsd:include schemaLocation="products.queryproductsbalances.xsd"/>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="queryProductsBalances_in">
+		<wsdl:part element="tns:queryProductsBalancesRequest" name="queryProductsBalancesRequest"/>
+	</wsdl:message>
+	<wsdl:message name="queryProductsBalances_out">
+		<wsdl:part element="tns:queryProductsBalancesResponse" name="queryProductsBalancesResponse"/>
+	</wsdl:message>
+	<wsdl:message name="queryProductsBalances_fault1">
+		<wsdl:part element="tns:queryProductsBalancesResponse" name="queryProductsBalancesResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="MBC_QueryProductsBalancesPortType">
+		<wsdl:operation name="queryProductsBalances">
+			<wsdl:input message="tns:queryProductsBalances_in" name="queryProductsBalances_Input"/>
+			<wsdl:output message="tns:queryProductsBalances_out" name="queryProductsBalances_Output"/>
+			<wsdl:fault message="tns:queryProductsBalances_fault1" name="queryProductsBalances_Fault"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="MBC_QueryProductsBalancesSOAP_HTTP_Binding" type="tns:MBC_QueryProductsBalancesPortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="queryProductsBalances">
+			<soap:operation soapAction=""/>
+			<wsdl:input name="queryProductsBalances_Input">
+				<soap:body parts="queryProductsBalancesRequest" use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="queryProductsBalances_Output">
+				<soap:body parts="queryProductsBalancesResponse" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="queryProductsBalances_Fault">
+				<soap:fault name="queryProductsBalances_Fault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="QueryProductsBalances">
+		<wsdl:port binding="tns:MBC_QueryProductsBalancesSOAP_HTTP_Binding" name="QueryProductsBalancesSOAP_HTTP_Port">
+			<soap:address location="https://bancoColpatria/QueryProductsBalances"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
