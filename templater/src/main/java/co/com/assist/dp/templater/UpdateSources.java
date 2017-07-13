@@ -15,22 +15,21 @@ public class UpdateSources implements Runnable {
 
 	@Override
 	public void run() {
-		File workspace = new File("C:\\Users\\manji\\workspaces\\experian\\DataPower\\src");
-		File output = new File("assets/output");
+		File workspace = new File("C:\\Users\\manji\\workspaces\\colpatria");
+		File output = new File("assets/colpatria/output");
 		File[] directories = output.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
 
 		for (File directory : directories) {
-			directory = new File(directory, "src/002." + directory.getName());
-			
 			File project = new File(workspace, directory.getName());
-			System.out.println(directory.getPath());
-			System.out.println(project.getPath());
 			if (project.exists()) {
 				try {
 					FileUtils.copyDirectory(directory, project);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+			} else {
+				System.out.println(directory.getPath());
+				System.out.println(project.getPath());
 			}
 		}
 	}

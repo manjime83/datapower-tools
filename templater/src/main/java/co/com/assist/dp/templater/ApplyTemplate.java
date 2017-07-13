@@ -23,9 +23,9 @@ import freemarker.template.TemplateExceptionHandler;
 public class ApplyTemplate {
 
 	public static void main(String[] args) throws IOException, TemplateException {
-		File input = new File("assets", "input");
-		File template = new File("assets", "template-client");
-		File output = new File("assets", "output");
+		File input = new File("assets", "colpatria/input");
+		File template = new File("assets", "colpatria/template");
+		File output = new File("assets", "colpatria/output");
 		FileUtils.deleteQuietly(output);
 
 		Configuration cfg = new Configuration(Configuration.VERSION_2_3_26);
@@ -67,8 +67,8 @@ public class ApplyTemplate {
 				FileUtils.copyDirectory(staticFiles, new File(output, name));
 			}
 		}
-
-		new DPJoiner().run();
+		new UpdateSources().run();
+		// new DPJoiner().run();
 	}
 
 }
