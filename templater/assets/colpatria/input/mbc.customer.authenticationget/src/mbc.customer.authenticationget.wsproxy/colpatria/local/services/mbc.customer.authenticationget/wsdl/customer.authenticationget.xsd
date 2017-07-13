@@ -1,4 +1,4 @@
-<xsd:schema targetNamespace="http://www.colpatria.com/esb/services/sa/customerAuthenticationGet/" xmlns="http://www.colpatria.com/ents/esb/MessageFormat-v1.0" xmlns:mrm="http://www.colpatria.com/esb/services/sa/customerAuthenticationGet/" xmlns:esb="http://www.colpatria.com/ents/esb/MessageFormat-v1.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenv11="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tns="http://www.colpatria.com/esb/services/sa/customerAuthenticationGet/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.colpatria.com/esb/services/sa/customerAuthenticationGet/" xmlns="http://www.colpatria.com/ents/esb/MessageFormat-v1.0" xmlns:esb="http://www.colpatria.com/ents/esb/MessageFormat-v1.0" xmlns:mrm="http://www.colpatria.com/esb/services/sa/customerAuthenticationGet/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenv11="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tns="http://www.colpatria.com/esb/services/sa/customerAuthenticationGet/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
    <xsd:element name="customerAuthenticationGetRq" type="mrm:_customerAuthenticationGetRq"/>
    <xsd:complexType name="_customerAuthenticationGetRq">
       <xsd:sequence>
@@ -14,7 +14,7 @@
    </xsd:complexType>
    <xsd:complexType name="esbHeaderRq">
       <xsd:sequence>
-         <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="transactionId">
+         <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="transactionId">
             <xsd:simpleType>
                <xsd:restriction base="xsd:string">
                   <xsd:minLength value="1"/>
@@ -22,7 +22,7 @@
                </xsd:restriction>
             </xsd:simpleType>
          </xsd:element>
-         <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="serviceCode">
+         <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="serviceCode">
             <xsd:simpleType>
                <xsd:restriction base="xsd:string">
                   <xsd:minLength value="0"/>
@@ -38,7 +38,7 @@
                </xsd:restriction>
             </xsd:simpleType>
          </xsd:element>
-         <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="requestUser">
+         <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="requestUser">
             <xsd:simpleType>
                <xsd:restriction base="xsd:string">
                   <xsd:minLength value="1"/>
@@ -93,8 +93,8 @@
                </xsd:restriction>
             </xsd:simpleType>
          </xsd:element>
-         <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="transactionDate" type="xsd:date"/>
-         <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="transactionTime" type="xsd:time"/>
+         <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="transactionDate" type="xsd:date"/>
+         <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="transactionTime" type="xsd:time"/>
          <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="officeCode">
             <xsd:simpleType>
                <xsd:restriction base="xsd:string">
@@ -127,13 +127,13 @@
                </xsd:restriction>
             </xsd:simpleType>
          </xsd:element>
-         <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="usernameToken" type="mrm:UsernameToken"/>
+         <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="usernameToken" type="mrm:usernameToken"/>
       </xsd:sequence>
    </xsd:complexType>
    <!--campo de la cabecera-->
-   <xsd:complexType name="UsernameToken">
+   <xsd:complexType name="usernameToken">
       <xsd:sequence>
-         <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="userName">
+         <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="userName">
             <xsd:simpleType>
                <xsd:restriction base="xsd:string">
                   <xsd:minLength value="1"/>
@@ -141,7 +141,7 @@
                </xsd:restriction>
             </xsd:simpleType>
          </xsd:element>
-         <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="password">
+         <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="password">
             <xsd:simpleType>
                <xsd:restriction base="xsd:string">
                   <xsd:minLength value="1"/>
@@ -154,14 +154,14 @@
    <!--body-->
    <xsd:complexType name="authenticationGetRq">
 	  <xsd:sequence>
-         <xsd:element form="qualified" name="idType" minOccurs="1" maxOccurs="1">
+         <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="idType">
             <xsd:simpleType>
                <xsd:restriction base="xsd:string">
                   <xsd:maxLength value="1"/>
                </xsd:restriction>
             </xsd:simpleType>
          </xsd:element>
-         <xsd:element form="qualified" name="idNumber" minOccurs="1" maxOccurs="1">
+         <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="idNumber">
             <xsd:simpleType>
                <xsd:restriction base="xsd:string">
                   <xsd:minLength value="1"/>
@@ -169,21 +169,21 @@
                </xsd:restriction>
             </xsd:simpleType>
          </xsd:element>
-		 <xsd:element form="qualified" name="actionFlag" minOccurs="1" maxOccurs="1">
+		 <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="actionFlag">
             <xsd:simpleType>
                <xsd:restriction base="xsd:int">
                   <xsd:totalDigits value="2"/>
                </xsd:restriction>
             </xsd:simpleType>
          </xsd:element>
-		 <xsd:element form="qualified" name="channelRegister" minOccurs="1" maxOccurs="1">
+		 <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="channelRegister">
             <xsd:simpleType>
                <xsd:restriction base="xsd:string">
                   <xsd:maxLength value="2"/>
                </xsd:restriction>
             </xsd:simpleType>
          </xsd:element>
-		 <xsd:element form="qualified" name="channelPassword" minOccurs="1" maxOccurs="1">
+		 <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="channelPassword">
             <xsd:simpleType>
                <xsd:restriction base="xsd:string">
                   <xsd:maxLength value="64"/>
@@ -197,7 +197,7 @@
    <xsd:complexType name="_customerAuthenticationGetRs">
       <xsd:sequence>
          <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="responseHeader" type="mrm:responseHeader"/>
-         <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="AuthenticationGetRs" type="mrm:AuthenticationGetRs"/>
+         <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="authenticationGetRs" type="mrm:authenticationGetRs"/>
       </xsd:sequence>
    </xsd:complexType>
    <!--cabecera respuesta-->
@@ -209,7 +209,7 @@
    </xsd:complexType>
    <xsd:complexType name="status">
       <xsd:sequence>
-         <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="statusCode">
+         <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="statusCode">
             <xsd:simpleType>
                <xsd:restriction base="xsd:string">
                   <xsd:minLength value="1"/>
@@ -225,12 +225,12 @@
                </xsd:restriction>
             </xsd:simpleType>
          </xsd:element>
-         <xsd:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="error" type="mrm:error"/>
+         <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="error" type="mrm:error"/>
       </xsd:sequence>
    </xsd:complexType>
    <xsd:complexType name="error">
       <xsd:sequence>
-         <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="origin">
+         <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="origin">
             <xsd:simpleType>
                <xsd:restriction base="xsd:string">
                   <xsd:minLength value="0"/>
@@ -238,7 +238,7 @@
                </xsd:restriction>
             </xsd:simpleType>
          </xsd:element>
-         <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="errorCode">
+         <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="errorCode">
             <xsd:simpleType>
                <xsd:restriction base="xsd:string">
                   <xsd:minLength value="0"/>
@@ -246,7 +246,7 @@
                </xsd:restriction>
             </xsd:simpleType>
          </xsd:element>
-         <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="severity">
+         <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="severity">
             <xsd:simpleType>
                <xsd:restriction base="xsd:string">
                   <xsd:minLength value="0"/>
@@ -254,7 +254,7 @@
                </xsd:restriction>
             </xsd:simpleType>
          </xsd:element>
-         <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="description">
+         <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="description">
             <xsd:simpleType>
                <xsd:restriction base="xsd:string">
                   <xsd:minLength value="0"/>
@@ -295,91 +295,91 @@
       </xsd:sequence>
    </xsd:complexType>
    <!--campos de la respuesta-->
-   <xsd:complexType name="AuthenticationGetRs">
+   <xsd:complexType name="authenticationGetRs">
       <xsd:sequence>
-         <xsd:element form="qualified" name="user" type="tns:userRs" maxOccurs="1" minOccurs="0"/>
+         <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="user" type="tns:userRs"/>
       </xsd:sequence>
    </xsd:complexType>
    <xsd:complexType name="userRs">
       <xsd:sequence>
-         <xsd:element form="qualified" name="idType" minOccurs="0" maxOccurs="1">
+         <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="idType">
             <xsd:simpleType>
                <xsd:restriction base="xsd:string">
                   <xsd:maxLength value="1"/>
                </xsd:restriction>
             </xsd:simpleType>
          </xsd:element>
-		 <xsd:element form="qualified" name="idNumber" minOccurs="0" maxOccurs="1">
+		 <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="idNumber">
             <xsd:simpleType>
                <xsd:restriction base="xsd:string">
                   <xsd:maxLength value="17"/>
                </xsd:restriction>
             </xsd:simpleType>
          </xsd:element>
-         <xsd:element form="qualified" name="passwordFlag" minOccurs="0" maxOccurs="1">
+         <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="passwordFlag">
             <xsd:simpleType>
                <xsd:restriction base="xsd:int">
                   <xsd:totalDigits value="1"/>
                </xsd:restriction>
             </xsd:simpleType>
          </xsd:element>
-         <xsd:element form="qualified" name="channelRegister" minOccurs="0" maxOccurs="1">
+         <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="channelRegister">
             <xsd:simpleType>
                <xsd:restriction base="xsd:string">
                   <xsd:maxLength value="2"/>
                </xsd:restriction>
             </xsd:simpleType>
          </xsd:element>
-         <xsd:element form="qualified" name="customerName" minOccurs="0" maxOccurs="1">
+         <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="customerName">
             <xsd:simpleType>
                <xsd:restriction base="xsd:string">
                   <xsd:maxLength value="40"/>
                </xsd:restriction>
             </xsd:simpleType>
          </xsd:element>
-		 <xsd:element form="qualified" name="segmentCode" minOccurs="0" maxOccurs="1">
+		 <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="segmentCode">
             <xsd:simpleType>
                <xsd:restriction base="xsd:int">
                   <xsd:totalDigits value="2"/>
                </xsd:restriction>
             </xsd:simpleType>
          </xsd:element>
-		 <xsd:element form="qualified" name="promoterCode" minOccurs="0" maxOccurs="1">
+		 <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="promoterCode">
             <xsd:simpleType>
                <xsd:restriction base="xsd:string">
                   <xsd:maxLength value="3"/>
                </xsd:restriction>
             </xsd:simpleType>
          </xsd:element>
-		 <xsd:element form="qualified" name="branchCode" minOccurs="0" maxOccurs="1">
+		 <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="branchCode">
             <xsd:simpleType>
                <xsd:restriction base="xsd:int">
                   <xsd:totalDigits value="3"/>
                </xsd:restriction>
             </xsd:simpleType>
          </xsd:element>
-		 <xsd:element form="qualified" name="emailAddress1" minOccurs="0" maxOccurs="1">
+		 <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="emailAddress1">
             <xsd:simpleType>
                <xsd:restriction base="xsd:string">
                   <xsd:maxLength value="40"/>
                </xsd:restriction>
             </xsd:simpleType>
          </xsd:element>
-		 <xsd:element form="qualified" name="emailAddress2" minOccurs="0" maxOccurs="1">
+		 <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="emailAddress2">
             <xsd:simpleType>
                <xsd:restriction base="xsd:string">
                   <xsd:maxLength value="40"/>
                </xsd:restriction>
             </xsd:simpleType>
          </xsd:element>
-		 <xsd:element form="qualified" name="celularPhone1" minOccurs="0" maxOccurs="1">
+		 <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="celularPhone1">
             <xsd:simpleType>
                <xsd:restriction base="xsd:string">
                   <xsd:maxLength value="13"/>
                </xsd:restriction>
             </xsd:simpleType>
          </xsd:element>
-		 <xsd:element form="qualified" name="celularPhone2" minOccurs="0" maxOccurs="1">
+		 <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="celularPhone2">
             <xsd:simpleType>
                <xsd:restriction base="xsd:string">
                   <xsd:maxLength value="13"/>
