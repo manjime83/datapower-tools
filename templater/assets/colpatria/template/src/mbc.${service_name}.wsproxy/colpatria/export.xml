@@ -16,7 +16,7 @@
 				<LocalEndpointHostname>0.0.0.0</LocalEndpointHostname>
 				<LocalEndpointPort>0</LocalEndpointPort>
 				<LocalEndpointURI>${service_uri}</LocalEndpointURI>
-				<FrontProtocol class="HTTPSSourceProtocolHandler">bvirtual.https</FrontProtocol>
+				<FrontProtocol class="HTTPSSourceProtocolHandler">mbc.commons.https.${port}</FrontProtocol>
 				<UseFrontProtocol>on</UseFrontProtocol>
 				<WSDLBindingProtocol>soap-11</WSDLBindingProtocol>
 				<FrontsidePortSuffix />
@@ -89,7 +89,7 @@
 			<ActionDebug persisted="false">off</ActionDebug>
 			<Output>request.client</Output>
 			<NamedInOutLocationType>default</NamedInOutLocationType>
-			<AAA class="AAAPolicy">bvirtual.aaa</AAA>
+			<AAA class="AAAPolicy">mbc.commons.aaa</AAA>
 			<SSLClientConfigType>proxy</SSLClientConfigType>
 			<Transactional>off</Transactional>
 			<SOAPValidation>body</SOAPValidation>
@@ -110,7 +110,7 @@
 			<mAdminState>enabled</mAdminState>
 			<Type>xform</Type>
 			<Input>request.client</Input>
-			<Transform>local:///commons/xsl/audit.client.message.xsl</Transform>
+			<Transform>local:///commons/xsl/audit_client_msgs.xsl</Transform>
 			<TransformLanguage>none</TransformLanguage>
 			<ActionDebug persisted="false">off</ActionDebug>
 			<Output>NULL</Output>
@@ -161,7 +161,7 @@
 			<mAdminState>enabled</mAdminState>
 			<Type>xformbin</Type>
 			<Input>request.backend</Input>
-			<Transform>local:///commons/xsl/audit.backend.message.xsl</Transform>
+			<Transform>local:///commons/xsl/audit_backend_msgs.xsl</Transform>
 			<TransformLanguage>none</TransformLanguage>
 			<ActionDebug persisted="false">off</ActionDebug>
 			<TxMode>dpa</TxMode>
@@ -227,7 +227,7 @@
 			<mAdminState>enabled</mAdminState>
 			<Type>xformbin</Type>
 			<Input>INPUT</Input>
-			<Transform>local:///commons/xsl/audit.backend.message.xsl</Transform>
+			<Transform>local:///commons/xsl/audit_backend_msgs.xsl</Transform>
 			<TransformLanguage>none</TransformLanguage>
 			<ActionDebug persisted="false">off</ActionDebug>
 			<TxMode>dpa</TxMode>
@@ -279,7 +279,7 @@
 			<mAdminState>enabled</mAdminState>
 			<Type>xform</Type>
 			<Input>response.client</Input>
-			<Transform>local:///commons/xsl/soap.envelope.xsl</Transform>
+			<Transform>local:///commons/xsl/soap_envelope.xsl</Transform>
 			<TransformLanguage>none</TransformLanguage>
 			<ActionDebug persisted="false">off</ActionDebug>
 			<Output>enveloped.response.client</Output>
@@ -330,7 +330,7 @@
 			<mAdminState>enabled</mAdminState>
 			<Type>xform</Type>
 			<Input>response.client</Input>
-			<Transform>local:///commons/xsl/audit.client.message.xsl</Transform>
+			<Transform>local:///commons/xsl/audit_client_msgs.xsl</Transform>
 			<TransformLanguage>none</TransformLanguage>
 			<ActionDebug persisted="false">off</ActionDebug>
 			<Output>NULL</Output>
@@ -394,8 +394,12 @@
 		<StylePolicyAction name="mbc.${service_name}.error-rule_xform_1">
 			<mAdminState>enabled</mAdminState>
 			<Type>xform</Type>
-			<Input>INPUT</Input>
-			<Transform>local:///commons/xsl/build.soap.fault.xsl</Transform>
+			<Input>NULL</Input>
+			<#if fault == "response">
+			<Transform>local:///commons/xsl/build_soap_fault_response.xsl</Transform>
+			<#else>
+			<Transform>local:///commons/xsl/build_soap_fault.xsl</Transform>
+			</#if>
 			<TransformLanguage>none</TransformLanguage>
 			<ActionDebug persisted="false">off</ActionDebug>
 			<Output>response.client</Output>
@@ -421,7 +425,7 @@
 			<mAdminState>enabled</mAdminState>
 			<Type>xform</Type>
 			<Input>response.client</Input>
-			<Transform>local:///commons/xsl/soap.envelope.xsl</Transform>
+			<Transform>local:///commons/xsl/soap_envelope.xsl</Transform>
 			<TransformLanguage>none</TransformLanguage>
 			<ActionDebug persisted="false">off</ActionDebug>
 			<Output>enveloped.response.client</Output>
@@ -472,7 +476,7 @@
 			<mAdminState>enabled</mAdminState>
 			<Type>xform</Type>
 			<Input>response.client</Input>
-			<Transform>local:///commons/xsl/audit.client.message.xsl</Transform>
+			<Transform>local:///commons/xsl/audit_client_msgs.xsl</Transform>
 			<TransformLanguage>none</TransformLanguage>
 			<ActionDebug persisted="false">off</ActionDebug>
 			<Output>NULL</Output>
@@ -565,6 +569,7 @@
 			<Priority>normal</Priority>
 			<XMLManager class="XMLManager">default</XMLManager>
 			<SSLClientConfigType>client</SSLClientConfigType>
+			<SSLClient class="SSLClientProfile">mbc.dp.ssl</SSLClient>
 			<DefaultParamNamespace>http://www.datapower.com/param/config</DefaultParamNamespace>
 			<QueryParamNamespace>http://www.datapower.com/param/query</QueryParamNamespace>
 			<PropagateURI>off</PropagateURI>
