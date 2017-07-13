@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<comment>Program arguments: colpatria ${resource_path}</comment>
+
+	<!-- entry key="dp.url">https://192.168.242.129:5550/service/mgmt/current</entry>
+	<entry key="dp.username">admin</entry>
+	<entry key="dp.password">YWRtaW4=</entry -->
+	
+	<entry key="dp.url">https://10.236.4.67:5550/service/mgmt/current</entry>
+	<entry key="dp.username">jimenezma</entry>
+	<entry key="dp.password">Q29scGF0cmlhMjAxNyou</entry>
+	<entry key="domain.mapping.colpatria">DEV-DIRINTSER</entry>
+	
+
+	<entry key="ssl.keystore.file">colpatria.developer.ssl.jks</entry>
+	<entry key="ssl.keystore.password">Y29scGF0cmlh</entry>
+	
+	<entry key="sign.keystore.file">colpatria.developer.wss.jks</entry>
+	<entry key="sign.keystore.password">Y29scGF0cmlh</entry>
+	<entry key="sign.keystore.alias">colpatria.developer.wss</entry>
+	
+</properties>
