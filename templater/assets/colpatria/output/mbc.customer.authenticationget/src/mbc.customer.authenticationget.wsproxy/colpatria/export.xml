@@ -16,7 +16,7 @@
 				<LocalEndpointHostname>0.0.0.0</LocalEndpointHostname>
 				<LocalEndpointPort>0</LocalEndpointPort>
 				<LocalEndpointURI>/customerAuthenticationGet</LocalEndpointURI>
-				<FrontProtocol class="HTTPSSourceProtocolHandler">mbc.commons.https.8039</FrontProtocol>
+				<FrontProtocol class="HTTPSSourceProtocolHandler">HTTPS-8040</FrontProtocol>
 				<UseFrontProtocol>on</UseFrontProtocol>
 				<WSDLBindingProtocol>soap-11</WSDLBindingProtocol>
 				<FrontsidePortSuffix />

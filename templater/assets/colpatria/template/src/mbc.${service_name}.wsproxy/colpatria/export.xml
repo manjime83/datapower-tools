@@ -16,7 +16,7 @@
 				<LocalEndpointHostname>0.0.0.0</LocalEndpointHostname>
 				<LocalEndpointPort>0</LocalEndpointPort>
 				<LocalEndpointURI>${service_uri}</LocalEndpointURI>
-				<FrontProtocol class="HTTPSSourceProtocolHandler">mbc.commons.https.${port}</FrontProtocol>
+				<FrontProtocol class="HTTPSSourceProtocolHandler">HTTPS-${port}</FrontProtocol>
 				<UseFrontProtocol>on</UseFrontProtocol>
 				<WSDLBindingProtocol>soap-11</WSDLBindingProtocol>
 				<FrontsidePortSuffix />
