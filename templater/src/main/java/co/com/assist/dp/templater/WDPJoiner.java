@@ -24,9 +24,15 @@ import org.jdom2.output.XMLOutputter;
 
 public class WDPJoiner {
 
+	private File wdpFile;
+
 	public static void main(String[] args) throws IOException, JDOMException {
-		String wdpPathname = "C:\\Users\\manji\\Documents\\assist\\experian\\Experian.ImplementacionDataPower\\04.Ejecucion\\02.Fabrica\\03.Entregas\\release.20170523.1 (framework)\\wdp";
-		new WDPJoiner().merge(wdpPathname);
+		File wdpFile = new File(args[0]);
+		new WDPJoiner(wdpFile).run();
+	}
+
+	public WDPJoiner(File wdpFile) {
+		this.wdpFile = wdpFile;
 	}
 
 	private static final XMLOutputter prettyOutputter = new XMLOutputter(
@@ -34,10 +40,8 @@ public class WDPJoiner {
 
 	private static final SAXBuilder saxBuilder = new SAXBuilder();
 
-	public void merge(String wdpPathname) throws IOException, JDOMException {
-		File wdp = new File(wdpPathname);
-
-		File[] domains = wdp.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
+	public void run() throws IOException, JDOMException {
+		File[] domains = wdpFile.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
 		for (File domain : domains) {
 			Element config = new Element("datapower-configuration");
 			config.setAttribute("version", "3");
@@ -49,7 +53,7 @@ public class WDPJoiner {
 			Element files = new Element("files");
 			config.addContent(files);
 
-			FileOutputStream fos = new FileOutputStream(new File(wdp, domain.getName() + ".zip"));
+			FileOutputStream fos = new FileOutputStream(new File(wdpFile, domain.getName() + ".zip"));
 			ZipOutputStream outputZip = new ZipOutputStream(fos, Charset.forName("UTF-8"));
 
 			Collection<File> exports = FileUtils.listFiles(domain, new String[] { "zip" }, false);

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -22,11 +23,25 @@ import freemarker.template.TemplateExceptionHandler;
 
 public class ApplyTemplate {
 
+	protected static final Properties props = new Properties();
+
 	public static void main(String[] args) throws IOException, TemplateException {
-		File input = new File("assets", "colpatria/input");
-		File template = new File("assets", "colpatria/template");
-		File output = new File("assets", "colpatria/output");
-		FileUtils.deleteQuietly(output);
+		System.out.println("Applying templates from: " + args[0]);
+
+		File root = new File(args[0]);
+
+		try (InputStream is = new FileInputStream(new File(root, "templater.properties"))) {
+			props.load(is);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+		File input = new File(root, "input");
+		File template = new File(root, "template");
+		File output = new File(root, "output");
+		if (output.exists()) {
+			FileUtils.cleanDirectory(output);
+		}
 
 		Configuration cfg = new Configuration(Configuration.VERSION_2_3_26);
 		cfg.setDirectoryForTemplateLoading(template);
@@ -67,8 +82,12 @@ public class ApplyTemplate {
 				FileUtils.copyDirectory(staticFiles, new File(output, name));
 			}
 		}
-		new UpdateSources().run();
-		// new DPJoiner().run();
+
+		if (Boolean.valueOf(props.getProperty("update_sources", "false"))) {
+			new UpdateSources(output).run();
+		} else if (Boolean.valueOf(props.getProperty("join_sources", "false"))) {
+			// new DPJoiner(output).run();
+		}
 	}
 
 }

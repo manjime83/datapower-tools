@@ -9,15 +9,23 @@ import org.apache.commons.io.filefilter.DirectoryFileFilter;
 
 public class UpdateSources implements Runnable {
 
+	private File templaterOutput;
+
 	public static void main(String[] args) {
-		new UpdateSources().run();
+		File templaterOutput = new File(args[0]);
+		new UpdateSources(templaterOutput).run();
+	}
+
+	public UpdateSources(File templaterOutput) {
+		this.templaterOutput = templaterOutput;
 	}
 
 	@Override
 	public void run() {
-		File workspace = new File("C:\\Users\\manji\\workspaces\\colpatria");
-		File output = new File("assets/colpatria/output");
-		File[] directories = output.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
+		File workspace = templaterOutput.getParentFile().getParentFile();
+		System.out.println("Updating sources in: " + workspace);
+		
+		File[] directories = templaterOutput.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
 
 		for (File directory : directories) {
 			File project = new File(workspace, directory.getName());
@@ -25,14 +33,12 @@ public class UpdateSources implements Runnable {
 				try {
 					FileUtils.copyDirectory(directory, project);
 				} catch (IOException e) {
-					e.printStackTrace();
+					throw new RuntimeException(e);
 				}
 			} else {
-				System.out.println(directory.getPath());
-				System.out.println(project.getPath());
+				System.out.println("Destination folder not found: " + project.getPath());
 			}
 		}
 	}
 
 }
-
