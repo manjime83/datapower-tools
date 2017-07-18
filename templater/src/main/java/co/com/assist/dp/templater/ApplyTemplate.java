@@ -85,8 +85,6 @@ public class ApplyTemplate {
 
 		if (Boolean.valueOf(props.getProperty("update_sources", "false"))) {
 			new UpdateSources(output).run();
-		} else if (Boolean.valueOf(props.getProperty("join_sources", "false"))) {
-			// new DPJoiner(output).run();
 		}
 	}
 
