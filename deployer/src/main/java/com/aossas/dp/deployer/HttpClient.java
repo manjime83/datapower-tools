@@ -1,8 +1,6 @@
 package com.aossas.dp.deployer;
 
-import java.io.File;
 import java.io.StringReader;
-import java.net.URL;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Calendar;
@@ -42,10 +40,11 @@ public final class HttpClient {
 
 	private static CloseableHttpClient getHttpClient() {
 		try {
-			URL keystoreURL = new File(Deploy.props.getProperty("ssl.keystore.file")).toURI().toURL();
-			char[] keystorePassword = Deploy.decrypt(Deploy.props.getProperty("ssl.keystore.password")).toCharArray();
+			// URL keystoreURL = new File(Deploy.props.getProperty("ssl.keystore.file")).toURI().toURL();
+			// char[] keystorePassword =
+			// Deploy.decrypt(Deploy.props.getProperty("ssl.keystore.password")).toCharArray();
 			SSLContext sslContext = SSLContexts.custom()
-					.loadKeyMaterial(keystoreURL, keystorePassword, keystorePassword)
+					// .loadKeyMaterial(keystoreURL, keystorePassword, keystorePassword)
 					.loadTrustMaterial(new TrustStrategy() {
 						@Override
 						public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {

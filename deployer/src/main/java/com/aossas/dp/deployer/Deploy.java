@@ -8,10 +8,12 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
@@ -19,6 +21,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
@@ -48,44 +52,46 @@ public class Deploy {
 	private static final DateFormat logDateFormat = new SimpleDateFormat("yyyyMMdd.HHmmss", Locale.US);
 
 	public static void main(String[] args) {
-		String profile = args.length > 0 ? args[0] : "deployer";
+		System.out.println("args: " + Arrays.toString(args) + System.lineSeparator());
 
-		try (InputStream is = new FileInputStream(profile + ".xml")) {
+		String project = args[0];
+		String target = args[1];
+
+		try (InputStream is = new FileInputStream(target + ".xml")) {
 			props.loadFromXML(is);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 
-		String url = props.getProperty("aes.key");
-
 		try {
-			key = Hex.decodeHex(FileUtils.readFileToString(new File(url), "UTF-8").toCharArray());
+			String aesKey = props.getProperty("dp.password.key");
+			key = Hex.decodeHex(FileUtils.readFileToString(new File(aesKey), "UTF-8").toCharArray());
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 
 		Deploy deploy = new Deploy();
-		deploy.deploy();
+		deploy.deploy(project);
 	}
 
-	private void deploy() {
+	private void deploy(String project) {
 		File wdp;
 		File log;
 		try {
-			wdp = new File("wdp").getCanonicalFile();
-			log = new File("wdplog." + logDateFormat.format(new Date(System.currentTimeMillis()))).getCanonicalFile();
+			wdp = new File(project, "wdp").getCanonicalFile();
+			log = new File(project, "wdplog." + logDateFormat.format(new Date(System.currentTimeMillis())))
+					.getCanonicalFile();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 
-		System.out.println(wdp);
-
 		String url = props.getProperty("dp.url");
 		String username = props.getProperty("dp.username");
-		String password = decrypt(props.getProperty("dp.password"));
+		String password = decrypt(props.getProperty("dp.password")).trim();
 
 		System.out.println("url: " + url);
 		System.out.println("username: " + username);
+		// System.out.println("password: " + password);
 		System.out.println();
 
 		Map<String, String> headers = new HashMap<>();
@@ -99,6 +105,8 @@ public class Deploy {
 		File[] domains = wdp.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
 
 		for (File domain : domains) {
+			String domainName = props.getProperty("domain.mapping." + domain.getName(), domain.getName());
+
 			Collection<File> zips = FileUtils.listFiles(domain, new String[] { "zip" }, false);
 
 			for (File zip : zips) {
@@ -106,8 +114,7 @@ public class Deploy {
 				try {
 					byte[] bytes = FileUtils.readFileToByteArray(zip);
 
-					Document request = buildDoImportRequest(
-							props.getProperty("domain.mapping." + domain.getName(), domain.getName()), bytes);
+					Document request = buildDoImportRequest(domainName, bytes);
 					Element requestElement = request.getRootElement().getChild("Body", env).getChild("request", dp);
 					String importRequest = prettyOutputter.outputString(requestElement);
 					System.out.println(importRequest);
@@ -120,8 +127,6 @@ public class Deploy {
 						String importResults = prettyOutputter.outputString(responseElement);
 						System.out.println(importResults);
 						lines.add(importResults);
-
-						Thread.sleep(1000);
 					} catch (Exception e) {
 						StringWriter sw = new StringWriter();
 						e.printStackTrace(new PrintWriter(sw));
@@ -131,12 +136,19 @@ public class Deploy {
 						System.out.println("elapsed time: " + HttpClient.getElapsedTime());
 						lines.add("elapsed time: " + HttpClient.getElapsedTime());
 						System.out.println();
+
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							throw new RuntimeException(e);
+						}
 					}
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 				}
 
-				File importlog = new File(log, FilenameUtils.getBaseName(zip.getName()) + ".log");
+				File importlog = new File(log + File.separator + domainName,
+						FilenameUtils.getBaseName(zip.getName()) + ".log");
 				try {
 					FileUtils.writeLines(importlog, "UTF-8", lines);
 				} catch (IOException e) {
@@ -190,7 +202,6 @@ public class Deploy {
 
 	protected static String encrypt(String clearText) {
 		String data = "";
-
 		try {
 			SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
 			Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
