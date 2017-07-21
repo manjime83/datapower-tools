@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -21,8 +20,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
@@ -189,7 +186,7 @@ public class Deploy {
 
 		try {
 			SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
-			Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+			Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
 			cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
 			byte[] decrypted = cipher.doFinal(Hex.decodeHex(encrypted.toCharArray()));
 			data = new String(decrypted);
@@ -204,7 +201,7 @@ public class Deploy {
 		String data = "";
 		try {
 			SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
-			Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+			Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
 			cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
 			byte[] encrypted = cipher.doFinal(clearText.getBytes("UTF-8"));
 			data = Hex.encodeHexString(encrypted);
