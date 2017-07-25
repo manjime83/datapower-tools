@@ -6,8 +6,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -83,8 +85,15 @@ public class ApplyTemplate {
 			}
 		}
 
-		if (Boolean.valueOf(props.getProperty("update_sources", "false"))) {
-			new UpdateSources(output).run();
+		if (props.containsKey("update_projects")) {
+			String update_projects = props.getProperty("update_projects", "").trim();
+			List<String> projects;
+			if (update_projects.isEmpty()) {
+				projects = new ArrayList<>();
+			} else {
+				projects = Arrays.asList(update_projects.split(","));
+			}
+			new UpdateSources(output, projects).run();
 		}
 	}
 
