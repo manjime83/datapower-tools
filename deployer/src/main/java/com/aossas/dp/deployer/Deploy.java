@@ -85,6 +85,7 @@ public class Deploy {
 		String url = props.getProperty("dp.url");
 		String username = props.getProperty("dp.username");
 		String password = decrypt(props.getProperty("dp.password")).trim();
+		String deploymentpolicy = props.getProperty("dp.deploymentpolicy");
 
 		System.out.println("url: " + url);
 		System.out.println("username: " + username);
@@ -111,7 +112,7 @@ public class Deploy {
 				try {
 					byte[] bytes = FileUtils.readFileToByteArray(zip);
 
-					Document request = buildDoImportRequest(domainName, bytes);
+					Document request = buildDoImportRequest(domainName, deploymentpolicy, bytes);
 					Element requestElement = request.getRootElement().getChild("Body", env).getChild("request", dp);
 					String importRequest = prettyOutputter.outputString(requestElement);
 					System.out.println(importRequest);
@@ -155,7 +156,7 @@ public class Deploy {
 		}
 	}
 
-	public Document buildDoImportRequest(String domain, byte[] file) {
+	public Document buildDoImportRequest(String domain, String deploymentpolicy, byte[] file) {
 		Document document = new Document();
 
 		Element envelope = new Element("Envelope", env);
@@ -173,6 +174,12 @@ public class Deploy {
 		doImport.setAttribute(new Attribute("overwrite-objects", "true"));
 		doImport.setAttribute(new Attribute("overwrite-files", "true"));
 		request.addContent(doImport);
+
+		if (deploymentpolicy != null && !deploymentpolicy.isEmpty()) {
+			Element deploymentPolicy = new Element("deployment-policy", dp);
+			deploymentPolicy.setAttribute(new Attribute("name", deploymentpolicy));
+			request.addContent(deploymentPolicy);
+		}
 
 		Element inputfile = new Element("input-file", dp);
 		inputfile.setText(Base64.encodeBase64String(file));

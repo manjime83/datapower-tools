@@ -9,6 +9,7 @@
 	
 	<entry key="domain.mapping.secure-gateway">experian</entry>
 	<entry key="domain.mapping.integration">experian</entry>
+	<entry key="domain.mapping.default">experian</entry>
 
 	<entry key="ssl.keystore.file">mjimenez.ssl.jks</entry>
 	<entry key="ssl.keystore.password">bWppbWVuZXo=</entry>

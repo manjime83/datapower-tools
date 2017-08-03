@@ -40,17 +40,12 @@ public final class HttpClient {
 
 	private static CloseableHttpClient getHttpClient() {
 		try {
-			// URL keystoreURL = new File(Deploy.props.getProperty("ssl.keystore.file")).toURI().toURL();
-			// char[] keystorePassword =
-			// Deploy.decrypt(Deploy.props.getProperty("ssl.keystore.password")).toCharArray();
-			SSLContext sslContext = SSLContexts.custom()
-					// .loadKeyMaterial(keystoreURL, keystorePassword, keystorePassword)
-					.loadTrustMaterial(new TrustStrategy() {
-						@Override
-						public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-							return true;
-						}
-					}).build();
+			SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(new TrustStrategy() {
+				@Override
+				public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+					return true;
+				}
+			}).build();
 			HttpClientBuilder builder = HttpClients.custom();
 			builder.setSSLContext(sslContext);
 			builder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE);
