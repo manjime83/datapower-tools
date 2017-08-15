@@ -1,5 +1,6 @@
 package co.com.assist.dp.tester;
 
+import java.io.File;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.security.cert.CertificateException;
@@ -23,7 +24,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.ssl.TrustStrategy;
 import org.apache.http.util.EntityUtils;
-import org.apache.wss4j.common.util.Loader;
 import org.jdom2.Document;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
@@ -51,7 +51,7 @@ public final class HttpClient {
 			} catch (UnsupportedEncodingException e) {
 				throw new RuntimeException(e);
 			}
-			SSLContext sslContext = SSLContexts.custom().loadKeyMaterial(Loader.getResource(keystoreFile),
+			SSLContext sslContext = SSLContexts.custom().loadKeyMaterial(new File(keystoreFile),
 					keystorePassword.toCharArray(), keystorePassword.toCharArray())
 					.loadTrustMaterial(new TrustStrategy() {
 						@Override
