@@ -2,6 +2,8 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 	<comment>Program arguments: project ${resource_path}</comment>
+	
+	<entry key="workspace.path">/projects</entry>
 
 	<entry key="dp.url">https://192.168.242.130:5550/service/mgmt/current</entry>
 	<entry key="dp.username">admin</entry>

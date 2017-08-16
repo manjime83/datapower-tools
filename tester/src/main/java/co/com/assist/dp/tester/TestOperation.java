@@ -75,9 +75,8 @@ public class TestOperation {
         }
 
         args[1] = new File(props.getProperty("workspace.path")).toURI().relativize(new File(args[1]).toURI()).getPath();
-        System.out.println(args[1]);
 
-        args = Arrays.copyOf(FilenameUtils.normalizeNoEndSeparator(args[1], true).substring(1).split("/"), 4);
+        args = Arrays.copyOf(FilenameUtils.normalizeNoEndSeparator(args[1], true).split("/"), 4);
         System.out.println("args: " + Arrays.toString(args) + System.lineSeparator());
 
         TestOperation test = new TestOperation();
