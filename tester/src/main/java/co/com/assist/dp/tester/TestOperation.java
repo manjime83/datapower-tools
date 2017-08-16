@@ -74,6 +74,9 @@ public class TestOperation {
             throw new RuntimeException(e);
         }
 
+        args[1] = new File(props.getProperty("workspace.path")).toURI().relativize(new File(args[1]).toURI()).getPath();
+        System.out.println(args[1]);
+
         args = Arrays.copyOf(FilenameUtils.normalizeNoEndSeparator(args[1], true).substring(1).split("/"), 4);
         System.out.println("args: " + Arrays.toString(args) + System.lineSeparator());
 
@@ -100,8 +103,8 @@ public class TestOperation {
         File bin;
         File src;
         try {
-            bin = new File(project + File.separator + "bin").getCanonicalFile();
-            src = new File(project + File.separator + "src").getCanonicalFile();
+            bin = new File(props.getProperty("workspace.path"), project + File.separator + "bin").getCanonicalFile();
+            src = new File(props.getProperty("workspace.path"), project + File.separator + "src").getCanonicalFile();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -123,8 +126,8 @@ public class TestOperation {
         File bin;
         File src;
         try {
-            bin = new File(project + File.separator + "bin").getCanonicalFile();
-            src = new File(project + File.separator + "src").getCanonicalFile();
+            bin = new File(props.getProperty("workspace.path"), project + File.separator + "bin").getCanonicalFile();
+            src = new File(props.getProperty("workspace.path"), project + File.separator + "src").getCanonicalFile();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -264,8 +267,8 @@ public class TestOperation {
         File test;
         File log;
         try {
-            test = new File(project + File.separator + "test").getCanonicalFile();
-            log = new File(project + File.separator + "log").getCanonicalFile();
+            test = new File(props.getProperty("workspace.path"), project + File.separator + "test").getCanonicalFile();
+            log = new File(props.getProperty("workspace.path"), project + File.separator + "log").getCanonicalFile();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
