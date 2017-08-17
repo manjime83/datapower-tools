@@ -1,8 +1,8 @@
 package co.com.assist.dp.tester;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Calendar;
@@ -12,7 +12,6 @@ import java.util.Map.Entry;
 
 import javax.net.ssl.SSLContext;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
@@ -42,15 +41,10 @@ public final class HttpClient {
 	}
 
 	private static CloseableHttpClient getHttpClient() {
+		String keystoreFile = TestOperation.props.getProperty("ssl.keystore.file");
+		String keystorePassword = TestOperation.decrypt(TestOperation.props.getProperty("ssl.keystore.password"));
+
 		try {
-			String keystoreFile = TestOperation.props.getProperty("ssl.keystore.file");
-			String keystorePassword;
-			try {
-				keystorePassword = new String(
-						Base64.decodeBase64(TestOperation.props.getProperty("ssl.keystore.password")), "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				throw new RuntimeException(e);
-			}
 			SSLContext sslContext = SSLContexts.custom().loadKeyMaterial(new File(keystoreFile),
 					keystorePassword.toCharArray(), keystorePassword.toCharArray())
 					.loadTrustMaterial(new TrustStrategy() {
@@ -94,6 +88,14 @@ public final class HttpClient {
 
 	public static Date getResquestDate() {
 		return resquestDate;
+	}
+
+	public static void close() {
+		try {
+			httpClient.close();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }
