@@ -74,6 +74,7 @@ public class TestOperation {
 
 	private static final DateFormat logDateFormat = new SimpleDateFormat("MMM dd, yyyy hh:mm:ss a", Locale.US);
 	private static final DateFormat logFileDateFormat = new SimpleDateFormat("MMMyyyy", Locale.US);
+	private static final DateFormat resultsFileDateFormat = new SimpleDateFormat("yyyyMMdd", Locale.US);
 
 	public static void main(String[] args) {
 		try (InputStream is = new FileInputStream(args[0] + ".xml")) {
@@ -111,7 +112,7 @@ public class TestOperation {
 				test.executeTest(project, module, object);
 			}
 		}
-		
+
 		HttpClient.close();
 	}
 
@@ -300,102 +301,216 @@ public class TestOperation {
 		}
 
 		for (File m : modules) {
-			File[] files = m.listFiles(new FileFilter() {
-				@Override
-				public boolean accept(File file) {
-					if (requestFileName != null) {
-						return file.isFile() && file.getName().endsWith("request.xml")
-								&& file.getName().equals(requestFileName);
-					} else {
-						return file.isFile() && file.getName().endsWith("request.xml");
-					}
-				}
-			});
-
-			for (File f : files) {
-				Document request = null;
-				try {
-					request = new SAXBuilder().build(f);
-				} catch (Exception e) {
+			File testsFile = new File(m, "_tester.xml");
+			if (testsFile.exists()) {
+				Properties testsProps = new Properties();
+				try (InputStream is = new FileInputStream(testsFile)) {
+					testsProps.loadFromXML(is);
+				} catch (IOException e) {
 					throw new RuntimeException(e);
 				}
 
-				List<Content> comments = request.getContent(new ContentFilter(ContentFilter.COMMENT));
-				JsonObject object = Json.parse(((Comment) comments.iterator().next()).getText()).asObject();
-				String url = object.get("url").asString();
+				String url = testsProps.getProperty("url");
 
-				Map<String, String> headers = new HashMap<>();
-				if (object.get("headers") != null) {
-					JsonObject members = object.get("headers").asObject();
-					for (Member member : members) {
-						headers.put(member.getName(), member.getValue().asString());
+				Map<String, String> default_headers = new HashMap<>();
+				if (testsProps.containsKey("default.headers")) {
+					String[] default_pairs = testsProps.getProperty("default.headers").split(",");
+					for (String pair : default_pairs) {
+						String[] keyValue = pair.split("=");
+						default_headers.put(keyValue[0], keyValue[1]);
 					}
 				}
 
-				if (object.get("security") != null) {
-					JsonObject members = object.get("security").asObject();
-					if (members.get("signature").asBoolean()) {
-						if (members.get("usernametoken") != null) {
-							JsonArray usernametoken = members.get("usernametoken").asArray();
-							request = sign(request, usernametoken.get(0).asString(), usernametoken.get(1).asString());
+				Boolean signature = Boolean.valueOf(testsProps.getProperty("security.signautre", "false"));
+				String username = testsProps.getProperty("security.usernametoken.username");
+				String password = testsProps.getProperty("security.usernametoken.password");
+
+				File[] files = m.listFiles(new FileFilter() {
+					@Override
+					public boolean accept(File file) {
+						if (requestFileName != null) {
+							return file.isFile() && file.getName().endsWith(".xml")
+									&& !file.getName().equals("_tester.xml") && file.getName().equals(requestFileName);
 						} else {
-							request = sign(request, null, null);
+							return file.isFile() && file.getName().endsWith(".xml")
+									&& !file.getName().equals("_tester.xml");
 						}
 					}
+				});
+
+				for (File f : files) {
+					String name = FilenameUtils.removeExtension(f.getName());
+
+					Map<String, String> headers = new HashMap<>(default_headers);
+					if (testsProps.containsKey("headers." + name)) {
+						String[] pairs = testsProps.getProperty("headers." + name).split(",");
+						for (String pair : pairs) {
+							String[] keyValue = pair.split("=");
+							headers.put(keyValue[0], keyValue[1]);
+						}
+					}
+
+					Document request = null;
+					try {
+						request = new SAXBuilder().build(f);
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					}
+
+					try {
+						FileUtils.writeStringToFile(f, prettyOutputter.outputString(request), "UTF-8");
+					} catch (IOException e) {
+						throw new RuntimeException(e);
+					}
+
+					if (signature) {
+						request = sign(request, username, password);
+					}
+
+					String prettyRequest = prettyOutputter.outputString(request);
+					String compactRequest = compactOutputter.outputString(request);
+					System.out.println(prettyRequest);
+
+					String prettyResponse;
+					String compactResponse;
+					try {
+						Document response = HttpClient.sendRequest(url, request, headers);
+						prettyResponse = prettyOutputter.outputString(response);
+						compactResponse = compactOutputter.outputString(response);
+					} catch (Exception e) {
+						StringWriter sw = new StringWriter();
+						e.printStackTrace(new PrintWriter(sw));
+						prettyResponse = sw.toString();
+						compactResponse = e.toString() + System.lineSeparator();
+					}
+
+					System.out.println(prettyResponse);
+					System.out.println("elapsed time: " + HttpClient.getElapsedTime());
+					System.out.println();
+
+					try {
+						File results = new File(m,
+								"results." + resultsFileDateFormat.format(HttpClient.getResquestDate()));
+						FileUtils.writeStringToFile(new File(results, name + ".request.xml"), prettyRequest, "UTF-8");
+						FileUtils.writeStringToFile(new File(results, name + ".response.xml"), prettyResponse, "UTF-8");
+					} catch (IOException e) {
+						throw new RuntimeException(e);
+					}
+
+					File logFile = new File(log,
+							m.getName() + "." + logFileDateFormat.format(HttpClient.getResquestDate()) + ".log");
+					StringBuilder sb = new StringBuilder();
+					if (logFile.exists()) {
+						sb.append(System.lineSeparator());
+					}
+					sb.append("<!-- ");
+					sb.append("request date: ").append(logDateFormat.format(HttpClient.getResquestDate())).append(", ");
+					sb.append("elapsed time: ").append(HttpClient.getElapsedTime());
+					sb.append(" -->").append(System.lineSeparator());
+					sb.append(compactRequest);
+					sb.append(compactResponse);
+
+					try {
+						FileUtils.writeStringToFile(logFile, sb.toString(), "UTF-8", true);
+					} catch (IOException e) {
+						throw new RuntimeException(e);
+					}
 				}
+			} else { // deprecated
+				System.err.println("deprecated method of testing..." + System.lineSeparator());
 
-				String prettyRequest = prettyOutputter.outputString(request);
-				String compactRequest = compactOutputter.outputString(request);
-				System.out.println(prettyRequest);
+				File[] files = m.listFiles(new FileFilter() {
+					@Override
+					public boolean accept(File file) {
+						if (requestFileName != null) {
+							return file.isFile() && file.getName().endsWith("request.xml")
+									&& file.getName().equals(requestFileName);
+						} else {
+							return file.isFile() && file.getName().endsWith("request.xml");
+						}
+					}
+				});
 
-				String prettyResponse;
-				String compactResponse;
-				try {
-					Document response = HttpClient.sendRequest(url, request, headers);
-					prettyResponse = prettyOutputter.outputString(response);
-					compactResponse = compactOutputter.outputString(response);
-				} catch (Exception e) {
-					StringWriter sw = new StringWriter();
-					e.printStackTrace(new PrintWriter(sw));
-					prettyResponse = sw.toString();
-					compactResponse = e.toString() + System.lineSeparator();
-				}
+				for (File f : files) {
+					Document request = null;
+					try {
+						request = new SAXBuilder().build(f);
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					}
 
-				System.out.println(prettyResponse);
-				System.out.println("elapsed time: " + HttpClient.getElapsedTime());
-				System.out.println();
+					List<Content> comments = request.getContent(new ContentFilter(ContentFilter.COMMENT));
+					JsonObject object = Json.parse(((Comment) comments.iterator().next()).getText()).asObject();
+					String url = object.get("url").asString();
 
-				try {
-					FileUtils.writeStringToFile(f, prettyRequest, "UTF-8");
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				}
+					Map<String, String> headers = new HashMap<>();
+					if (object.get("headers") != null) {
+						JsonObject members = object.get("headers").asObject();
+						for (Member member : members) {
+							headers.put(member.getName(), member.getValue().asString());
+						}
+					}
 
-				String outputName = FilenameUtils.removeExtension(FilenameUtils.removeExtension(f.getName()));
-				File output = new File(m, outputName + ".response.xml");
-				try {
-					FileUtils.writeStringToFile(output, prettyResponse, "UTF-8");
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				}
+					if (object.get("security") != null) {
+						JsonObject members = object.get("security").asObject();
+						if (members.get("signature").asBoolean()) {
+							if (members.get("usernametoken") != null) {
+								JsonArray usernametoken = members.get("usernametoken").asArray();
+								request = sign(request, usernametoken.get(0).asString(),
+										usernametoken.get(1).asString());
+							} else {
+								request = sign(request, null, null);
+							}
+						}
+					}
 
-				File logFile = new File(log,
-						m.getName() + "." + logFileDateFormat.format(HttpClient.getResquestDate()) + ".log");
-				StringBuilder sb = new StringBuilder();
-				if (logFile.exists()) {
-					sb.append(System.lineSeparator());
-				}
-				sb.append("<!-- ");
-				sb.append("request date: ").append(logDateFormat.format(HttpClient.getResquestDate())).append(", ");
-				sb.append("elapsed time: ").append(HttpClient.getElapsedTime());
-				sb.append(" -->").append(System.lineSeparator());
-				sb.append(compactRequest);
-				sb.append(compactResponse);
+					String prettyRequest = prettyOutputter.outputString(request);
+					String compactRequest = compactOutputter.outputString(request);
+					System.out.println(prettyRequest);
 
-				try {
-					FileUtils.writeStringToFile(logFile, sb.toString(), "UTF-8", true);
-				} catch (IOException e) {
-					throw new RuntimeException(e);
+					String prettyResponse;
+					String compactResponse;
+					try {
+						Document response = HttpClient.sendRequest(url, request, headers);
+						prettyResponse = prettyOutputter.outputString(response);
+						compactResponse = compactOutputter.outputString(response);
+					} catch (Exception e) {
+						StringWriter sw = new StringWriter();
+						e.printStackTrace(new PrintWriter(sw));
+						prettyResponse = sw.toString();
+						compactResponse = e.toString() + System.lineSeparator();
+					}
+
+					System.out.println(prettyResponse);
+					System.out.println("elapsed time: " + HttpClient.getElapsedTime());
+					System.out.println();
+
+					String outputName = FilenameUtils.removeExtension(FilenameUtils.removeExtension(f.getName()));
+					try {
+						FileUtils.writeStringToFile(f, prettyRequest, "UTF-8");
+						FileUtils.writeStringToFile(new File(m, outputName + ".response.xml"), prettyResponse, "UTF-8");
+					} catch (IOException e) {
+						throw new RuntimeException(e);
+					}
+
+					File logFile = new File(log,
+							m.getName() + "." + logFileDateFormat.format(HttpClient.getResquestDate()) + ".log");
+					StringBuilder sb = new StringBuilder();
+					if (logFile.exists()) {
+						sb.append(System.lineSeparator());
+					}
+					sb.append("<!-- ");
+					sb.append("request date: ").append(logDateFormat.format(HttpClient.getResquestDate())).append(", ");
+					sb.append("elapsed time: ").append(HttpClient.getElapsedTime());
+					sb.append(" -->").append(System.lineSeparator());
+					sb.append(compactRequest);
+					sb.append(compactResponse);
+
+					try {
+						FileUtils.writeStringToFile(logFile, sb.toString(), "UTF-8", true);
+					} catch (IOException e) {
+						throw new RuntimeException(e);
+					}
 				}
 			}
 		}
@@ -456,13 +571,12 @@ public class TestOperation {
 
 		try {
 			signature.build(document, CryptoFactory.getInstance(crypto), secHeader);
-			Node sv = signature.getSignatureElement().getElementsByTagNameNS(WSConstants.SIG_NS, "SignatureValue").item(0);
+			Node sv = signature.getSignatureElement().getElementsByTagNameNS(WSConstants.SIG_NS, "SignatureValue")
+					.item(0);
 			sv.setTextContent(sv.getTextContent().replaceAll("\\p{Cntrl}", ""));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-
-		timestamp.prependToHeader(secHeader);
 
 		return new DOMBuilder().build(document);
 	}
