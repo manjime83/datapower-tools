@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
+	<comment>Program arguments: project ${resource_path}</comment>
 
-	<comment>Program arguments: colpatria ${resource_path}</comment>
+	<entry key="aes.key">/Users/manji/jimenezma.key</entry>
+	<entry key="workspace.path">/Users/manji/workspaces/colpatria/</entry>
 
-	<!-- entry key="dp.url">https://192.168.242.129:5550/service/mgmt/current</entry>
-	<entry key="dp.username">admin</entry>
-	<entry key="dp.password">YWRtaW4=</entry -->
-	
 	<entry key="dp.url">https://10.236.4.67:5550/service/mgmt/current</entry>
-	<entry key="dp.username">coloradodi</entry>
-	<entry key="dp.password">Q29scGF0cmlhMjAxNyou</entry>
+	<entry key="dp.username">rubiojo</entry>
+	<entry key="dp.password">867ecb10ba550883d0eb7340d006be7e</entry>
+
 	<entry key="domain.mapping.colpatria">DEV-DIRINTSER</entry>
-	
 
 	<entry key="ssl.keystore.file">colpatria.developer.ssl.jks</entry>
-	<entry key="ssl.keystore.password">Y29scGF0cmlh</entry>
-	
+	<entry key="ssl.keystore.password">724747f445d690df522a5f47ef1f3779</entry>
 	<entry key="sign.keystore.file">colpatria.developer.wss.jks</entry>
-	<entry key="sign.keystore.password">Y29scGF0cmlh</entry>
+	<entry key="sign.keystore.password">724747f445d690df522a5f47ef1f3779</entry>
 	<entry key="sign.keystore.alias">colpatria.developer.wss</entry>
-	
+
 </properties>
+
