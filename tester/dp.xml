@@ -3,8 +3,8 @@
 <properties>
 	<comment>Program arguments: project ${resource_path}</comment>
 	
-	<entry key="aes.key">/Users/manji/jimenezma.key</entry>
-	<entry key="workspace.path">/Users/manji/workspaces/colpatria/</entry>
+	<entry key="aes.key">C:\Users\manji\jimenezma.key</entry>
+	<entry key="workspace.path">C:\Users\manji\workspaces\colpatria</entry>
 
 	<entry key="dp.url">https://192.168.242.130:5550/service/mgmt/current</entry>
 	<entry key="dp.username">admin</entry>
@@ -14,9 +14,9 @@
 	<entry key="domain.mapping.integration">experian</entry>
 	<entry key="domain.mapping.default">experian</entry>
 	
-	<entry key="ssl.keystore.file">colpatria.developer.ssl.jks</entry>
+	<entry key="ssl.keystore.file">C:\Users\manji\workspaces\colpatria\mbc.entregas\colpatria.developer.ssl.jks</entry>
 	<entry key="ssl.keystore.password">724747f445d690df522a5f47ef1f3779</entry>
-	<entry key="sign.keystore.file">colpatria.developer.wss.jks</entry>
+	<entry key="sign.keystore.file">C:\Users\manji\workspaces\colpatria\mbc.entregas\colpatria.developer.wss.jks</entry>
 	<entry key="sign.keystore.password">724747f445d690df522a5f47ef1f3779</entry>
 	<entry key="sign.keystore.alias">colpatria.developer.wss</entry>
 
