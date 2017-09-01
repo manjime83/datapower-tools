@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-	<comment>Program arguments: project ${resource_path}</comment>
+	<comment>Program arguments: project ${resource_loc}</comment>
 	
 	<entry key="aes.key">C:\Users\manji\jimenezma.key</entry>
 	<entry key="workspace.path">C:\Users\manji\workspaces\colpatria</entry>

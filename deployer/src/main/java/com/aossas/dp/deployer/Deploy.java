@@ -61,7 +61,7 @@ public class Deploy {
 		}
 
 		try {
-			String aesKey = props.getProperty("dp.password.key");
+			String aesKey = props.getProperty("aes.key");
 			key = Hex.decodeHex(FileUtils.readFileToString(new File(aesKey), "UTF-8").toCharArray());
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -85,7 +85,8 @@ public class Deploy {
 		String url = props.getProperty("dp.url");
 		String username = props.getProperty("dp.username");
 		String password = decrypt(props.getProperty("dp.password")).trim();
-		String deploymentpolicy = props.getProperty("dp.deploymentpolicy");
+		String deploymentPolicy = props.getProperty("dp.deployment.policy");
+		int wait = Integer.parseInt(props.getProperty("dp.wait", "0")) * 1000;
 
 		System.out.println("url: " + url);
 		System.out.println("username: " + username);
@@ -112,11 +113,11 @@ public class Deploy {
 				try {
 					byte[] bytes = FileUtils.readFileToByteArray(zip);
 
-					Document request = buildDoImportRequest(domainName, deploymentpolicy, bytes);
-					Element requestElement = request.getRootElement().getChild("Body", env).getChild("request", dp);
-					String importRequest = prettyOutputter.outputString(requestElement);
-					System.out.println(importRequest);
-					lines.add(importRequest);
+					Document request = buildDoImportRequest(domainName, deploymentPolicy, bytes);
+					// Element requestElement = request.getRootElement().getChild("Body", env).getChild("request", dp);
+					// String importRequest = prettyOutputter.outputString(requestElement);
+					// System.out.println(importRequest);
+					// lines.add(importRequest);
 
 					try {
 						Document response = HttpClient.sendRequest(url, request, headers);
@@ -136,7 +137,7 @@ public class Deploy {
 						System.out.println();
 
 						try {
-							Thread.sleep(5000);
+							Thread.sleep(wait);
 						} catch (InterruptedException e) {
 							throw new RuntimeException(e);
 						}
@@ -156,7 +157,7 @@ public class Deploy {
 		}
 	}
 
-	public Document buildDoImportRequest(String domain, String deploymentpolicy, byte[] file) {
+	public Document buildDoImportRequest(String domain, String deploymentPolicy, byte[] file) {
 		Document document = new Document();
 
 		Element envelope = new Element("Envelope", env);
@@ -173,13 +174,11 @@ public class Deploy {
 		doImport.setAttribute(new Attribute("source-type", "ZIP"));
 		doImport.setAttribute(new Attribute("overwrite-objects", "true"));
 		doImport.setAttribute(new Attribute("overwrite-files", "true"));
-		request.addContent(doImport);
-
-		if (deploymentpolicy != null && !deploymentpolicy.isEmpty()) {
-			Element deploymentPolicy = new Element("deployment-policy", dp);
-			deploymentPolicy.setAttribute(new Attribute("name", deploymentpolicy));
-			request.addContent(deploymentPolicy);
+		if (deploymentPolicy != null && !deploymentPolicy.isEmpty()) {
+			doImport.setAttribute(new Attribute("deployment-policy", deploymentPolicy));
+			doImport.setAttribute(new Attribute("deployment-policy-variables", deploymentPolicy));
 		}
+		request.addContent(doImport);
 
 		Element inputfile = new Element("input-file", dp);
 		inputfile.setText(Base64.encodeBase64String(file));

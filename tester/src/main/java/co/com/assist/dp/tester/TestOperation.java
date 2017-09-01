@@ -152,6 +152,7 @@ public class TestOperation {
 		String url = props.getProperty("dp.url");
 		String username = props.getProperty("dp.username");
 		String password = decrypt(props.getProperty("dp.password"));
+		int wait = Integer.parseInt(props.getProperty("dp.wait", "0")) * 1000;
 
 		System.out.println("url: " + url);
 		System.out.println("username: " + username);
@@ -212,7 +213,7 @@ public class TestOperation {
 					if (importResults.contains("status=\"missing-file\"") || importResults.contains("result=\"ERROR\"")
 							|| importResults.contains("status=\"ERROR\"")) {
 						System.err.println(importResults);
-						Thread.sleep(1000);
+						Thread.sleep(wait);
 					} else {
 						System.out.println(importResults);
 					}
