@@ -1,5 +1,0 @@
-<Config>
-	<VerifySignature>false</VerifySignature>
-	<SignResponse>false</SignResponse>
-	<InjectionAttackProtection>false</InjectionAttackProtection>
-</Config>
