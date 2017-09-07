@@ -29,75 +29,66 @@ public class DPJoiner implements Runnable {
 
 	@Override
 	public void run() {
-		String[] projects = new String[] { "camaracomerciows.ConsultaCamaraComercioService",
-				"DecisorWS.ConsultasDecisorService", "DecisorWS.MotorService", "dhws.DHService", "dhws.DHService2",
-				"dhws.DHService_v1-2", "dhws.DHService_v1-3", "dhws3.DH2ClientesService",
-				"dhws3.DH2PJClientesService_v1-16", "dhws3.DH2PJClientesService_v1-17",
-				"dhws3.DH2PNClientesService_v1-4", "dhws3.DH2PNClientesService_v1-5", "dhws3.DH2Service",
-				"HCPL_WS.HcplWS", "HCPL_WS.HcplWSClientes", "idws.ServicioIdentificacion",
-				"idws2.ServicioIdentificacion", "ijws.ServicioIJWS", "localizacion.ServicioLocalizacion",
-				"localizacion2.ServicioLocalizacion2", "SuperSociedadesWS.SuperSociedadesService",
-				"ValidacionWS.ServicioValidacion" };
+		String[] projects = new String[] { "AuditoriaESBV1", "AutenticacionESBV1", "CanalESBV1", "CatalogoCanalESBV1",
+				"CatalogoESBV1", "ClienteESBV1", "CuentaAhorrosESBV1", "CuentaCorrienteESBV1", "CuentaESBV1",
+				"DispositivoSeguridadESBV1", "LeasingESBV1", "MovimientoESBV1", "PagoESBV1", "PlazoFijoESBV1",
+				"PortafolioESBV1", "PrestamoESBV1", "ProductoESBV1", "ProfuturoESBV1", "TarjetaCreditoESBV1",
+				"TarjetaPrepagadaESBV1", "TransferenciaESBV1" };
 
-		File output = new File("C:\\Users\\manji\\workspaces\\experian\\DataPower\\src\\002.servicios");
+		File output = new File("C:\\Users\\manji\\workspaces\\bgeneral\\bgeneral.template\\servicios");
 		FileUtils.deleteQuietly(output);
 
 		Map<String, Element> dpConfigurations = new HashMap<String, Element>();
 
 		for (String project : projects) {
-			File input = new File(
-					"C:\\Users\\manji\\git\\datapower-tools\\templater\\assets\\output\\" + project + "\\src");
+			File input = new File("C:\\Users\\manji\\workspaces\\bgeneral\\bgeneral.template\\output\\" + project);
 
-			File[] modules = input.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
-			for (File module : modules) {
-				File[] domains = module.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
-				for (File domain : domains) {
-					if (!dpConfigurations.containsKey(domain.getName())) {
-						Element dpConfiguration = new Element("datapower-configuration");
-						dpConfiguration.setAttribute("version", "3");
+			File[] domains = input.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
+			for (File domain : domains) {
+				if (!dpConfigurations.containsKey(domain.getName())) {
+					Element dpConfiguration = new Element("datapower-configuration");
+					dpConfiguration.setAttribute("version", "3");
 
-						Element configuration = new Element("configuration");
-						configuration.setAttribute("domain", domain.getName());
-						dpConfiguration.addContent(configuration);
+					Element configuration = new Element("configuration");
+					configuration.setAttribute("domain", domain.getName());
+					dpConfiguration.addContent(configuration);
 
-						Element files = new Element("files");
-						dpConfiguration.addContent(files);
+					Element files = new Element("files");
+					dpConfiguration.addContent(files);
 
-						dpConfigurations.put(domain.getName(), dpConfiguration);
-					}
-
-					Element export = null;
-					try {
-						export = builder.build(new File(domain, "export.xml")).getRootElement();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					Element c = export.getChild("configuration");
-					if (c != null) {
-						dpConfigurations.get(domain.getName()).getChild("configuration").addContent(c.cloneContent());
-					}
-					Element f = export.getChild("files");
-					if (f != null) {
-						dpConfigurations.get(domain.getName()).getChild("files").addContent(f.cloneContent());
-					}
-
-					try {
-						FileUtils.copyDirectoryToDirectory(domain, output);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+					dpConfigurations.put(domain.getName(), dpConfiguration);
 				}
-			}
 
-			Set<Entry<String, Element>> entrySet = dpConfigurations.entrySet();
-			for (Entry<String, Element> entry : entrySet) {
-				String prettyExport = prettyOutputter.outputString(entry.getValue());
+				Element export = null;
 				try {
-					FileUtils.writeStringToFile(new File(output, entry.getKey() + "/export.xml"), prettyExport,
-							"UTF-8");
+					export = builder.build(new File(domain, "export.xml")).getRootElement();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				Element c = export.getChild("configuration");
+				if (c != null) {
+					dpConfigurations.get(domain.getName()).getChild("configuration").addContent(c.cloneContent());
+				}
+				Element f = export.getChild("files");
+				if (f != null) {
+					dpConfigurations.get(domain.getName()).getChild("files").addContent(f.cloneContent());
+				}
+
+				try {
+					FileUtils.copyDirectoryToDirectory(domain, output);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+			}
+		}
+
+		Set<Entry<String, Element>> entrySet = dpConfigurations.entrySet();
+		for (Entry<String, Element> entry : entrySet) {
+			String prettyExport = prettyOutputter.outputString(entry.getValue());
+			try {
+				FileUtils.writeStringToFile(new File(output, entry.getKey() + "/export.xml"), prettyExport, "UTF-8");
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}

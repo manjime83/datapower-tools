@@ -19,7 +19,7 @@ public class BuildProperties {
 
 	public static void main(String[] args) throws Exception {
 		File wsdl = new File(
-				"C:\\manujimenez\\workspaces\\bgeneral\\bgeneral.commons\\src\\wsdl\\dom_desa\\local\\wsdl");
+				"C:\\Users\\manji\\workspaces\\bgeneral\\bgeneral.commons\\src\\wsdl\\dom_desa\\local\\wsdl");
 		Collection<File> files = FileUtils.listFiles(wsdl, new String[] { "wsdl" }, false);
 		for (File f : files) {
 			processFile(f);
@@ -51,7 +51,8 @@ public class BuildProperties {
 		String targetNamespace = wsdl.getRootElement().getAttributeValue("targetNamespace");
 		lines.add("namespace=" + targetNamespace);
 
-		File properties = new File("assets/input", service_name + ".properties");
+		File properties = new File("C:\\Users\\manji\\workspaces\\bgeneral\\bgeneral.template\\input",
+				service_name + ".properties");
 		FileUtils.writeLines(properties, "UTF-8", lines);
 
 		// FileUtils.forceMkdir(new File("assets/input", service_name));

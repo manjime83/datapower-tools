@@ -41,6 +41,9 @@ public class UpdateSources implements Runnable {
 		}
 
 		File[] directories = templaterOutput.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
+		if (directories == null) {
+			return;
+		}
 
 		for (File directory : directories) {
 			if (projects != null && !projects.isEmpty() && !projects.contains(directory.getName())) {
