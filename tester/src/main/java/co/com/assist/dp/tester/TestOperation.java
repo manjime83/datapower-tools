@@ -7,18 +7,22 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.Inet4Address;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -201,7 +205,8 @@ public class TestOperation {
 
 				Document request = buildDoImportRequest(props.getProperty("domain.mapping." + d.getName(), d.getName()),
 						bytes);
-				// Element requestElement = request.getRootElement().getChild("Body", env).getChild("request", dp);
+				// Element requestElement = request.getRootElement().getChild("Body",
+				// env).getChild("request", dp);
 				// System.out.println(prettyOutputter.outputString(requestElement));
 
 				try {
@@ -353,14 +358,10 @@ public class TestOperation {
 
 					Document request = null;
 					try {
-						request = new SAXBuilder().build(f);
+						StrSubstitutor substitutor = new StrSubstitutor(substitutionMap());
+						String str = substitutor.replace(FileUtils.readFileToString(f, "UTF-8"));
+						request = new SAXBuilder().build(new StringReader(str));
 					} catch (Exception e) {
-						throw new RuntimeException(e);
-					}
-
-					try {
-						FileUtils.writeStringToFile(f, prettyOutputter.outputString(request), "UTF-8");
-					} catch (IOException e) {
 						throw new RuntimeException(e);
 					}
 
@@ -515,6 +516,27 @@ public class TestOperation {
 				}
 			}
 		}
+	}
+
+	private Map<String, String> substitutionMap() throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("UUID", UUID.randomUUID().toString());
+		map.put("hostAddress", Inet4Address.getLocalHost().getHostAddress());
+
+		Date date = new Date();
+
+		map.put("currentTimeMillis", Long.toString(date.getTime()));
+
+		DateFormat dateDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		map.put("date", dateDateFormat.format(date));
+
+		DateFormat timeDateFormat = new SimpleDateFormat("HH:mm:ss");
+		map.put("time", timeDateFormat.format(date));
+
+		map.put("dateTime", map.get("date") + "T" + map.get("time"));
+
+		return map;
 	}
 
 	private Document sign(Document request, String user, String password) {
