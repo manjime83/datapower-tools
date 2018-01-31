@@ -211,11 +211,23 @@ public class TestOperation {
 
 				try {
 					Document response = HttpClient.sendRequest(url, request, headers);
-					Element importResultsElement = response.getRootElement().getChild("Body", env)
-							.getChild("response", dp).getChild("import", dp).getChild("import-results")
-							.setAttribute("module", m.getName());
-					String importResults = prettyOutputter.outputString(importResultsElement);
-					if (importResults.contains("status=\"missing-file\"") || importResults.contains("result=\"ERROR\"")
+					Element responseElement = response.getRootElement().getChild("Body", env).getChild("response", dp);
+
+					String importResults;
+					if (responseElement.getChildren().iterator().next().getName().equals("result")) {
+						Element resultElement = responseElement.getChild("result", dp).setAttribute("module",
+								m.getName());
+						importResults = prettyOutputter.outputString(resultElement);
+					} else {
+						Element importResultsElement = responseElement.getChild("import", dp).getChild("import-results")
+								.setAttribute("module", m.getName());
+						importResults = prettyOutputter.outputString(importResultsElement);
+					}
+
+					if (importResults.contains("Authentication failure")
+							|| importResults.contains("status=\"missing-file\"")
+							|| importResults.contains("status=\"missing-key\"")
+							|| importResults.contains("result=\"ERROR\"")
 							|| importResults.contains("status=\"ERROR\"")) {
 						System.err.println(importResults);
 						Thread.sleep(wait);
@@ -520,7 +532,7 @@ public class TestOperation {
 
 	private Map<String, String> substitutionMap() throws Exception {
 		Map<String, String> map = new HashMap<String, String>();
-		
+
 		map.put("UUID", UUID.randomUUID().toString());
 		map.put("hostAddress", Inet4Address.getLocalHost().getHostAddress());
 
