@@ -6,7 +6,7 @@
 	<entry key="aes.key">C:\Users\manji\jimenezma.key</entry>
 	<entry key="workspace.path">C:\Users\manji\workspaces\colpatria</entry>
 
-	<entry key="dp.url">https://192.168.242.130:5550/service/mgmt/current</entry>
+	<entry key="dp.url">https://192.168.242.133:5550/service/mgmt/current</entry>
 	<entry key="dp.username">admin</entry>
 	<entry key="dp.password">8f0690dafdaf91f458c23d0ff02a7075</entry>
 
