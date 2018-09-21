@@ -1,0 +1,77 @@
+<datapower-configuration version="3">
+	<export-details>
+		<user>admin</user>
+		<domain>itau</domain>
+		<device-name>idg752</device-name>
+		<firmware-version>IDG.7.5.2.16</firmware-version>
+		<current-date>2018-09-14</current-date>
+	</export-details>
+	<configuration domain="itau">
+		<CryptoSSKey name="api.gateway.client.1.secret">
+			<mAdminState>enabled</mAdminState>
+			<Filename>cert:///api.gateway.client.1.secret.txt</Filename>
+		</CryptoSSKey>
+		<OAuthSupportedClient name="api.gateway.client.1">
+			<mAdminState>enabled</mAdminState>
+			<Customized>off</Customized>
+			<OAuthRole>
+				<azsvr>on</azsvr>
+				<rssvr>on</rssvr>
+			</OAuthRole>
+			<AZGrant>
+				<code>off</code>
+				<implicit>off</implicit>
+				<password>off</password>
+				<client>on</client>
+				<jwt>off</jwt>
+				<novalidate>off</novalidate>
+				<oidc>off</oidc>
+				<saml20bearer>off</saml20bearer>
+			</AZGrant>
+			<ClientType>confidential</ClientType>
+			<CheckClientCredential>off</CheckClientCredential>
+			<UseValidationUrl>off</UseValidationUrl>
+			<ClientAuthenMethod>secret</ClientAuthenMethod>
+			<GenerateClientSecret>off</GenerateClientSecret>
+			<ClientSecret>691620f630c44ad19263d3e4f9f88217</ClientSecret>
+			<Caching>replay</Caching>
+			<ValidationFeatures>
+				<noauthen>off</noauthen>
+				<introspect>off</introspect>
+			</ValidationFeatures>
+			<CustomScopeCheck>off</CustomScopeCheck>
+			<Scope>^(.*)$</Scope>
+			<TokenSecret class="CryptoSSKey">api.gateway.client.1.secret</TokenSecret>
+			<LocalAZPageUrl>store:///OAuth-Generate-HTML.xsl</LocalAZPageUrl>
+			<DPStateLifeTime>300</DPStateLifeTime>
+			<AUCodeLifeTime>300</AUCodeLifeTime>
+			<AccessTokenLifeTime>3600</AccessTokenLifeTime>
+			<RefreshTokenAllowed>0</RefreshTokenAllowed>
+			<RefreshTokenLifeTime>5400</RefreshTokenLifeTime>
+			<CustomResourceOwner>off</CustomResourceOwner>
+			<RSSetHeader>
+				<owner>off</owner>
+				<clientid>off</clientid>
+				<scope>off</scope>
+				<miscinfo>off</miscinfo>
+			</RSSetHeader>
+			<ValidationURLSSLClientType>proxy</ValidationURLSSLClientType>
+			<OAuthFeatures>
+				<verboseerror>off</verboseerror>
+			</OAuthFeatures>
+		</OAuthSupportedClient>
+		<OAuthSupportedClientGroup name="api.gateway.client.group">
+			<mAdminState>enabled</mAdminState>
+			<Customized>off</Customized>
+			<CustomizedType>custom</CustomizedType>
+			<OAuthRole>
+				<azsvr>on</azsvr>
+				<rssvr>on</rssvr>
+			</OAuthRole>
+			<Client class="OAuthSupportedClient">api.gateway.client.1</Client>
+		</OAuthSupportedClientGroup>
+	</configuration>
+	<files>
+		<file name="cert:///api-gateway-client-1-secret.txt" src="cert/api-gateway-client-1-secret.txt" location="cert" />
+	</files>
+</datapower-configuration>

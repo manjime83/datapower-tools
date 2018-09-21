@@ -1,0 +1,17 @@
+<datapower-configuration version="3">
+	<export-details>
+		<user>admin</user>
+		<domain>itau</domain>
+		<device-name>idg752</device-name>
+		<firmware-version>IDG.7.5.2.16</firmware-version>
+		<current-date>2018-09-14</current-date>
+	</export-details>
+	<configuration domain="itau">
+		<StylePolicy name="api.gateway">
+			<mAdminState>enabled</mAdminState>
+			<DefStylesheetForSoap>store:///filter-reject-all.xsl</DefStylesheetForSoap>
+			<DefStylesheetForXsl>store:///identity.xsl</DefStylesheetForXsl>
+			<DefXQueryForJSON>store:///reject-all-json.xq</DefXQueryForJSON>
+		</StylePolicy>
+	</configuration>
+</datapower-configuration>
