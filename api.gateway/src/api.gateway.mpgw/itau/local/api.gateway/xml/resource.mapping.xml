@@ -1,0 +1,21 @@
+<aaa:AAAInfo xmlns:dpfunc="http://www.datapower.com/extensions/functions" xmlns:aaa="http://www.datapower.com/AAAInfo">
+	<aaa:FormatVersion>1</aaa:FormatVersion>
+	<aaa:Filename>local:///api.gateway/xml/resource.mapping.xml</aaa:Filename>
+	<aaa:Summary />
+
+	<aaa:MapResource>
+		<aaa:OriginalURL>^(/ITAU/TM/Corresponsales/.*)</aaa:OriginalURL>
+		<aaa:OutputResource>cnbrecaudos</aaa:OutputResource>
+	</aaa:MapResource>
+
+	<aaa:MapResource>
+		<aaa:OriginalURL>^(/resource.*)</aaa:OriginalURL>
+		<aaa:OutputResource>cnbrecaudos</aaa:OutputResource>
+	</aaa:MapResource>
+
+	<aaa:MapResource>
+		<aaa:OriginalURL>^(/resource.*)$</aaa:OriginalURL>
+		<aaa:OutputResource>app2</aaa:OutputResource>
+	</aaa:MapResource>
+
+</aaa:AAAInfo>

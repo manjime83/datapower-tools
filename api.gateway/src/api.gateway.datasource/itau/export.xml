@@ -1,0 +1,35 @@
+<datapower-configuration version="3">
+	<export-details>
+		<user>admin</user>
+		<domain>itau</domain>
+		<device-name>idg752</device-name>
+		<firmware-version>IDG.7.5.2.17</firmware-version>
+		<current-date>2018-09-14</current-date>
+	</export-details>
+	<configuration domain="itau">
+		<PasswordAlias name="api.gateway">
+			<mAdminState>enabled</mAdminState>
+			<EncryptedPassword>0TSqgWZW5E5OuvMCOopLiw==</EncryptedPassword>
+			<DomainSettings class="DomainSettings">default</DomainSettings>
+		</PasswordAlias>
+		<SQLDataSource name="api.gateway">
+			<mAdminState>enabled</mAdminState>
+			<Database>Oracle</Database>
+			<Username>ITAU</Username>
+			<Password />
+			<PasswordAlias class="PasswordAlias">api.gateway</PasswordAlias>
+			<DataSourceID>XE</DataSourceID>
+			<DataSourceHost>dbserver</DataSourceHost>
+			<DataSourceHostResolved>dbserver</DataSourceHostResolved>
+			<DataSourcePort>1521</DataSourcePort>
+			<LimitReturnedData>off</LimitReturnedData>
+			<LimitReturnedDataSize>128</LimitReturnedDataSize>
+			<MaxConnection>10</MaxConnection>
+			<OracleDataSourceType>SID</OracleDataSourceType>
+			<ConnectTimeout>15</ConnectTimeout>
+			<QueryTimeout>0</QueryTimeout>
+			<IdleTimeout>180</IdleTimeout>
+			<LoadBalancing>off</LoadBalancing>
+		</SQLDataSource>
+	</configuration>
+</datapower-configuration>

@@ -1,0 +1,1240 @@
+<datapower-configuration version="3">
+	<export-details>
+		<user>admin</user>
+		<domain>itau</domain>
+		<device-name>idg752</device-name>
+		<firmware-version>IDG.7.5.2.17</firmware-version>
+		<current-date>2018-09-14</current-date>
+	</export-details>
+	<configuration domain="itau">
+		<AAAPolicy name="api.gateway.az">
+			<mAdminState>enabled</mAdminState>
+			<ExtractIdentity>
+				<EIBitmap>
+					<http-basic-auth>off</http-basic-auth>
+					<wssec-username>off</wssec-username>
+					<wssec-derived-key>off</wssec-derived-key>
+					<wssec-binary-token>off</wssec-binary-token>
+					<ws-secure-conversation>off</ws-secure-conversation>
+					<ws-trust>off</ws-trust>
+					<kerberos>off</kerberos>
+					<kerberos-spnego>off</kerberos-spnego>
+					<client-ssl>off</client-ssl>
+					<saml-attr-name>off</saml-attr-name>
+					<saml-authen-name>off</saml-authen-name>
+					<saml-artifact>off</saml-artifact>
+					<client-ip-address>off</client-ip-address>
+					<signer-dn>off</signer-dn>
+					<token>off</token>
+					<cookie-token>off</cookie-token>
+					<ltpa>off</ltpa>
+					<metadata>off</metadata>
+					<jwt>off</jwt>
+					<custom>off</custom>
+					<html-forms-auth>off</html-forms-auth>
+					<social-login>off</social-login>
+					<oauth>on</oauth>
+				</EIBitmap>
+				<EICustomURL />
+				<EIXPath />
+				<EISignerDNValcred />
+				<EICookieName />
+				<EIBasicAuthRealm>login</EIBasicAuthRealm>
+				<EIUseWSSec>off</EIUseWSSec>
+				<EIMetadata />
+				<EIAllowRemoteTokenReference>off</EIAllowRemoteTokenReference>
+				<EIRemoteTokenProcessService />
+				<EIPasswordRetrievalMechanism>xmlfile</EIPasswordRetrievalMechanism>
+				<EIPasswordRetrievalCustomURL />
+				<EIPasswordRetrievalAAAInfoURL />
+				<EISSLProxyProfile />
+				<EIFormsLoginPolicy />
+				<EIOAuthClientGroup class="OAuthSupportedClientGroup">api.gateway.client.group</EIOAuthClientGroup>
+				<EISSLClientConfigType>proxy</EISSLClientConfigType>
+				<EISSLClientProfile />
+				<EIJWTValidator />
+				<EISocialLoginPolicy />
+				<EISAMLResponseValCred />
+			</ExtractIdentity>
+			<Authenticate>
+				<AUMethod>token</AUMethod>
+				<AUCustomURL />
+				<AUMapURL />
+				<AUHost />
+				<AUPort />
+				<AUSSLValcred />
+				<AUCacheAllow>disabled</AUCacheAllow>
+				<AUCacheTTL>3</AUCacheTTL>
+				<AUKerberosPrincipal />
+				<AUKerberosPassword />
+				<AUClearTrustServerURL />
+				<AUClearTrustApplication />
+				<AUSAMLArtifactResponder />
+				<AUKerberosVerifySignature>on</AUKerberosVerifySignature>
+				<AUNetegrityBaseURI />
+				<AUSAMLAuthQueryServer />
+				<AUSAMLVersion>1.1</AUSAMLVersion>
+				<AULDAPPrefix>cn=</AULDAPPrefix>
+				<AULDAPSuffix />
+				<AULDAPLoadBalanceGroup />
+				<AUKerberosKeytab />
+				<AUWSTrustURL />
+				<AUSAML2Issuer />
+				<AUSignerValcred />
+				<AUSignedXPath />
+				<AUSSLProxyProfile />
+				<AUNetegrityConfig />
+				<AULDAPBindDN />
+				<AULDAPBindPassword />
+				<AULDAPSearchAttribute>userPassword</AULDAPSearchAttribute>
+				<AULTPATokenVersionsBitmap>
+					<LTPA>off</LTPA>
+					<LTPA2>on</LTPA2>
+					<LTPADomino>off</LTPADomino>
+				</AULTPATokenVersionsBitmap>
+				<AULTPAKeyFile />
+				<AULTPAKeyFilePassword />
+				<AULTPAStashFile />
+				<AUBinaryTokenX509Valcred />
+				<AUTAMServer />
+				<AUAllowRemoteTokenReference>off</AUAllowRemoteTokenReference>
+				<AURemoteTokenProcessService />
+				<AUWSTrustVersion>1.2</AUWSTrustVersion>
+				<AULDAPSearchForDN>off</AULDAPSearchForDN>
+				<AULDAPSearchParameters />
+				<AUWSTrustRequireClientEntropy>off</AUWSTrustRequireClientEntropy>
+				<AUWSTrustClientEntropySize>32</AUWSTrustClientEntropySize>
+				<AUWSTrustRequireServerEntropy>off</AUWSTrustRequireServerEntropy>
+				<AUWSTrustServerEntropySize>32</AUWSTrustServerEntropySize>
+				<AUWSTrustRequireRSTC>off</AUWSTrustRequireRSTC>
+				<AUWSTrustRequireAppliesToHeader>off</AUWSTrustRequireAppliesToHeader>
+				<AUWSTrustAppliesToHeader />
+				<AUWSTrustEncryptionCertificate />
+				<AUZOSNSSConfig />
+				<AULDAPAttributes />
+				<AUSkewTime>0</AUSkewTime>
+				<AUTAMPACReturn>off</AUTAMPACReturn>
+				<AULDAPReadTimeout>60</AULDAPReadTimeout>
+				<AUSSLClientConfigType>proxy</AUSSLClientConfigType>
+				<AUSSLClientProfile />
+				<AULDAPBindPasswordAlias />
+				<AULTPAKeyFilePasswordAlias />
+				<AUSMRequestType>webagent</AUSMRequestType>
+				<AUSMCookieFlow>
+					<frontend>off</frontend>
+					<backend>off</backend>
+				</AUSMCookieFlow>
+				<AUSMHeaderFlow>
+					<frontend>off</frontend>
+					<backend>off</backend>
+				</AUSMHeaderFlow>
+				<AUSMCookieAttributes />
+				<AUCacheControl>default</AUCacheControl>
+			</Authenticate>
+			<MapCredentials>
+				<MCMethod>none</MCMethod>
+				<MCCustomURL />
+				<MCMapURL />
+				<MCMapXPath />
+				<MCTFIMEndpoint />
+			</MapCredentials>
+			<ExtractResource>
+				<ERBitmap>
+					<target-url>off</target-url>
+					<original-url>off</original-url>
+					<request-uri>off</request-uri>
+					<request-opname>off</request-opname>
+					<http-method>off</http-method>
+					<XPath>off</XPath>
+					<metadata>on</metadata>
+				</ERBitmap>
+				<ERXPath />
+				<ERMetadata class="ProcessingMetadata">oauth-scope-metadata</ERMetadata>
+			</ExtractResource>
+			<MapResource>
+				<MRMethod>none</MRMethod>
+				<MRCustomURL />
+				<MRMapURL />
+				<MRMapXPath />
+				<MRTAMMap>WebSEAL</MRTAMMap>
+				<MRTAMInstancePrefix />
+				<MRTAMWebSEALDynURLFile />
+			</MapResource>
+			<Authorize>
+				<AZMethod>anyauthenticated</AZMethod>
+				<AZCustomURL />
+				<AZMapURL />
+				<AZHost />
+				<AZPort />
+				<AZLDAPGroup />
+				<AZValcred />
+				<AZSAMLURL />
+				<AZSAMLType>any</AZSAMLType>
+				<AZSAMLXPath />
+				<AZSAMLNameQualifier />
+				<AZCacheAllow>disabled</AZCacheAllow>
+				<AZCacheTTL>3</AZCacheTTL>
+				<AZNetegrityBaseURI />
+				<AZNetegrityOpNameExtension />
+				<AZClearTrustServerURL />
+				<AZSAMLVersion>1.1</AZSAMLVersion>
+				<AZLDAPLoadBalanceGroup />
+				<AZLDAPBindDN />
+				<AZLDAPBindPassword />
+				<AZLDAPGroupAttribute>member</AZLDAPGroupAttribute>
+				<AZSSLProxyProfile />
+				<AZNetegrityConfig />
+				<AZLDAPSearchScope>subtree</AZLDAPSearchScope>
+				<AZLDAPSearchFilter>(objectClass=*)</AZLDAPSearchFilter>
+				<AZXACMLVersion>2.0</AZXACMLVersion>
+				<AZXACMLPEPType>deny-biased</AZXACMLPEPType>
+				<AZXACMLUseOnBoxPDP>on</AZXACMLUseOnBoxPDP>
+				<AZXACMLPDP />
+				<AZXACMLExternalPDPUrl />
+				<AZXACMLBindingMethod>custom</AZXACMLBindingMethod>
+				<AZXACMLBindingObject />
+				<AZXACMLBindingXSL />
+				<AZXACMLCustomObligation />
+				<AZXACMLUseSAML2>off</AZXACMLUseSAML2>
+				<AZTAMServer />
+				<AZTAMDefaultAction>T</AZTAMDefaultAction>
+				<AZTAMActionResourceMap />
+				<AZXACMLUseSOAP>off</AZXACMLUseSOAP>
+				<AZZOSNSSConfig />
+				<AZSAFDefaultAction>r</AZSAFDefaultAction>
+				<AZLDAPAttributes />
+				<AZSkewTime>0</AZSkewTime>
+				<AZOAuthValidationEndpointType>tfim</AZOAuthValidationEndpointType>
+				<AZTFIMEndpoint />
+				<AZOAuthEnforceScope>off</AZOAuthEnforceScope>
+				<AZOAuthExportHeaders>on</AZOAuthExportHeaders>
+				<AZTAMPACReturn>off</AZTAMPACReturn>
+				<AZTAMPACUse>off</AZTAMPACUse>
+				<AZLDAPReadTimeout>60</AZLDAPReadTimeout>
+				<AZSSLClientConfigType>proxy</AZSSLClientConfigType>
+				<AZSSLClientProfile />
+				<AZLDAPBindPasswordAlias />
+				<AZSMRequestType>webagent</AZSMRequestType>
+				<AZSMCookieFlow>
+					<frontend>off</frontend>
+					<backend>off</backend>
+				</AZSMCookieFlow>
+				<AZSMHeaderFlow>
+					<frontend>off</frontend>
+					<backend>off</backend>
+				</AZSMHeaderFlow>
+				<AZSMCookieAttributes />
+				<AZCacheControl>default</AZCacheControl>
+			</Authorize>
+			<PostProcess>
+				<PPEnabled>off</PPEnabled>
+				<PPCustomURL />
+				<PPSAMLAuthAssertion>off</PPSAMLAuthAssertion>
+				<PPSAMLServerName>XS</PPSAMLServerName>
+				<PPSAMLNameQualifier />
+				<PPKerberosTicket>off</PPKerberosTicket>
+				<PPKerberosClient />
+				<PPKerberosClientPassword />
+				<PPKerberosServer />
+				<PPWSTrust>off</PPWSTrust>
+				<PPTimestamp>on</PPTimestamp>
+				<PPTimestampExpiry>0</PPTimestampExpiry>
+				<PPAllowRenewal>off</PPAllowRenewal>
+				<PPSAMLVersion>2.0</PPSAMLVersion>
+				<PPSAMLSendSLO>off</PPSAMLSendSLO>
+				<PPSAMLSLOEndpoint />
+				<PPSSLProxyProfile />
+				<PPWSUsernameToken>off</PPWSUsernameToken>
+				<PPWSUsernameTokenPasswordType>Digest</PPWSUsernameTokenPasswordType>
+				<PPSAMLValidity>0</PPSAMLValidity>
+				<PPSAMLSkew>0</PPSAMLSkew>
+				<PPWSUsernameTokenIncludePwd>on</PPWSUsernameTokenIncludePwd>
+				<PPLTPA>off</PPLTPA>
+				<PPLTPAVersion>LTPA2</PPLTPAVersion>
+				<PPLTPAExpiry>600</PPLTPAExpiry>
+				<PPLTPAKeyFile />
+				<PPLTPAKeyFilePassword />
+				<PPLTPAStashFile />
+				<PPKerberosSPNEGOToken>off</PPKerberosSPNEGOToken>
+				<PPKerberosBstValueType>http://docs.oasis-open.org/wss/oasis-wss-kerberos-token-profile-1.1#GSS_Kerberosv5_AP_REQ</PPKerberosBstValueType>
+				<PPSAMLUseWSSec>off</PPSAMLUseWSSec>
+				<PPKerberosClientKeytab />
+				<PPUseWSSec>off</PPUseWSSec>
+				<PPActorRoleID />
+				<PPTFIMTokenMapping>off</PPTFIMTokenMapping>
+				<PPTFIMEndpoint />
+				<PPWSDerivedKeyUsernameToken>off</PPWSDerivedKeyUsernameToken>
+				<PPWSDerivedKeyUsernameTokenIterations>1000</PPWSDerivedKeyUsernameTokenIterations>
+				<PPWSUsernameTokenAllowReplacement>off</PPWSUsernameTokenAllowReplacement>
+				<PPTFIMReplaceMethod>all</PPTFIMReplaceMethod>
+				<PPTFIMRetrieveMode>CallTFIM</PPTFIMRetrieveMode>
+				<PPHMACSigningAlg>hmac-sha1</PPHMACSigningAlg>
+				<PPSigningHashAlg>sha1</PPSigningHashAlg>
+				<PPWSTrustHeader>off</PPWSTrustHeader>
+				<PPWSSCKeySource>random</PPWSSCKeySource>
+				<PPSharedSecretKey />
+				<PPWSTrustRenewalWait>0</PPWSTrustRenewalWait>
+				<PPWSTrustNewInstance>off</PPWSTrustNewInstance>
+				<PPWSTrustNewKey>off</PPWSTrustNewKey>
+				<PPWSTrustNeverExpire>off</PPWSTrustNeverExpire>
+				<PPICRXToken>off</PPICRXToken>
+				<PPICRXUserRealm />
+				<PPSAMLIdentityProvider>off</PPSAMLIdentityProvider>
+				<PPSAMLProtocol>assertion</PPSAMLProtocol>
+				<PPSAMLResponseDestination />
+				<PPResultWrapup>wssec-replace</PPResultWrapup>
+				<PPSAMLAssertionType>
+					<authentication>on</authentication>
+					<attribute>on</attribute>
+					<authorization>off</authorization>
+				</PPSAMLAssertionType>
+				<PPSAMLSubjectConfirm>bearer</PPSAMLSubjectConfirm>
+				<PPSAMLNameID>on</PPSAMLNameID>
+				<PPSAMLNameIDFormat />
+				<PPSAMLRecipient />
+				<PPSAMLAudience />
+				<PPSAMLOmitNotBefore>off</PPSAMLOmitNotBefore>
+				<PPOneTimeUse>off</PPOneTimeUse>
+				<PPSAMLProxy>off</PPSAMLProxy>
+				<PPSAMLProxyAudience />
+				<PPSAMLProxyCount>0</PPSAMLProxyCount>
+				<PPSAMLAuthzAction>AllHTTP</PPSAMLAuthzAction>
+				<PPSAMLAttributes />
+				<PPLTPAInsertCookie>on</PPLTPAInsertCookie>
+				<PPTAMPACPropagate>off</PPTAMPACPropagate>
+				<PPTAMHeader>iv-creds</PPTAMHeader>
+				<PPTAMHeaderSize>0</PPTAMHeaderSize>
+				<PPKerberosUseS4U2Proxy>off</PPKerberosUseS4U2Proxy>
+				<PPCookieAttributes />
+				<PPKerberosUseS4U2SelfAndS4U2Proxy>off</PPKerberosUseS4U2SelfAndS4U2Proxy>
+				<PPKerberosClientSource>mc-output</PPKerberosClientSource>
+				<PPKerberosSelf />
+				<PPKerberosSelfKeytab />
+				<PPKerberosClientCustomURL />
+				<PPKerberosClientCtxVar />
+				<PPKerberosServerSource>as-is-string</PPKerberosServerSource>
+				<PPKerberosServerCustomURL />
+				<PPKerberosServerCtxVar />
+				<PPSSLClientConfigType>proxy</PPSSLClientConfigType>
+				<PPSSLClientProfile />
+				<PPLTPAKeyFilePasswordAlias />
+				<PPJWT>off</PPJWT>
+				<PPJWTGenerator />
+			</PostProcess>
+			<SAMLSigningHashAlg>sha1</SAMLSigningHashAlg>
+			<SAMLSigningAlg>rsa</SAMLSigningAlg>
+			<LDAPsuffix />
+			<LogAllowed>on</LogAllowed>
+			<LogAllowedLevel>info</LogAllowedLevel>
+			<LogRejected>on</LogRejected>
+			<LogRejectedLevel>warn</LogRejectedLevel>
+			<PingIdentityCompatibility>off</PingIdentityCompatibility>
+			<DoSValve>3</DoSValve>
+			<LDAPVersion>v2</LDAPVersion>
+			<EnforceSOAPActor>on</EnforceSOAPActor>
+			<WSSecActorRoleID />
+			<DynConfig>none</DynConfig>
+		</AAAPolicy>
+		<AAAPolicy name="api.gateway.ep">
+			<mAdminState>enabled</mAdminState>
+			<ExtractIdentity>
+				<EIBitmap>
+					<http-basic-auth>off</http-basic-auth>
+					<wssec-username>off</wssec-username>
+					<wssec-derived-key>off</wssec-derived-key>
+					<wssec-binary-token>off</wssec-binary-token>
+					<ws-secure-conversation>off</ws-secure-conversation>
+					<ws-trust>off</ws-trust>
+					<kerberos>off</kerberos>
+					<kerberos-spnego>off</kerberos-spnego>
+					<client-ssl>off</client-ssl>
+					<saml-attr-name>off</saml-attr-name>
+					<saml-authen-name>off</saml-authen-name>
+					<saml-artifact>off</saml-artifact>
+					<client-ip-address>off</client-ip-address>
+					<signer-dn>off</signer-dn>
+					<token>off</token>
+					<cookie-token>off</cookie-token>
+					<ltpa>off</ltpa>
+					<metadata>off</metadata>
+					<jwt>off</jwt>
+					<custom>off</custom>
+					<html-forms-auth>off</html-forms-auth>
+					<social-login>off</social-login>
+					<oauth>on</oauth>
+				</EIBitmap>
+				<EICustomURL />
+				<EIXPath />
+				<EISignerDNValcred />
+				<EICookieName />
+				<EIBasicAuthRealm>login</EIBasicAuthRealm>
+				<EIUseWSSec>off</EIUseWSSec>
+				<EIMetadata />
+				<EIAllowRemoteTokenReference>off</EIAllowRemoteTokenReference>
+				<EIRemoteTokenProcessService />
+				<EIPasswordRetrievalMechanism>xmlfile</EIPasswordRetrievalMechanism>
+				<EIPasswordRetrievalCustomURL />
+				<EIPasswordRetrievalAAAInfoURL />
+				<EISSLProxyProfile />
+				<EIFormsLoginPolicy />
+				<EIOAuthClientGroup class="OAuthSupportedClientGroup">api.gateway.client.group</EIOAuthClientGroup>
+				<EISSLClientConfigType>proxy</EISSLClientConfigType>
+				<EISSLClientProfile />
+				<EIJWTValidator />
+				<EISocialLoginPolicy />
+				<EISAMLResponseValCred />
+			</ExtractIdentity>
+			<Authenticate>
+				<AUMethod>token</AUMethod>
+				<AUCustomURL />
+				<AUMapURL />
+				<AUHost />
+				<AUPort />
+				<AUSSLValcred />
+				<AUCacheAllow>disabled</AUCacheAllow>
+				<AUCacheTTL>3</AUCacheTTL>
+				<AUKerberosPrincipal />
+				<AUKerberosPassword />
+				<AUClearTrustServerURL />
+				<AUClearTrustApplication />
+				<AUSAMLArtifactResponder />
+				<AUKerberosVerifySignature>on</AUKerberosVerifySignature>
+				<AUNetegrityBaseURI />
+				<AUSAMLAuthQueryServer />
+				<AUSAMLVersion>1.1</AUSAMLVersion>
+				<AULDAPPrefix>cn=</AULDAPPrefix>
+				<AULDAPSuffix />
+				<AULDAPLoadBalanceGroup />
+				<AUKerberosKeytab />
+				<AUWSTrustURL />
+				<AUSAML2Issuer />
+				<AUSignerValcred />
+				<AUSignedXPath />
+				<AUSSLProxyProfile />
+				<AUNetegrityConfig />
+				<AULDAPBindDN />
+				<AULDAPBindPassword />
+				<AULDAPSearchAttribute>userPassword</AULDAPSearchAttribute>
+				<AULTPATokenVersionsBitmap>
+					<LTPA>off</LTPA>
+					<LTPA2>on</LTPA2>
+					<LTPADomino>off</LTPADomino>
+				</AULTPATokenVersionsBitmap>
+				<AULTPAKeyFile />
+				<AULTPAKeyFilePassword />
+				<AULTPAStashFile />
+				<AUBinaryTokenX509Valcred />
+				<AUTAMServer />
+				<AUAllowRemoteTokenReference>off</AUAllowRemoteTokenReference>
+				<AURemoteTokenProcessService />
+				<AUWSTrustVersion>1.2</AUWSTrustVersion>
+				<AULDAPSearchForDN>off</AULDAPSearchForDN>
+				<AULDAPSearchParameters />
+				<AUWSTrustRequireClientEntropy>off</AUWSTrustRequireClientEntropy>
+				<AUWSTrustClientEntropySize>32</AUWSTrustClientEntropySize>
+				<AUWSTrustRequireServerEntropy>off</AUWSTrustRequireServerEntropy>
+				<AUWSTrustServerEntropySize>32</AUWSTrustServerEntropySize>
+				<AUWSTrustRequireRSTC>off</AUWSTrustRequireRSTC>
+				<AUWSTrustRequireAppliesToHeader>off</AUWSTrustRequireAppliesToHeader>
+				<AUWSTrustAppliesToHeader />
+				<AUWSTrustEncryptionCertificate />
+				<AUZOSNSSConfig />
+				<AULDAPAttributes />
+				<AUSkewTime>0</AUSkewTime>
+				<AUTAMPACReturn>off</AUTAMPACReturn>
+				<AULDAPReadTimeout>60</AULDAPReadTimeout>
+				<AUSSLClientConfigType>proxy</AUSSLClientConfigType>
+				<AUSSLClientProfile />
+				<AULDAPBindPasswordAlias />
+				<AULTPAKeyFilePasswordAlias />
+				<AUSMRequestType>webagent</AUSMRequestType>
+				<AUSMCookieFlow>
+					<frontend>off</frontend>
+					<backend>off</backend>
+				</AUSMCookieFlow>
+				<AUSMHeaderFlow>
+					<frontend>off</frontend>
+					<backend>off</backend>
+				</AUSMHeaderFlow>
+				<AUSMCookieAttributes />
+				<AUCacheControl>default</AUCacheControl>
+			</Authenticate>
+			<MapCredentials>
+				<MCMethod>none</MCMethod>
+				<MCCustomURL />
+				<MCMapURL />
+				<MCMapXPath />
+				<MCTFIMEndpoint />
+			</MapCredentials>
+			<ExtractResource>
+				<ERBitmap>
+					<target-url>off</target-url>
+					<original-url>on</original-url>
+					<request-uri>off</request-uri>
+					<request-opname>off</request-opname>
+					<http-method>off</http-method>
+					<XPath>off</XPath>
+					<metadata>on</metadata>
+				</ERBitmap>
+				<ERXPath />
+				<ERMetadata class="ProcessingMetadata">oauth-scope-metadata</ERMetadata>
+			</ExtractResource>
+			<MapResource>
+				<MRMethod>xmlfile</MRMethod>
+				<MRCustomURL />
+				<MRMapURL>local:///api.gateway/xml/resource.mapping.xml</MRMapURL>
+				<MRMapXPath />
+				<MRTAMMap>WebSEAL</MRTAMMap>
+				<MRTAMInstancePrefix />
+				<MRTAMWebSEALDynURLFile />
+			</MapResource>
+			<Authorize>
+				<AZMethod>anyauthenticated</AZMethod>
+				<AZCustomURL />
+				<AZMapURL />
+				<AZHost />
+				<AZPort />
+				<AZLDAPGroup />
+				<AZValcred />
+				<AZSAMLURL />
+				<AZSAMLType>any</AZSAMLType>
+				<AZSAMLXPath />
+				<AZSAMLNameQualifier />
+				<AZCacheAllow>disabled</AZCacheAllow>
+				<AZCacheTTL>3</AZCacheTTL>
+				<AZNetegrityBaseURI />
+				<AZNetegrityOpNameExtension />
+				<AZClearTrustServerURL />
+				<AZSAMLVersion>1.1</AZSAMLVersion>
+				<AZLDAPLoadBalanceGroup />
+				<AZLDAPBindDN />
+				<AZLDAPBindPassword />
+				<AZLDAPGroupAttribute>member</AZLDAPGroupAttribute>
+				<AZSSLProxyProfile />
+				<AZNetegrityConfig />
+				<AZLDAPSearchScope>subtree</AZLDAPSearchScope>
+				<AZLDAPSearchFilter>(objectClass=*)</AZLDAPSearchFilter>
+				<AZXACMLVersion>2.0</AZXACMLVersion>
+				<AZXACMLPEPType>deny-biased</AZXACMLPEPType>
+				<AZXACMLUseOnBoxPDP>on</AZXACMLUseOnBoxPDP>
+				<AZXACMLPDP />
+				<AZXACMLExternalPDPUrl />
+				<AZXACMLBindingMethod>custom</AZXACMLBindingMethod>
+				<AZXACMLBindingObject />
+				<AZXACMLBindingXSL />
+				<AZXACMLCustomObligation />
+				<AZXACMLUseSAML2>off</AZXACMLUseSAML2>
+				<AZTAMServer />
+				<AZTAMDefaultAction>T</AZTAMDefaultAction>
+				<AZTAMActionResourceMap />
+				<AZXACMLUseSOAP>off</AZXACMLUseSOAP>
+				<AZZOSNSSConfig />
+				<AZSAFDefaultAction>r</AZSAFDefaultAction>
+				<AZLDAPAttributes />
+				<AZSkewTime>0</AZSkewTime>
+				<AZOAuthValidationEndpointType>tfim</AZOAuthValidationEndpointType>
+				<AZTFIMEndpoint />
+				<AZOAuthEnforceScope>off</AZOAuthEnforceScope>
+				<AZOAuthExportHeaders>on</AZOAuthExportHeaders>
+				<AZTAMPACReturn>off</AZTAMPACReturn>
+				<AZTAMPACUse>off</AZTAMPACUse>
+				<AZLDAPReadTimeout>60</AZLDAPReadTimeout>
+				<AZSSLClientConfigType>proxy</AZSSLClientConfigType>
+				<AZSSLClientProfile />
+				<AZLDAPBindPasswordAlias />
+				<AZSMRequestType>webagent</AZSMRequestType>
+				<AZSMCookieFlow>
+					<frontend>off</frontend>
+					<backend>off</backend>
+				</AZSMCookieFlow>
+				<AZSMHeaderFlow>
+					<frontend>off</frontend>
+					<backend>off</backend>
+				</AZSMHeaderFlow>
+				<AZSMCookieAttributes />
+				<AZCacheControl>default</AZCacheControl>
+			</Authorize>
+			<PostProcess>
+				<PPEnabled>off</PPEnabled>
+				<PPCustomURL />
+				<PPSAMLAuthAssertion>off</PPSAMLAuthAssertion>
+				<PPSAMLServerName>XS</PPSAMLServerName>
+				<PPSAMLNameQualifier />
+				<PPKerberosTicket>off</PPKerberosTicket>
+				<PPKerberosClient />
+				<PPKerberosClientPassword />
+				<PPKerberosServer />
+				<PPWSTrust>off</PPWSTrust>
+				<PPTimestamp>on</PPTimestamp>
+				<PPTimestampExpiry>0</PPTimestampExpiry>
+				<PPAllowRenewal>off</PPAllowRenewal>
+				<PPSAMLVersion>2.0</PPSAMLVersion>
+				<PPSAMLSendSLO>off</PPSAMLSendSLO>
+				<PPSAMLSLOEndpoint />
+				<PPSSLProxyProfile />
+				<PPWSUsernameToken>off</PPWSUsernameToken>
+				<PPWSUsernameTokenPasswordType>Digest</PPWSUsernameTokenPasswordType>
+				<PPSAMLValidity>0</PPSAMLValidity>
+				<PPSAMLSkew>0</PPSAMLSkew>
+				<PPWSUsernameTokenIncludePwd>on</PPWSUsernameTokenIncludePwd>
+				<PPLTPA>off</PPLTPA>
+				<PPLTPAVersion>LTPA2</PPLTPAVersion>
+				<PPLTPAExpiry>600</PPLTPAExpiry>
+				<PPLTPAKeyFile />
+				<PPLTPAKeyFilePassword />
+				<PPLTPAStashFile />
+				<PPKerberosSPNEGOToken>off</PPKerberosSPNEGOToken>
+				<PPKerberosBstValueType>http://docs.oasis-open.org/wss/oasis-wss-kerberos-token-profile-1.1#GSS_Kerberosv5_AP_REQ</PPKerberosBstValueType>
+				<PPSAMLUseWSSec>off</PPSAMLUseWSSec>
+				<PPKerberosClientKeytab />
+				<PPUseWSSec>off</PPUseWSSec>
+				<PPActorRoleID />
+				<PPTFIMTokenMapping>off</PPTFIMTokenMapping>
+				<PPTFIMEndpoint />
+				<PPWSDerivedKeyUsernameToken>off</PPWSDerivedKeyUsernameToken>
+				<PPWSDerivedKeyUsernameTokenIterations>1000</PPWSDerivedKeyUsernameTokenIterations>
+				<PPWSUsernameTokenAllowReplacement>off</PPWSUsernameTokenAllowReplacement>
+				<PPTFIMReplaceMethod>all</PPTFIMReplaceMethod>
+				<PPTFIMRetrieveMode>CallTFIM</PPTFIMRetrieveMode>
+				<PPHMACSigningAlg>hmac-sha1</PPHMACSigningAlg>
+				<PPSigningHashAlg>sha1</PPSigningHashAlg>
+				<PPWSTrustHeader>off</PPWSTrustHeader>
+				<PPWSSCKeySource>random</PPWSSCKeySource>
+				<PPSharedSecretKey />
+				<PPWSTrustRenewalWait>0</PPWSTrustRenewalWait>
+				<PPWSTrustNewInstance>off</PPWSTrustNewInstance>
+				<PPWSTrustNewKey>off</PPWSTrustNewKey>
+				<PPWSTrustNeverExpire>off</PPWSTrustNeverExpire>
+				<PPICRXToken>off</PPICRXToken>
+				<PPICRXUserRealm />
+				<PPSAMLIdentityProvider>off</PPSAMLIdentityProvider>
+				<PPSAMLProtocol>assertion</PPSAMLProtocol>
+				<PPSAMLResponseDestination />
+				<PPResultWrapup>wssec-replace</PPResultWrapup>
+				<PPSAMLAssertionType>
+					<authentication>on</authentication>
+					<attribute>on</attribute>
+					<authorization>off</authorization>
+				</PPSAMLAssertionType>
+				<PPSAMLSubjectConfirm>bearer</PPSAMLSubjectConfirm>
+				<PPSAMLNameID>on</PPSAMLNameID>
+				<PPSAMLNameIDFormat />
+				<PPSAMLRecipient />
+				<PPSAMLAudience />
+				<PPSAMLOmitNotBefore>off</PPSAMLOmitNotBefore>
+				<PPOneTimeUse>off</PPOneTimeUse>
+				<PPSAMLProxy>off</PPSAMLProxy>
+				<PPSAMLProxyAudience />
+				<PPSAMLProxyCount>0</PPSAMLProxyCount>
+				<PPSAMLAuthzAction>AllHTTP</PPSAMLAuthzAction>
+				<PPSAMLAttributes />
+				<PPLTPAInsertCookie>on</PPLTPAInsertCookie>
+				<PPTAMPACPropagate>off</PPTAMPACPropagate>
+				<PPTAMHeader>iv-creds</PPTAMHeader>
+				<PPTAMHeaderSize>0</PPTAMHeaderSize>
+				<PPKerberosUseS4U2Proxy>off</PPKerberosUseS4U2Proxy>
+				<PPCookieAttributes />
+				<PPKerberosUseS4U2SelfAndS4U2Proxy>off</PPKerberosUseS4U2SelfAndS4U2Proxy>
+				<PPKerberosClientSource>mc-output</PPKerberosClientSource>
+				<PPKerberosSelf />
+				<PPKerberosSelfKeytab />
+				<PPKerberosClientCustomURL />
+				<PPKerberosClientCtxVar />
+				<PPKerberosServerSource>as-is-string</PPKerberosServerSource>
+				<PPKerberosServerCustomURL />
+				<PPKerberosServerCtxVar />
+				<PPSSLClientConfigType>proxy</PPSSLClientConfigType>
+				<PPSSLClientProfile />
+				<PPLTPAKeyFilePasswordAlias />
+				<PPJWT>off</PPJWT>
+				<PPJWTGenerator />
+			</PostProcess>
+			<SAMLSigningHashAlg>sha1</SAMLSigningHashAlg>
+			<SAMLSigningAlg>rsa</SAMLSigningAlg>
+			<LDAPsuffix />
+			<LogAllowed>on</LogAllowed>
+			<LogAllowedLevel>info</LogAllowedLevel>
+			<LogRejected>on</LogRejected>
+			<LogRejectedLevel>warn</LogRejectedLevel>
+			<PingIdentityCompatibility>off</PingIdentityCompatibility>
+			<DoSValve>3</DoSValve>
+			<LDAPVersion>v2</LDAPVersion>
+			<EnforceSOAPActor>on</EnforceSOAPActor>
+			<WSSecActorRoleID />
+			<DynConfig>none</DynConfig>
+		</AAAPolicy>
+		<Matching name="api.gateway.oauth">
+			<mAdminState>enabled</mAdminState>
+			<MatchRules>
+				<Type>url</Type>
+				<HttpTag />
+				<HttpValue />
+				<Url>^(/oauth/.*)$</Url>
+				<ErrorCode />
+				<XPATHExpression />
+				<Method>default</Method>
+				<CustomMethod />
+			</MatchRules>
+			<MatchWithPCRE>on</MatchWithPCRE>
+			<CombineWithOr>off</CombineWithOr>
+		</Matching>
+		<StylePolicyAction name="api.gateway_rule_oauth_xformbin_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>xformbin</Type>
+			<Input>INPUT</Input>
+			<Transform>local:///api.gateway/xsl/oauth.az.audit.request.xsl</Transform>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<TxMode>dpa</TxMode>
+			<Output>NULL</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<OutputType>default</OutputType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="api.gateway_rule_oauth_convert-http_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>convert-http</Type>
+			<Input>INPUT</Input>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>PIPE</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="api.gateway_rule_oauth_aaa_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>aaa</Type>
+			<Input>PIPE</Input>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>AAA</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<AAA class="AAAPolicy">api.gateway.az</AAA>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="api.gateway_rule_oauth_xformbin_1">
+			<mAdminState>enabled</mAdminState>
+			<Type>xformbin</Type>
+			<Input>AAA</Input>
+			<Transform>local:///api.gateway/xsl/oauth.az.audit.response.xsl</Transform>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<TxMode>dpa</TxMode>
+			<Output>NULL</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<OutputType>default</OutputType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="api.gateway_rule_oauth_results_output_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>results</Type>
+			<Input>AAA</Input>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<OutputType>default</OutputType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyRule name="api.gateway_rule_oauth">
+			<mAdminState>enabled</mAdminState>
+			<Direction>request-rule</Direction>
+			<InputFormat>none</InputFormat>
+			<OutputFormat>none</OutputFormat>
+			<NonXMLProcessing>off</NonXMLProcessing>
+			<Unprocessed>off</Unprocessed>
+			<Actions class="StylePolicyAction">api.gateway_rule_oauth_xformbin_0</Actions>
+			<Actions class="StylePolicyAction">api.gateway_rule_oauth_convert-http_0</Actions>
+			<Actions class="StylePolicyAction">api.gateway_rule_oauth_aaa_0</Actions>
+			<Actions class="StylePolicyAction">api.gateway_rule_oauth_xformbin_1</Actions>
+			<Actions class="StylePolicyAction">api.gateway_rule_oauth_results_output_0</Actions>
+		</StylePolicyRule>
+		<Matching name="api.gateway.all">
+			<mAdminState>enabled</mAdminState>
+			<MatchRules>
+				<Type>url</Type>
+				<HttpTag />
+				<HttpValue />
+				<Url>^(.*)$</Url>
+				<ErrorCode />
+				<XPATHExpression />
+				<Method>default</Method>
+				<CustomMethod />
+			</MatchRules>
+			<MatchWithPCRE>on</MatchWithPCRE>
+			<CombineWithOr>off</CombineWithOr>
+		</Matching>
+		<StylePolicyAction name="api.gateway_rule_all_xformbin_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>xformbin</Type>
+			<Input>INPUT</Input>
+			<Transform>local:///api.gateway/xsl/oauth.ep.audit.prepare.xsl</Transform>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<TxMode>dpa</TxMode>
+			<Output>NULL</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<OutputType>default</OutputType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="api.gateway_rule_all_aaa_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>aaa</Type>
+			<Input>NULL</Input>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>NULL</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<AAA class="AAAPolicy">api.gateway.ep</AAA>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="api.gateway_rule_all_xform_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>xform</Type>
+			<Input>NULL</Input>
+			<Transform>local:///api.gateway/xsl/oauth.ep.audit.request.xsl</Transform>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>NULL</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<OutputType>default</OutputType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="api.gateway_rule_all_results_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>results</Type>
+			<Input>INPUT</Input>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<OutputType>default</OutputType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyRule name="api.gateway_rule_all">
+			<mAdminState>enabled</mAdminState>
+			<Direction>request-rule</Direction>
+			<InputFormat>none</InputFormat>
+			<OutputFormat>none</OutputFormat>
+			<NonXMLProcessing>off</NonXMLProcessing>
+			<Unprocessed>off</Unprocessed>
+			<Actions class="StylePolicyAction">api.gateway_rule_all_xformbin_0</Actions>
+			<Actions class="StylePolicyAction">api.gateway_rule_all_aaa_0</Actions>
+			<Actions class="StylePolicyAction">api.gateway_rule_all_xform_0</Actions>
+			<Actions class="StylePolicyAction">api.gateway_rule_all_results_0</Actions>
+		</StylePolicyRule>
+		<StylePolicyAction name="api.gateway_rule_reponse_xformbin_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>xformbin</Type>
+			<Input>INPUT</Input>
+			<Transform>local:///api.gateway/xsl/oauth.ep.audit.response.xsl</Transform>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<TxMode>dpa</TxMode>
+			<Output>NULL</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<OutputType>default</OutputType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="api.gateway_rule_reponse_results_output_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>results</Type>
+			<Input>INPUT</Input>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<OutputType>default</OutputType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyRule name="api.gateway_rule_reponse">
+			<mAdminState>enabled</mAdminState>
+			<Direction>response-rule</Direction>
+			<InputFormat>none</InputFormat>
+			<OutputFormat>none</OutputFormat>
+			<NonXMLProcessing>off</NonXMLProcessing>
+			<Unprocessed>off</Unprocessed>
+			<Actions class="StylePolicyAction">api.gateway_rule_reponse_xformbin_0</Actions>
+			<Actions class="StylePolicyAction">api.gateway_rule_reponse_results_output_0</Actions>
+		</StylePolicyRule>
+		<StylePolicyAction name="api.gateway_rule_error_gatewayscript_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>gatewayscript</Type>
+			<Input>INPUT</Input>
+			<TransformLanguage>none</TransformLanguage>
+			<GatewayScriptLocation>local:///api.gateway/gatewayscript/api.gateway.error.js</GatewayScriptLocation>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>ErrorOutput</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="api.gateway_rule_error_xformbin_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>xformbin</Type>
+			<Input>ErrorOutput</Input>
+			<Transform>local:///api.gateway/xsl/oauth.ep.audit.response.xsl</Transform>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<TxMode>dpa</TxMode>
+			<Output>NULL</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<OutputType>default</OutputType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="api.gateway_rule_error_results_output_0">
+			<mAdminState>enabled</mAdminState>
+			<Type>results</Type>
+			<Input>ErrorOutput</Input>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<OutputType>default</OutputType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyRule name="api.gateway_rule_error">
+			<mAdminState>enabled</mAdminState>
+			<Direction>error-rule</Direction>
+			<InputFormat>none</InputFormat>
+			<OutputFormat>none</OutputFormat>
+			<NonXMLProcessing>off</NonXMLProcessing>
+			<Unprocessed>off</Unprocessed>
+			<Actions class="StylePolicyAction">api.gateway_rule_error_gatewayscript_0</Actions>
+			<Actions class="StylePolicyAction">api.gateway_rule_error_xformbin_0</Actions>
+			<Actions class="StylePolicyAction">api.gateway_rule_error_results_output_0</Actions>
+		</StylePolicyRule>
+		<StylePolicy name="api.gateway">
+			<mAdminState>enabled</mAdminState>
+			<DefStylesheetForSoap>store:///filter-reject-all.xsl</DefStylesheetForSoap>
+			<DefStylesheetForXsl>store:///identity.xsl</DefStylesheetForXsl>
+			<DefXQueryForJSON>store:///reject-all-json.xq</DefXQueryForJSON>
+			<PolicyMaps>
+				<Match class="Matching">api.gateway.oauth</Match>
+				<Rule class="StylePolicyRule">api.gateway_rule_oauth</Rule>
+			</PolicyMaps>
+			<PolicyMaps>
+				<Match class="Matching">api.gateway.all</Match>
+				<Rule class="StylePolicyRule">api.gateway_rule_all</Rule>
+			</PolicyMaps>
+			<PolicyMaps>
+				<Match class="Matching">api.gateway.all</Match>
+				<Rule class="StylePolicyRule">api.gateway_rule_reponse</Rule>
+			</PolicyMaps>
+			<PolicyMaps>
+				<Match class="Matching">api.gateway.all</Match>
+				<Rule class="StylePolicyRule">api.gateway_rule_error</Rule>
+			</PolicyMaps>
+		</StylePolicy>
+		<PolicyAttachments name="api.gateway">
+			<mAdminState>enabled</mAdminState>
+			<EnforcementMode>enforce</EnforcementMode>
+			<PolicyReferences>on</PolicyReferences>
+			<SLAEnforcementMode>allow-if-no-sla</SLAEnforcementMode>
+		</PolicyAttachments>
+		<MultiProtocolGateway name="api.gateway">
+			<mAdminState>enabled</mAdminState>
+			<Priority>normal</Priority>
+			<FrontProtocol class="HTTPSSourceProtocolHandler">api.gateway.https</FrontProtocol>
+			<XMLManager class="XMLManager">default</XMLManager>
+			<SSLClientConfigType>client</SSLClientConfigType>
+			<DefaultParamNamespace>http://www.datapower.com/param/config</DefaultParamNamespace>
+			<QueryParamNamespace>http://www.datapower.com/param/query</QueryParamNamespace>
+			<BackendUrl>http://192.168.80.1:8080</BackendUrl>
+			<PropagateURI>on</PropagateURI>
+			<MonitorProcessingPolicy>terminate-at-first-throttle</MonitorProcessingPolicy>
+			<RequestAttachments>strip</RequestAttachments>
+			<ResponseAttachments>strip</ResponseAttachments>
+			<RequestAttachmentsFlowControl>off</RequestAttachmentsFlowControl>
+			<ResponseAttachmentsFlowControl>off</ResponseAttachmentsFlowControl>
+			<RootPartNotFirstAction>process-in-order</RootPartNotFirstAction>
+			<FrontAttachmentFormat>dynamic</FrontAttachmentFormat>
+			<BackAttachmentFormat>dynamic</BackAttachmentFormat>
+			<MIMEFrontHeaders>on</MIMEFrontHeaders>
+			<MIMEBackHeaders>on</MIMEBackHeaders>
+			<StreamOutputToBack>buffer-until-verification</StreamOutputToBack>
+			<StreamOutputToFront>buffer-until-verification</StreamOutputToFront>
+			<MaxMessageSize>0</MaxMessageSize>
+			<GatewayParserLimits>off</GatewayParserLimits>
+			<ParserLimitsElementDepth>512</ParserLimitsElementDepth>
+			<ParserLimitsAttributeCount>128</ParserLimitsAttributeCount>
+			<ParserLimitsMaxNodeSize>33554432</ParserLimitsMaxNodeSize>
+			<ParserLimitsForbidExternalReferences>on</ParserLimitsForbidExternalReferences>
+			<ParserLimitsExternalReferences>forbid</ParserLimitsExternalReferences>
+			<ParserLimitsMaxPrefixes>1024</ParserLimitsMaxPrefixes>
+			<ParserLimitsMaxNamespaces>1024</ParserLimitsMaxNamespaces>
+			<ParserLimitsMaxLocalNames>60000</ParserLimitsMaxLocalNames>
+			<ParserLimitsAttachmentByteCount>2000000000</ParserLimitsAttachmentByteCount>
+			<ParserLimitsAttachmentPackageByteCount>0</ParserLimitsAttachmentPackageByteCount>
+			<DebugMode persisted="false">off</DebugMode>
+			<DebuggerType>internal</DebuggerType>
+			<DebugHistory>25</DebugHistory>
+			<FlowControl>off</FlowControl>
+			<SOAPSchemaURL>store:///schemas/soap-envelope.xsd</SOAPSchemaURL>
+			<FrontTimeout>30</FrontTimeout>
+			<BackTimeout>30</BackTimeout>
+			<FrontPersistentTimeout>180</FrontPersistentTimeout>
+			<BackPersistentTimeout>180</BackPersistentTimeout>
+			<IncludeResponseTypeEncoding>on</IncludeResponseTypeEncoding>
+			<BackHTTPVersion>HTTP/1.1</BackHTTPVersion>
+			<PersistentConnections>on</PersistentConnections>
+			<LoopDetection>off</LoopDetection>
+			<DoHostRewriting>on</DoHostRewriting>
+			<DoChunkedUpload>off</DoChunkedUpload>
+			<ProcessHTTPErrors>on</ProcessHTTPErrors>
+			<HTTPClientIPLabel>X-Client-IP</HTTPClientIPLabel>
+			<HTTPLogCorIDLabel>X-Global-Transaction-ID</HTTPLogCorIDLabel>
+			<InOrderMode>
+				<Request>off</Request>
+				<Backend>off</Backend>
+				<Response>off</Response>
+			</InOrderMode>
+			<WSAMode>sync2sync</WSAMode>
+			<WSARequireAAA>on</WSARequireAAA>
+			<WSAStrip>on</WSAStrip>
+			<WSADefaultReplyTo>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</WSADefaultReplyTo>
+			<WSADefaultFaultTo>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</WSADefaultFaultTo>
+			<WSAForce>off</WSAForce>
+			<WSAGenStyle>sync</WSAGenStyle>
+			<WSAHTTPAsyncResponseCode>204</WSAHTTPAsyncResponseCode>
+			<WSATimeout>120</WSATimeout>
+			<WSRMEnabled>off</WSRMEnabled>
+			<WSRMSequenceExpiration>3600</WSRMSequenceExpiration>
+			<WSRMDestinationAcceptCreateSequence>on</WSRMDestinationAcceptCreateSequence>
+			<WSRMDestinationMaximumSequences>400</WSRMDestinationMaximumSequences>
+			<WSRMDestinationInOrder>off</WSRMDestinationInOrder>
+			<WSRMDestinationMaximumInOrderQueueLength>10</WSRMDestinationMaximumInOrderQueueLength>
+			<WSRMDestinationAcceptOffers>off</WSRMDestinationAcceptOffers>
+			<WSRMFrontForce>off</WSRMFrontForce>
+			<WSRMBackForce>off</WSRMBackForce>
+			<WSRMBackCreateSequence>off</WSRMBackCreateSequence>
+			<WSRMFrontCreateSequence>off</WSRMFrontCreateSequence>
+			<WSRMSourceMakeOffer>off</WSRMSourceMakeOffer>
+			<WSRMUsesSequenceSSL>off</WSRMUsesSequenceSSL>
+			<WSRMSourceMaximumSequences>400</WSRMSourceMaximumSequences>
+			<WSRMSourceRetransmissionInterval>10</WSRMSourceRetransmissionInterval>
+			<WSRMSourceExponentialBackoff>on</WSRMSourceExponentialBackoff>
+			<WSRMSourceMaximumRetransmissions>4</WSRMSourceMaximumRetransmissions>
+			<WSRMSourceMaximumQueueLength>30</WSRMSourceMaximumQueueLength>
+			<WSRMSourceRequestAckCount>1</WSRMSourceRequestAckCount>
+			<WSRMSourceInactivityClose>360</WSRMSourceInactivityClose>
+			<ForcePolicyExec>on</ForcePolicyExec>
+			<RewriteErrors>on</RewriteErrors>
+			<DelayErrors>on</DelayErrors>
+			<DelayErrorsDuration>1000</DelayErrorsDuration>
+			<RequestType>preprocessed</RequestType>
+			<ResponseType>preprocessed</ResponseType>
+			<FollowRedirects>on</FollowRedirects>
+			<RewriteLocationHeader>off</RewriteLocationHeader>
+			<StylePolicy class="StylePolicy">api.gateway</StylePolicy>
+			<Type>static-backend</Type>
+			<AllowCompression>off</AllowCompression>
+			<AllowCacheControlHeader>off</AllowCacheControlHeader>
+			<PolicyAttachments class="PolicyAttachments">api.gateway</PolicyAttachments>
+			<WSMAgentMonitor>off</WSMAgentMonitor>
+			<WSMAgentMonitorPCM>all-messages</WSMAgentMonitorPCM>
+			<ProxyHTTPResponse>off</ProxyHTTPResponse>
+			<TransactionTimeout>0</TransactionTimeout>
+		</MultiProtocolGateway>
+	</configuration>
+	<files>
+		<file name="local:///api.gateway/xml/resource.mapping.xml" src="local/api.gateway/xml/resource.mapping.xml" location="local" />
+		<file name="local:///api.gateway/xsl/oauth.az.audit.request.xsl" src="local/api.gateway/xsl/oauth.az.audit.request.xsl" location="local" />
+		<file name="local:///api.gateway/xsl/oauth.az.audit.response.xsl" src="local/api.gateway/xsl/oauth.az.audit.response.xsl" location="local" />
+		<file name="local:///api.gateway/xsl/oauth.ep.audit.prepare.xsl" src="local/api.gateway/xsl/oauth.ep.audit.prepare.xsl" location="local" />
+		<file name="local:///api.gateway/xsl/oauth.ep.audit.request.xsl" src="local/api.gateway/xsl/oauth.ep.audit.request.xsl" location="local" />
+		<file name="local:///api.gateway/xsl/oauth.ep.audit.response.xsl" src="local/api.gateway/xsl/oauth.ep.audit.response.xsl" location="local" />
+		<file name="local:///api.gateway/gatewayscript/api.gateway.error.js" src="local/api.gateway/gatewayscript/api.gateway.error.js" location="local" />
+	</files>
+</datapower-configuration>
