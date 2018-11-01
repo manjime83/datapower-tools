@@ -663,6 +663,50 @@
 			<WSSecActorRoleID />
 			<DynConfig>none</DynConfig>
 		</AAAPolicy>
+		<SSLClientProfile name="Cryp-ClientPf.CNB" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<Protocols>
+				<SSLv3>off</SSLv3>
+				<TLSv1d0>off</TLSv1d0>
+				<TLSv1d1>off</TLSv1d1>
+				<TLSv1d2>on</TLSv1d2>
+			</Protocols>
+			<Ciphers>ECDHE_ECDSA_WITH_AES_256_GCM_SHA384</Ciphers>
+			<Ciphers>ECDHE_RSA_WITH_AES_256_GCM_SHA384</Ciphers>
+			<Ciphers>ECDHE_ECDSA_WITH_AES_256_CBC_SHA384</Ciphers>
+			<Ciphers>ECDHE_RSA_WITH_AES_256_CBC_SHA384</Ciphers>
+			<Ciphers>DHE_DSS_WITH_AES_256_GCM_SHA384</Ciphers>
+			<Ciphers>DHE_RSA_WITH_AES_256_GCM_SHA384</Ciphers>
+			<Ciphers>DHE_RSA_WITH_AES_256_CBC_SHA256</Ciphers>
+			<Ciphers>DHE_DSS_WITH_AES_256_CBC_SHA256</Ciphers>
+			<Ciphers>RSA_WITH_AES_256_GCM_SHA384</Ciphers>
+			<Ciphers>RSA_WITH_AES_256_CBC_SHA256</Ciphers>
+			<Ciphers>ECDHE_ECDSA_WITH_AES_128_GCM_SHA256</Ciphers>
+			<Ciphers>ECDHE_RSA_WITH_AES_128_GCM_SHA256</Ciphers>
+			<Ciphers>ECDHE_ECDSA_WITH_AES_128_CBC_SHA256</Ciphers>
+			<Ciphers>ECDHE_RSA_WITH_AES_128_CBC_SHA256</Ciphers>
+			<Ciphers>DHE_DSS_WITH_AES_128_GCM_SHA256</Ciphers>
+			<Ciphers>DHE_RSA_WITH_AES_128_GCM_SHA256</Ciphers>
+			<Ciphers>DHE_RSA_WITH_AES_128_CBC_SHA256</Ciphers>
+			<Ciphers>DHE_DSS_WITH_AES_128_CBC_SHA256</Ciphers>
+			<Ciphers>RSA_WITH_AES_128_GCM_SHA256</Ciphers>
+			<Ciphers>RSA_WITH_AES_128_CBC_SHA256</Ciphers>
+			<Idcred class="CryptoIdentCred">Cryp-IdCred.LB.localSSL.Banco</Idcred>
+			<ValidateServerCert>off</ValidateServerCert>
+			<Caching>on</Caching>
+			<CacheTimeout>300</CacheTimeout>
+			<CacheSize>100</CacheSize>
+			<SSLClientFeatures>
+				<use-sni>off</use-sni>
+				<permit-insecure-servers>off</permit-insecure-servers>
+				<compression>off</compression>
+			</SSLClientFeatures>
+			<EllipticCurves>secp521r1</EllipticCurves>
+			<EllipticCurves>secp384r1</EllipticCurves>
+			<EllipticCurves>secp256k1</EllipticCurves>
+			<EllipticCurves>secp256r1</EllipticCurves>
+			<UseCustomSNIHostname>no</UseCustomSNIHostname>
+		</SSLClientProfile>
 		<Matching name="api.gateway.oauth">
 			<mAdminState>enabled</mAdminState>
 			<MatchRules>
@@ -1095,7 +1139,7 @@
 			<Actions class="StylePolicyAction">api.gateway_rule_error_xformbin_0</Actions>
 			<Actions class="StylePolicyAction">api.gateway_rule_error_results_output_0</Actions>
 		</StylePolicyRule>
-		<StylePolicy name="api.gateway">
+		<StylePolicy name="MPGw_CNB">
 			<mAdminState>enabled</mAdminState>
 			<DefStylesheetForSoap>store:///filter-reject-all.xsl</DefStylesheetForSoap>
 			<DefStylesheetForXsl>store:///identity.xsl</DefStylesheetForXsl>
@@ -1117,18 +1161,19 @@
 				<Rule class="StylePolicyRule">api.gateway_rule_error</Rule>
 			</PolicyMaps>
 		</StylePolicy>
-		<PolicyAttachments name="api.gateway">
+		<PolicyAttachments name="MPGw_CNB">
 			<mAdminState>enabled</mAdminState>
 			<EnforcementMode>enforce</EnforcementMode>
 			<PolicyReferences>on</PolicyReferences>
 			<SLAEnforcementMode>allow-if-no-sla</SLAEnforcementMode>
 		</PolicyAttachments>
-		<MultiProtocolGateway name="api.gateway">
+		<MultiProtocolGateway name="MPGw_CNB">
 			<mAdminState>enabled</mAdminState>
 			<Priority>normal</Priority>
-			<FrontProtocol class="HTTPSSourceProtocolHandler">api.gateway.https</FrontProtocol>
+			<FrontProtocol class="HTTPSSourceProtocolHandler">Fsh_https.CNB</FrontProtocol>
 			<XMLManager class="XMLManager">default</XMLManager>
 			<SSLClientConfigType>client</SSLClientConfigType>
+			<SSLClient class="SSLClientProfile">Cryp-ClientPf.CNB</SSLClient>
 			<DefaultParamNamespace>http://www.datapower.com/param/config</DefaultParamNamespace>
 			<QueryParamNamespace>http://www.datapower.com/param/query</QueryParamNamespace>
 			<BackendUrl>http://192.168.80.1:8080</BackendUrl>
@@ -1217,11 +1262,11 @@
 			<ResponseType>preprocessed</ResponseType>
 			<FollowRedirects>on</FollowRedirects>
 			<RewriteLocationHeader>off</RewriteLocationHeader>
-			<StylePolicy class="StylePolicy">api.gateway</StylePolicy>
+			<StylePolicy class="StylePolicy">MPGw_CNB</StylePolicy>
 			<Type>static-backend</Type>
 			<AllowCompression>off</AllowCompression>
 			<AllowCacheControlHeader>off</AllowCacheControlHeader>
-			<PolicyAttachments class="PolicyAttachments">api.gateway</PolicyAttachments>
+			<PolicyAttachments class="PolicyAttachments">MPGw_CNB</PolicyAttachments>
 			<WSMAgentMonitor>off</WSMAgentMonitor>
 			<WSMAgentMonitorPCM>all-messages</WSMAgentMonitorPCM>
 			<ProxyHTTPResponse>off</ProxyHTTPResponse>

@@ -39,10 +39,8 @@
 			INSERT INTO OAUTH_EP_AUDIT (UUID, DEVICE_NAME, TRANSACTION_ID, CLIENT_IP, URI, REQUEST_ENTITY, REQUEST_TIME) VALUES (?, ?, ?, ?, ?, ?, ?)
 		</xsl:variable>
 
-		<dp:dump-nodes file="concat('vars.prepare.', dp:variable('var://service/transaction-rule-type'), '.xml')" nodes="$vars" />
-
 		<xsl:variable name="result">
-			<dp:sql-execute source="'api.gateway'" statement="$statement">
+			<dp:sql-execute source="'LOGDP'" statement="$statement">
 				<arguments>
 					<argument>
 						<xsl:value-of select="$vars/audit/uuid/text()" />
@@ -68,8 +66,6 @@
 				</arguments>
 			</dp:sql-execute>
 		</xsl:variable>
-
-		<dp:dump-nodes file="concat('oauth.ep.audit.prepare.', dp:variable('var://service/transaction-rule-type'), '.xml')" nodes="$result" />
 
 		<xsl:choose>
 			<xsl:when test="$result/sql/@result = 'success'">

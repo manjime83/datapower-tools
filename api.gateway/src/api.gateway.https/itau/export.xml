@@ -7,30 +7,14 @@
 		<current-date>2018-09-14</current-date>
 	</export-details>
 	<configuration domain="itau">
-		<AccessControlList name="api.gateway.acl">
+		<AccessControlList name="ACL.CNB">
 			<mAdminState>enabled</mAdminState>
 			<AccessControlEntry>
 				<Access>allow</Access>
 				<Address>0.0.0.0/0</Address>
 			</AccessControlEntry>
 		</AccessControlList>
-		<CryptoKey name="api.gateway.key">
-			<mAdminState>enabled</mAdminState>
-			<Filename>cert:///api-gateway-privkey.pem</Filename>
-			<PasswordAlias>off</PasswordAlias>
-		</CryptoKey>
-		<CryptoCertificate name="api.gateway.cert">
-			<mAdminState>enabled</mAdminState>
-			<Filename>cert:///api-gateway-sscert.pem</Filename>
-			<PasswordAlias>off</PasswordAlias>
-			<IgnoreExpiration>off</IgnoreExpiration>
-		</CryptoCertificate>
-		<CryptoIdentCred name="api.gateway.idcreds">
-			<mAdminState>enabled</mAdminState>
-			<Key class="CryptoKey">api.gateway.key</Key>
-			<Certificate class="CryptoCertificate">api.gateway.cert</Certificate>
-		</CryptoIdentCred>
-		<SSLServerProfile name="api.gateway.profile">
+		<SSLServerProfile name="Cryp-ServerPf.CNB">
 			<mAdminState>enabled</mAdminState>
 			<Protocols>
 				<SSLv3>off</SSLv3>
@@ -58,7 +42,7 @@
 			<Ciphers>DHE_DSS_WITH_AES_128_CBC_SHA256</Ciphers>
 			<Ciphers>RSA_WITH_AES_128_GCM_SHA256</Ciphers>
 			<Ciphers>RSA_WITH_AES_128_CBC_SHA256</Ciphers>
-			<Idcred class="CryptoIdentCred">api.gateway.idcreds</Idcred>
+			<Idcred class="CryptoIdentCred">Cryp-IdCred.LB.localSSL.Banco</Idcred>
 			<RequestClientAuth>on</RequestClientAuth>
 			<RequireClientAuth>off</RequireClientAuth>
 			<ValidateClientCert>off</ValidateClientCert>
@@ -81,10 +65,10 @@
 			<EllipticCurves>secp256k1</EllipticCurves>
 			<EllipticCurves>secp256r1</EllipticCurves>
 		</SSLServerProfile>
-		<HTTPSSourceProtocolHandler name="api.gateway.https">
+		<HTTPSSourceProtocolHandler name="Fsh_https.CNB">
 			<mAdminState>enabled</mAdminState>
-			<LocalAddress>0.0.0.0</LocalAddress>
-			<LocalPort>8035</LocalPort>
+			<LocalAddress>boinfdpwP</LocalAddress>
+			<LocalPort>25610</LocalPort>
 			<HTTPVersion>HTTP/1.1</HTTPVersion>
 			<AllowedFeatures>
 				<HTTP-1.0>on</HTTP-1.0>
@@ -115,17 +99,13 @@
 			<MaxNameHdrLen>0</MaxNameHdrLen>
 			<MaxValueHdrLen>0</MaxValueHdrLen>
 			<MaxQueryStringLen>0</MaxQueryStringLen>
-			<ACL class="AccessControlList">api.gateway.acl</ACL>
+			<ACL class="AccessControlList">ACL.CNB</ACL>
 			<CredentialCharset>protocol</CredentialCharset>
 			<SSLServerConfigType>server</SSLServerConfigType>
-			<SSLServer class="SSLServerProfile">api.gateway.profile</SSLServer>
+			<SSLServer class="SSLServerProfile">Cryp-ServerPf.CNB</SSLServer>
 			<HTTP2MaxStreams>100</HTTP2MaxStreams>
 			<HTTP2MaxFrameSize>16384</HTTP2MaxFrameSize>
 			<HTTP2StreamHeader>off</HTTP2StreamHeader>
 		</HTTPSSourceProtocolHandler>
 	</configuration>
-	<files>
-		<file name="cert:///api-gateway-privkey.pem" src="cert/api-gateway-privkey.pem" location="cert" />
-		<file name="cert:///api-gateway-sscert.pem" src="cert/api-gateway-sscert.pem" location="cert" />
-	</files>
 </datapower-configuration>

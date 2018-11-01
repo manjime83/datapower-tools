@@ -23,21 +23,21 @@
 				<client-ip>
 					<xsl:value-of select="dp:variable('var://service/transaction-client')" />
 				</client-ip>
-				<request-entity>
+				<entity>
 					<xsl:value-of select="string(dp:decode(dp:binary-encode(/object/message/node()), 'base-64'))" />
-				</request-entity>
-				<request-time>
+				</entity>
+				<audit-time>
 					<xsl:value-of select="concat(date:add('1969-12-31T19:00:00', concat('PT', floor($time-value div 1000), 'S')), '.', $time-value mod 1000)" />
-				</request-time>
+				</audit-time>
 			</audit>
 		</xsl:variable>
 
 		<xsl:variable name="statement">
-			INSERT INTO OAUTH_AZ_AUDIT (UUID, DEVICE_NAME, TRANSACTION_ID, CLIENT_IP, REQUEST_ENTITY, REQUEST_TIME) VALUES (?, ?, ?, ?, ?, ?)
+			INSERT INTO OAUTH_AZ_AUDIT (UUID, DEVICE_NAME, TRANSACTION_ID, CLIENT_IP, AUDIT_TYPE, ENTITY, AUDIT_TIME) VALUES (?, ?, ?, ?, ?, ?, ?)
 		</xsl:variable>
 
 		<xsl:variable name="result">
-			<dp:sql-execute source="'api.gateway'" statement="$statement">
+			<dp:sql-execute source="'LOGDP'" statement="$statement">
 				<arguments>
 					<argument>
 						<xsl:value-of select="$vars/audit/uuid/text()" />
@@ -52,10 +52,13 @@
 						<xsl:value-of select="$vars/audit/client-ip/text()" />
 					</argument>
 					<argument>
-						<xsl:value-of select="$vars/audit/request-entity/text()" />
+						<xsl:value-of select="'REQUEST'" />
 					</argument>
 					<argument>
-						<xsl:value-of select="$vars/audit/request-time/text()" />
+						<xsl:value-of select="$vars/audit/entity/text()" />
+					</argument>
+					<argument>
+						<xsl:value-of select="$vars/audit/audit-time/text()" />
 					</argument>
 				</arguments>
 			</dp:sql-execute>

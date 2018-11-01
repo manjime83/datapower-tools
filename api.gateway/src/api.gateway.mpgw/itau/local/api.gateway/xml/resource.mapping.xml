@@ -8,4 +8,9 @@
 		<aaa:OutputResource>cnbrecaudos</aaa:OutputResource>
 	</aaa:MapResource>
 
+	<aaa:MapResource>
+		<aaa:OriginalURL>^(/resource.*)</aaa:OriginalURL>
+		<aaa:OutputResource>cnbrecaudos</aaa:OutputResource>
+	</aaa:MapResource>
+
 </aaa:AAAInfo>

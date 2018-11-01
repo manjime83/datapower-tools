@@ -7,17 +7,17 @@
 		<current-date>2018-09-14</current-date>
 	</export-details>
 	<configuration domain="itau">
-		<PasswordAlias name="api.gateway">
+		<PasswordAlias name="LOGDP">
 			<mAdminState>enabled</mAdminState>
 			<EncryptedPassword>0TSqgWZW5E5OuvMCOopLiw==</EncryptedPassword>
 			<DomainSettings class="DomainSettings">default</DomainSettings>
 		</PasswordAlias>
-		<SQLDataSource name="api.gateway">
+		<SQLDataSource name="LOGDP">
 			<mAdminState>enabled</mAdminState>
 			<Database>Oracle</Database>
 			<Username>ITAU</Username>
 			<Password />
-			<PasswordAlias class="PasswordAlias">api.gateway</PasswordAlias>
+			<PasswordAlias class="PasswordAlias">LOGDP</PasswordAlias>
 			<DataSourceID>XE</DataSourceID>
 			<DataSourceHost>dbserver</DataSourceHost>
 			<DataSourceHostResolved>dbserver</DataSourceHostResolved>
@@ -31,5 +31,25 @@
 			<IdleTimeout>180</IdleTimeout>
 			<LoadBalancing>off</LoadBalancing>
 		</SQLDataSource>
+		<CryptoKey name="Cryp-Key.LB.localSSL.Banco">
+			<mAdminState>enabled</mAdminState>
+			<Filename>cert:///api-gateway-privkey.pem</Filename>
+			<PasswordAlias>off</PasswordAlias>
+		</CryptoKey>
+		<CryptoCertificate name="Cryp-Cert.LB.localSSL.Banco">
+			<mAdminState>enabled</mAdminState>
+			<Filename>cert:///api-gateway-sscert.pem</Filename>
+			<PasswordAlias>off</PasswordAlias>
+			<IgnoreExpiration>off</IgnoreExpiration>
+		</CryptoCertificate>
+		<CryptoIdentCred name="Cryp-IdCred.LB.localSSL.Banco">
+			<mAdminState>enabled</mAdminState>
+			<Key class="CryptoKey">Cryp-Key.LB.localSSL.Banco</Key>
+			<Certificate class="CryptoCertificate">Cryp-Cert.LB.localSSL.Banco</Certificate>
+		</CryptoIdentCred>
 	</configuration>
+	<files>
+		<file name="cert:///api-gateway-privkey.pem" src="cert/api-gateway-privkey.pem" location="cert" />
+		<file name="cert:///api-gateway-sscert.pem" src="cert/api-gateway-sscert.pem" location="cert" />
+	</files>
 </datapower-configuration>
