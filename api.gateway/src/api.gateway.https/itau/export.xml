@@ -3,18 +3,18 @@
 		<user>admin</user>
 		<domain>itau</domain>
 		<device-name>idg752</device-name>
-		<firmware-version>IDG.7.5.2.17</firmware-version>
+		<firmware-version>IDG.7.5.2.8</firmware-version>
 		<current-date>2018-09-14</current-date>
 	</export-details>
 	<configuration domain="itau">
-		<AccessControlList name="ACL.CNB">
+		<AccessControlList name="ACL_ApiGw">
 			<mAdminState>enabled</mAdminState>
 			<AccessControlEntry>
 				<Access>allow</Access>
 				<Address>0.0.0.0/0</Address>
 			</AccessControlEntry>
 		</AccessControlList>
-		<SSLServerProfile name="Cryp-ServerPf.CNB">
+		<SSLServerProfile name="SrvPf_LB.localSSL.ApiGw">
 			<mAdminState>enabled</mAdminState>
 			<Protocols>
 				<SSLv3>off</SSLv3>
@@ -65,7 +65,7 @@
 			<EllipticCurves>secp256k1</EllipticCurves>
 			<EllipticCurves>secp256r1</EllipticCurves>
 		</SSLServerProfile>
-		<HTTPSSourceProtocolHandler name="Fsh_https.CNB">
+		<HTTPSSourceProtocolHandler name="Fsh_https.MPGW.ApiGw">
 			<mAdminState>enabled</mAdminState>
 			<LocalAddress>boinfdpwP</LocalAddress>
 			<LocalPort>25610</LocalPort>
@@ -99,10 +99,10 @@
 			<MaxNameHdrLen>0</MaxNameHdrLen>
 			<MaxValueHdrLen>0</MaxValueHdrLen>
 			<MaxQueryStringLen>0</MaxQueryStringLen>
-			<ACL class="AccessControlList">ACL.CNB</ACL>
+			<ACL class="AccessControlList">ACL_ApiGw</ACL>
 			<CredentialCharset>protocol</CredentialCharset>
 			<SSLServerConfigType>server</SSLServerConfigType>
-			<SSLServer class="SSLServerProfile">Cryp-ServerPf.CNB</SSLServer>
+			<SSLServer class="SSLServerProfile">SrvPf_LB.localSSL.ApiGw</SSLServer>
 			<HTTP2MaxStreams>100</HTTP2MaxStreams>
 			<HTTP2MaxFrameSize>16384</HTTP2MaxFrameSize>
 			<HTTP2StreamHeader>off</HTTP2StreamHeader>

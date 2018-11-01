@@ -3,11 +3,11 @@
 		<user>admin</user>
 		<domain>itau</domain>
 		<device-name>idg752</device-name>
-		<firmware-version>IDG.7.5.2.17</firmware-version>
+		<firmware-version>IDG.7.5.2.8</firmware-version>
 		<current-date>2018-09-14</current-date>
 	</export-details>
 	<configuration domain="itau">
-		<AAAPolicy name="api.gateway.az">
+		<AAAPolicy name="AAAP_ApiGw.Authorization">
 			<mAdminState>enabled</mAdminState>
 			<ExtractIdentity>
 				<EIBitmap>
@@ -49,7 +49,7 @@
 				<EIPasswordRetrievalAAAInfoURL />
 				<EISSLProxyProfile />
 				<EIFormsLoginPolicy />
-				<EIOAuthClientGroup class="OAuthSupportedClientGroup">api.gateway.client.group</EIOAuthClientGroup>
+				<EIOAuthClientGroup class="OAuthSupportedClientGroup">OACG_ApiGw</EIOAuthClientGroup>
 				<EISSLClientConfigType>proxy</EISSLClientConfigType>
 				<EISSLClientProfile />
 				<EIJWTValidator />
@@ -335,7 +335,7 @@
 			<WSSecActorRoleID />
 			<DynConfig>none</DynConfig>
 		</AAAPolicy>
-		<AAAPolicy name="api.gateway.ep">
+		<AAAPolicy name="AAAP_ApiGw.EnforcementPoint">
 			<mAdminState>enabled</mAdminState>
 			<ExtractIdentity>
 				<EIBitmap>
@@ -377,7 +377,7 @@
 				<EIPasswordRetrievalAAAInfoURL />
 				<EISSLProxyProfile />
 				<EIFormsLoginPolicy />
-				<EIOAuthClientGroup class="OAuthSupportedClientGroup">api.gateway.client.group</EIOAuthClientGroup>
+				<EIOAuthClientGroup class="OAuthSupportedClientGroup">OACG_ApiGw</EIOAuthClientGroup>
 				<EISSLClientConfigType>proxy</EISSLClientConfigType>
 				<EISSLClientProfile />
 				<EIJWTValidator />
@@ -482,7 +482,7 @@
 			<MapResource>
 				<MRMethod>xmlfile</MRMethod>
 				<MRCustomURL />
-				<MRMapURL>local:///api.gateway/xml/resource.mapping.xml</MRMapURL>
+				<MRMapURL>local:///MPGw_ApiGw/xml/resource.mapping.xml</MRMapURL>
 				<MRMapXPath />
 				<MRTAMMap>WebSEAL</MRTAMMap>
 				<MRTAMInstancePrefix />
@@ -663,7 +663,7 @@
 			<WSSecActorRoleID />
 			<DynConfig>none</DynConfig>
 		</AAAPolicy>
-		<SSLClientProfile name="Cryp-ClientPf.CNB" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+		<SSLClientProfile name="CliPf_remoteSSL.ApiGw">
 			<mAdminState>enabled</mAdminState>
 			<Protocols>
 				<SSLv3>off</SSLv3>
@@ -707,7 +707,7 @@
 			<EllipticCurves>secp256r1</EllipticCurves>
 			<UseCustomSNIHostname>no</UseCustomSNIHostname>
 		</SSLClientProfile>
-		<Matching name="api.gateway.oauth">
+		<Matching name="MPGw_ApiGw_match_oauth">
 			<mAdminState>enabled</mAdminState>
 			<MatchRules>
 				<Type>url</Type>
@@ -722,11 +722,11 @@
 			<MatchWithPCRE>on</MatchWithPCRE>
 			<CombineWithOr>off</CombineWithOr>
 		</Matching>
-		<StylePolicyAction name="api.gateway_rule_oauth_xformbin_0">
+		<StylePolicyAction name="MPGw_ApiGw_rule_oauth_xformbin_0">
 			<mAdminState>enabled</mAdminState>
 			<Type>xformbin</Type>
 			<Input>INPUT</Input>
-			<Transform>local:///api.gateway/xsl/oauth.az.audit.request.xsl</Transform>
+			<Transform>local:///MPGw_ApiGw/xsl/oauth.az.audit.request.xsl</Transform>
 			<TransformLanguage>none</TransformLanguage>
 			<ActionDebug persisted="false">off</ActionDebug>
 			<TxMode>dpa</TxMode>
@@ -749,7 +749,7 @@
 			<MethodType>POST</MethodType>
 			<MethodType2>POST</MethodType2>
 		</StylePolicyAction>
-		<StylePolicyAction name="api.gateway_rule_oauth_convert-http_0">
+		<StylePolicyAction name="MPGw_ApiGw_rule_oauth_convert-http_0">
 			<mAdminState>enabled</mAdminState>
 			<Type>convert-http</Type>
 			<Input>INPUT</Input>
@@ -773,7 +773,7 @@
 			<MethodType>POST</MethodType>
 			<MethodType2>POST</MethodType2>
 		</StylePolicyAction>
-		<StylePolicyAction name="api.gateway_rule_oauth_aaa_0">
+		<StylePolicyAction name="MPGw_ApiGw_rule_oauth_aaa_0">
 			<mAdminState>enabled</mAdminState>
 			<Type>aaa</Type>
 			<Input>PIPE</Input>
@@ -781,7 +781,7 @@
 			<ActionDebug persisted="false">off</ActionDebug>
 			<Output>AAA</Output>
 			<NamedInOutLocationType>default</NamedInOutLocationType>
-			<AAA class="AAAPolicy">api.gateway.az</AAA>
+			<AAA class="AAAPolicy">AAAP_ApiGw.Authorization</AAA>
 			<SSLClientConfigType>proxy</SSLClientConfigType>
 			<Transactional>off</Transactional>
 			<SOAPValidation>body</SOAPValidation>
@@ -798,11 +798,11 @@
 			<MethodType>POST</MethodType>
 			<MethodType2>POST</MethodType2>
 		</StylePolicyAction>
-		<StylePolicyAction name="api.gateway_rule_oauth_xformbin_1">
+		<StylePolicyAction name="MPGw_ApiGw_rule_oauth_xformbin_1">
 			<mAdminState>enabled</mAdminState>
 			<Type>xformbin</Type>
 			<Input>AAA</Input>
-			<Transform>local:///api.gateway/xsl/oauth.az.audit.response.xsl</Transform>
+			<Transform>local://MPGw_ApiGw/xsl/oauth.az.audit.response.xsl</Transform>
 			<TransformLanguage>none</TransformLanguage>
 			<ActionDebug persisted="false">off</ActionDebug>
 			<TxMode>dpa</TxMode>
@@ -825,7 +825,7 @@
 			<MethodType>POST</MethodType>
 			<MethodType2>POST</MethodType2>
 		</StylePolicyAction>
-		<StylePolicyAction name="api.gateway_rule_oauth_results_output_0">
+		<StylePolicyAction name="MPGw_ApiGw_rule_oauth_results_output_0">
 			<mAdminState>enabled</mAdminState>
 			<Type>results</Type>
 			<Input>AAA</Input>
@@ -849,20 +849,20 @@
 			<MethodType>POST</MethodType>
 			<MethodType2>POST</MethodType2>
 		</StylePolicyAction>
-		<StylePolicyRule name="api.gateway_rule_oauth">
+		<StylePolicyRule name="MPGw_ApiGw_rule_oauth">
 			<mAdminState>enabled</mAdminState>
 			<Direction>request-rule</Direction>
 			<InputFormat>none</InputFormat>
 			<OutputFormat>none</OutputFormat>
 			<NonXMLProcessing>off</NonXMLProcessing>
 			<Unprocessed>off</Unprocessed>
-			<Actions class="StylePolicyAction">api.gateway_rule_oauth_xformbin_0</Actions>
-			<Actions class="StylePolicyAction">api.gateway_rule_oauth_convert-http_0</Actions>
-			<Actions class="StylePolicyAction">api.gateway_rule_oauth_aaa_0</Actions>
-			<Actions class="StylePolicyAction">api.gateway_rule_oauth_xformbin_1</Actions>
-			<Actions class="StylePolicyAction">api.gateway_rule_oauth_results_output_0</Actions>
+			<Actions class="StylePolicyAction">MPGw_ApiGw_rule_oauth_xformbin_0</Actions>
+			<Actions class="StylePolicyAction">MPGw_ApiGw_rule_oauth_convert-http_0</Actions>
+			<Actions class="StylePolicyAction">MPGw_ApiGw_rule_oauth_aaa_0</Actions>
+			<Actions class="StylePolicyAction">MPGw_ApiGw_rule_oauth_xformbin_1</Actions>
+			<Actions class="StylePolicyAction">MPGw_ApiGw_rule_oauth_results_output_0</Actions>
 		</StylePolicyRule>
-		<Matching name="api.gateway.all">
+		<Matching name="MPGw_ApiGw_match_all">
 			<mAdminState>enabled</mAdminState>
 			<MatchRules>
 				<Type>url</Type>
@@ -877,11 +877,11 @@
 			<MatchWithPCRE>on</MatchWithPCRE>
 			<CombineWithOr>off</CombineWithOr>
 		</Matching>
-		<StylePolicyAction name="api.gateway_rule_all_xformbin_0">
+		<StylePolicyAction name="MPGw_ApiGw_rule_all_xformbin_0">
 			<mAdminState>enabled</mAdminState>
 			<Type>xformbin</Type>
 			<Input>INPUT</Input>
-			<Transform>local:///api.gateway/xsl/oauth.ep.audit.prepare.xsl</Transform>
+			<Transform>local:///MPGw_ApiGw/xsl/oauth.ep.audit.prepare.xsl</Transform>
 			<TransformLanguage>none</TransformLanguage>
 			<ActionDebug persisted="false">off</ActionDebug>
 			<TxMode>dpa</TxMode>
@@ -904,7 +904,7 @@
 			<MethodType>POST</MethodType>
 			<MethodType2>POST</MethodType2>
 		</StylePolicyAction>
-		<StylePolicyAction name="api.gateway_rule_all_aaa_0">
+		<StylePolicyAction name="MPGw_ApiGw_rule_all_aaa_0">
 			<mAdminState>enabled</mAdminState>
 			<Type>aaa</Type>
 			<Input>NULL</Input>
@@ -912,7 +912,7 @@
 			<ActionDebug persisted="false">off</ActionDebug>
 			<Output>NULL</Output>
 			<NamedInOutLocationType>default</NamedInOutLocationType>
-			<AAA class="AAAPolicy">api.gateway.ep</AAA>
+			<AAA class="AAAPolicy">AAAP_ApiGw.EnforcementPoint</AAA>
 			<SSLClientConfigType>proxy</SSLClientConfigType>
 			<Transactional>off</Transactional>
 			<SOAPValidation>body</SOAPValidation>
@@ -929,11 +929,11 @@
 			<MethodType>POST</MethodType>
 			<MethodType2>POST</MethodType2>
 		</StylePolicyAction>
-		<StylePolicyAction name="api.gateway_rule_all_xform_0">
+		<StylePolicyAction name="MPGw_ApiGw_rule_all_xform_0">
 			<mAdminState>enabled</mAdminState>
 			<Type>xform</Type>
 			<Input>NULL</Input>
-			<Transform>local:///api.gateway/xsl/oauth.ep.audit.request.xsl</Transform>
+			<Transform>local:///MPGw_ApiGw/xsl/oauth.ep.audit.request.xsl</Transform>
 			<TransformLanguage>none</TransformLanguage>
 			<ActionDebug persisted="false">off</ActionDebug>
 			<Output>NULL</Output>
@@ -955,7 +955,7 @@
 			<MethodType>POST</MethodType>
 			<MethodType2>POST</MethodType2>
 		</StylePolicyAction>
-		<StylePolicyAction name="api.gateway_rule_all_results_0">
+		<StylePolicyAction name="MPGw_ApiGw_rule_all_results_0">
 			<mAdminState>enabled</mAdminState>
 			<Type>results</Type>
 			<Input>INPUT</Input>
@@ -979,23 +979,23 @@
 			<MethodType>POST</MethodType>
 			<MethodType2>POST</MethodType2>
 		</StylePolicyAction>
-		<StylePolicyRule name="api.gateway_rule_all">
+		<StylePolicyRule name="MPGw_ApiGw_rule_all">
 			<mAdminState>enabled</mAdminState>
 			<Direction>request-rule</Direction>
 			<InputFormat>none</InputFormat>
 			<OutputFormat>none</OutputFormat>
 			<NonXMLProcessing>off</NonXMLProcessing>
 			<Unprocessed>off</Unprocessed>
-			<Actions class="StylePolicyAction">api.gateway_rule_all_xformbin_0</Actions>
-			<Actions class="StylePolicyAction">api.gateway_rule_all_aaa_0</Actions>
-			<Actions class="StylePolicyAction">api.gateway_rule_all_xform_0</Actions>
-			<Actions class="StylePolicyAction">api.gateway_rule_all_results_0</Actions>
+			<Actions class="StylePolicyAction">MPGw_ApiGw_rule_all_xformbin_0</Actions>
+			<Actions class="StylePolicyAction">MPGw_ApiGw_rule_all_aaa_0</Actions>
+			<Actions class="StylePolicyAction">MPGw_ApiGw_rule_all_xform_0</Actions>
+			<Actions class="StylePolicyAction">MPGw_ApiGw_rule_all_results_0</Actions>
 		</StylePolicyRule>
-		<StylePolicyAction name="api.gateway_rule_reponse_xformbin_0">
+		<StylePolicyAction name="MPGw_ApiGw_rule_reponse_xformbin_0">
 			<mAdminState>enabled</mAdminState>
 			<Type>xformbin</Type>
 			<Input>INPUT</Input>
-			<Transform>local:///api.gateway/xsl/oauth.ep.audit.response.xsl</Transform>
+			<Transform>local:///MPGw_ApiGw/xsl/oauth.ep.audit.response.xsl</Transform>
 			<TransformLanguage>none</TransformLanguage>
 			<ActionDebug persisted="false">off</ActionDebug>
 			<TxMode>dpa</TxMode>
@@ -1018,7 +1018,7 @@
 			<MethodType>POST</MethodType>
 			<MethodType2>POST</MethodType2>
 		</StylePolicyAction>
-		<StylePolicyAction name="api.gateway_rule_reponse_results_output_0">
+		<StylePolicyAction name="MPGw_ApiGw_rule_reponse_results_output_0">
 			<mAdminState>enabled</mAdminState>
 			<Type>results</Type>
 			<Input>INPUT</Input>
@@ -1042,22 +1042,22 @@
 			<MethodType>POST</MethodType>
 			<MethodType2>POST</MethodType2>
 		</StylePolicyAction>
-		<StylePolicyRule name="api.gateway_rule_reponse">
+		<StylePolicyRule name="MPGw_ApiGw_rule_reponse">
 			<mAdminState>enabled</mAdminState>
 			<Direction>response-rule</Direction>
 			<InputFormat>none</InputFormat>
 			<OutputFormat>none</OutputFormat>
 			<NonXMLProcessing>off</NonXMLProcessing>
 			<Unprocessed>off</Unprocessed>
-			<Actions class="StylePolicyAction">api.gateway_rule_reponse_xformbin_0</Actions>
-			<Actions class="StylePolicyAction">api.gateway_rule_reponse_results_output_0</Actions>
+			<Actions class="StylePolicyAction">MPGw_ApiGw_rule_reponse_xformbin_0</Actions>
+			<Actions class="StylePolicyAction">MPGw_ApiGw_rule_reponse_results_output_0</Actions>
 		</StylePolicyRule>
-		<StylePolicyAction name="api.gateway_rule_error_gatewayscript_0">
+		<StylePolicyAction name="MPGw_ApiGw_rule_error_gatewayscript_0">
 			<mAdminState>enabled</mAdminState>
 			<Type>gatewayscript</Type>
 			<Input>INPUT</Input>
 			<TransformLanguage>none</TransformLanguage>
-			<GatewayScriptLocation>local:///api.gateway/gatewayscript/api.gateway.error.js</GatewayScriptLocation>
+			<GatewayScriptLocation>local:///MPGw_ApiGw/gatewayscript/MPGw_ApiGw.error.js</GatewayScriptLocation>
 			<ActionDebug persisted="false">off</ActionDebug>
 			<Output>ErrorOutput</Output>
 			<NamedInOutLocationType>default</NamedInOutLocationType>
@@ -1077,11 +1077,11 @@
 			<MethodType>POST</MethodType>
 			<MethodType2>POST</MethodType2>
 		</StylePolicyAction>
-		<StylePolicyAction name="api.gateway_rule_error_xformbin_0">
+		<StylePolicyAction name="MPGw_ApiGw_rule_error_xformbin_0">
 			<mAdminState>enabled</mAdminState>
 			<Type>xformbin</Type>
 			<Input>ErrorOutput</Input>
-			<Transform>local:///api.gateway/xsl/oauth.ep.audit.response.xsl</Transform>
+			<Transform>local:///MPGw_ApiGw/xsl/oauth.ep.audit.response.xsl</Transform>
 			<TransformLanguage>none</TransformLanguage>
 			<ActionDebug persisted="false">off</ActionDebug>
 			<TxMode>dpa</TxMode>
@@ -1104,7 +1104,7 @@
 			<MethodType>POST</MethodType>
 			<MethodType2>POST</MethodType2>
 		</StylePolicyAction>
-		<StylePolicyAction name="api.gateway_rule_error_results_output_0">
+		<StylePolicyAction name="MPGw_ApiGw_rule_error_results_output_0">
 			<mAdminState>enabled</mAdminState>
 			<Type>results</Type>
 			<Input>ErrorOutput</Input>
@@ -1128,52 +1128,52 @@
 			<MethodType>POST</MethodType>
 			<MethodType2>POST</MethodType2>
 		</StylePolicyAction>
-		<StylePolicyRule name="api.gateway_rule_error">
+		<StylePolicyRule name="MPGw_ApiGw_rule_error">
 			<mAdminState>enabled</mAdminState>
 			<Direction>error-rule</Direction>
 			<InputFormat>none</InputFormat>
 			<OutputFormat>none</OutputFormat>
 			<NonXMLProcessing>off</NonXMLProcessing>
 			<Unprocessed>off</Unprocessed>
-			<Actions class="StylePolicyAction">api.gateway_rule_error_gatewayscript_0</Actions>
-			<Actions class="StylePolicyAction">api.gateway_rule_error_xformbin_0</Actions>
-			<Actions class="StylePolicyAction">api.gateway_rule_error_results_output_0</Actions>
+			<Actions class="StylePolicyAction">MPGw_ApiGw_rule_error_gatewayscript_0</Actions>
+			<Actions class="StylePolicyAction">MPGw_ApiGw_rule_error_xformbin_0</Actions>
+			<Actions class="StylePolicyAction">MPGw_ApiGw_rule_error_results_output_0</Actions>
 		</StylePolicyRule>
-		<StylePolicy name="MPGw_CNB">
+		<StylePolicy name="MPGw_ApiGw">
 			<mAdminState>enabled</mAdminState>
 			<DefStylesheetForSoap>store:///filter-reject-all.xsl</DefStylesheetForSoap>
 			<DefStylesheetForXsl>store:///identity.xsl</DefStylesheetForXsl>
 			<DefXQueryForJSON>store:///reject-all-json.xq</DefXQueryForJSON>
 			<PolicyMaps>
-				<Match class="Matching">api.gateway.oauth</Match>
-				<Rule class="StylePolicyRule">api.gateway_rule_oauth</Rule>
+				<Match class="Matching">MPGw_ApiGw_match_oauth</Match>
+				<Rule class="StylePolicyRule">MPGw_ApiGw_rule_oauth</Rule>
 			</PolicyMaps>
 			<PolicyMaps>
-				<Match class="Matching">api.gateway.all</Match>
-				<Rule class="StylePolicyRule">api.gateway_rule_all</Rule>
+				<Match class="Matching">MPGw_ApiGw_match_all</Match>
+				<Rule class="StylePolicyRule">MPGw_ApiGw_rule_all</Rule>
 			</PolicyMaps>
 			<PolicyMaps>
-				<Match class="Matching">api.gateway.all</Match>
-				<Rule class="StylePolicyRule">api.gateway_rule_reponse</Rule>
+				<Match class="Matching">MPGw_ApiGw_match_all</Match>
+				<Rule class="StylePolicyRule">MPGw_ApiGw_rule_reponse</Rule>
 			</PolicyMaps>
 			<PolicyMaps>
-				<Match class="Matching">api.gateway.all</Match>
-				<Rule class="StylePolicyRule">api.gateway_rule_error</Rule>
+				<Match class="Matching">MPGw_ApiGw_match_all</Match>
+				<Rule class="StylePolicyRule">MPGw_ApiGw_rule_error</Rule>
 			</PolicyMaps>
 		</StylePolicy>
-		<PolicyAttachments name="MPGw_CNB">
+		<PolicyAttachments name="MPGw_ApiGw">
 			<mAdminState>enabled</mAdminState>
 			<EnforcementMode>enforce</EnforcementMode>
 			<PolicyReferences>on</PolicyReferences>
 			<SLAEnforcementMode>allow-if-no-sla</SLAEnforcementMode>
 		</PolicyAttachments>
-		<MultiProtocolGateway name="MPGw_CNB">
+		<MultiProtocolGateway name="MPGw_ApiGw">
 			<mAdminState>enabled</mAdminState>
 			<Priority>normal</Priority>
-			<FrontProtocol class="HTTPSSourceProtocolHandler">Fsh_https.CNB</FrontProtocol>
+			<FrontProtocol class="HTTPSSourceProtocolHandler">Fsh_https.MPGW.ApiGw</FrontProtocol>
 			<XMLManager class="XMLManager">default</XMLManager>
 			<SSLClientConfigType>client</SSLClientConfigType>
-			<SSLClient class="SSLClientProfile">Cryp-ClientPf.CNB</SSLClient>
+			<SSLClient class="SSLClientProfile">CliPf_remoteSSL.ApiGw</SSLClient>
 			<DefaultParamNamespace>http://www.datapower.com/param/config</DefaultParamNamespace>
 			<QueryParamNamespace>http://www.datapower.com/param/query</QueryParamNamespace>
 			<BackendUrl>http://192.168.80.1:8080</BackendUrl>
@@ -1262,11 +1262,11 @@
 			<ResponseType>preprocessed</ResponseType>
 			<FollowRedirects>on</FollowRedirects>
 			<RewriteLocationHeader>off</RewriteLocationHeader>
-			<StylePolicy class="StylePolicy">MPGw_CNB</StylePolicy>
+			<StylePolicy class="StylePolicy">MPGw_ApiGw</StylePolicy>
 			<Type>static-backend</Type>
 			<AllowCompression>off</AllowCompression>
 			<AllowCacheControlHeader>off</AllowCacheControlHeader>
-			<PolicyAttachments class="PolicyAttachments">MPGw_CNB</PolicyAttachments>
+			<PolicyAttachments class="PolicyAttachments">MPGw_ApiGw</PolicyAttachments>
 			<WSMAgentMonitor>off</WSMAgentMonitor>
 			<WSMAgentMonitorPCM>all-messages</WSMAgentMonitorPCM>
 			<ProxyHTTPResponse>off</ProxyHTTPResponse>
@@ -1274,12 +1274,12 @@
 		</MultiProtocolGateway>
 	</configuration>
 	<files>
-		<file name="local:///api.gateway/xml/resource.mapping.xml" src="local/api.gateway/xml/resource.mapping.xml" location="local" />
-		<file name="local:///api.gateway/xsl/oauth.az.audit.request.xsl" src="local/api.gateway/xsl/oauth.az.audit.request.xsl" location="local" />
-		<file name="local:///api.gateway/xsl/oauth.az.audit.response.xsl" src="local/api.gateway/xsl/oauth.az.audit.response.xsl" location="local" />
-		<file name="local:///api.gateway/xsl/oauth.ep.audit.prepare.xsl" src="local/api.gateway/xsl/oauth.ep.audit.prepare.xsl" location="local" />
-		<file name="local:///api.gateway/xsl/oauth.ep.audit.request.xsl" src="local/api.gateway/xsl/oauth.ep.audit.request.xsl" location="local" />
-		<file name="local:///api.gateway/xsl/oauth.ep.audit.response.xsl" src="local/api.gateway/xsl/oauth.ep.audit.response.xsl" location="local" />
-		<file name="local:///api.gateway/gatewayscript/api.gateway.error.js" src="local/api.gateway/gatewayscript/api.gateway.error.js" location="local" />
+		<file name="local:///MPGw_ApiGw/xml/resource.mapping.xml" src="local/MPGw_ApiGw/xml/resource.mapping.xml" location="local" />
+		<file name="local:///MPGw_ApiGw/xsl/oauth.az.audit.request.xsl" src="local/MPGw_ApiGw/xsl/oauth.az.audit.request.xsl" location="local" />
+		<file name="local:///MPGw_ApiGw/xsl/oauth.az.audit.response.xsl" src="local/MPGw_ApiGw/xsl/oauth.az.audit.response.xsl" location="local" />
+		<file name="local:///MPGw_ApiGw/xsl/oauth.ep.audit.prepare.xsl" src="local/MPGw_ApiGw/xsl/oauth.ep.audit.prepare.xsl" location="local" />
+		<file name="local:///MPGw_ApiGw/xsl/oauth.ep.audit.request.xsl" src="local/MPGw_ApiGw/xsl/oauth.ep.audit.request.xsl" location="local" />
+		<file name="local:///MPGw_ApiGw/xsl/oauth.ep.audit.response.xsl" src="local/MPGw_ApiGw/xsl/oauth.ep.audit.response.xsl" location="local" />
+		<file name="local:///MPGw_ApiGw/gatewayscript/MPGw_ApiGw.error.js" src="local/MPGw_ApiGw/gatewayscript/MPGw_ApiGw.error.js" location="local" />
 	</files>
 </datapower-configuration>

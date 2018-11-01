@@ -3,7 +3,7 @@
 		<user>admin</user>
 		<domain>itau</domain>
 		<device-name>idg752</device-name>
-		<firmware-version>IDG.7.5.2.17</firmware-version>
+		<firmware-version>IDG.7.5.2.8</firmware-version>
 		<current-date>2018-09-14</current-date>
 	</export-details>
 	<configuration domain="itau">

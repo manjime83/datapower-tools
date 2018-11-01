@@ -3,15 +3,15 @@
 		<user>admin</user>
 		<domain>itau</domain>
 		<device-name>idg752</device-name>
-		<firmware-version>IDG.7.5.2.17</firmware-version>
+		<firmware-version>IDG.7.5.2.8</firmware-version>
 		<current-date>2018-09-14</current-date>
 	</export-details>
 	<configuration domain="itau">
-		<CryptoSSKey name="api.gateway.client.1.secret">
+		<CryptoSSKey name="CryptSSK_ApiGw">
 			<mAdminState>enabled</mAdminState>
 			<Filename>cert:///api-gateway-client-1-secret.txt</Filename>
 		</CryptoSSKey>
-		<OAuthSupportedClient name="api.gateway.client.1">
+		<OAuthSupportedClient name="OACP_ApiGw.Asenda">
 			<mAdminState>enabled</mAdminState>
 			<Customized>off</Customized>
 			<OAuthRole>
@@ -41,7 +41,7 @@
 			</ValidationFeatures>
 			<CustomScopeCheck>off</CustomScopeCheck>
 			<Scope>^(cnbrecaudos)$</Scope>
-			<TokenSecret class="CryptoSSKey">api.gateway.client.1.secret</TokenSecret>
+			<TokenSecret class="CryptoSSKey">CryptSSK_ApiGw</TokenSecret>
 			<LocalAZPageUrl>store:///OAuth-Generate-HTML.xsl</LocalAZPageUrl>
 			<DPStateLifeTime>300</DPStateLifeTime>
 			<AUCodeLifeTime>300</AUCodeLifeTime>
@@ -60,7 +60,7 @@
 				<verboseerror>off</verboseerror>
 			</OAuthFeatures>
 		</OAuthSupportedClient>
-		<OAuthSupportedClientGroup name="api.gateway.client.group">
+		<OAuthSupportedClientGroup name="OACG_ApiGw">
 			<mAdminState>enabled</mAdminState>
 			<Customized>off</Customized>
 			<CustomizedType>custom</CustomizedType>
@@ -68,7 +68,7 @@
 				<azsvr>on</azsvr>
 				<rssvr>on</rssvr>
 			</OAuthRole>
-			<Client class="OAuthSupportedClient">api.gateway.client.1</Client>
+			<Client class="OAuthSupportedClient">OACP_ApiGw.Asenda</Client>
 		</OAuthSupportedClientGroup>
 	</configuration>
 	<files>
