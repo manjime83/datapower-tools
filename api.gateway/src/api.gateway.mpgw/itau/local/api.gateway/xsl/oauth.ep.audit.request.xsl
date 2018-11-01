@@ -9,6 +9,9 @@
 				<username>
 					<xsl:value-of select="substring-after(dp:variable('var://context/WSM/identity/username'), ']')" />
 				</username>
+				<scope>
+					<xsl:value-of select="dp:variable('var://context/WSM/resource/mapped-resource')" />
+				</scope>
 				<uuid>
 					<xsl:value-of select="dp:variable('var://context/api.gateway/uuid')" />
 				</uuid>
@@ -19,7 +22,7 @@
 		</xsl:variable>
 
 		<xsl:variable name="statement">
-			UPDATE OAUTH_EP_AUDIT SET USERNAME = ? WHERE UUID = ? AND DEVICE_NAME = ?
+			UPDATE OAUTH_EP_AUDIT SET USERNAME = ?, SCOPE = ? WHERE UUID = ? AND DEVICE_NAME = ?
 		</xsl:variable>
 
 		<xsl:variable name="result">
@@ -27,6 +30,9 @@
 				<arguments>
 					<argument>
 						<xsl:value-of select="$vars/audit/username/text()" />
+					</argument>
+					<argument>
+						<xsl:value-of select="$vars/audit/scope/text()" />
 					</argument>
 					<argument>
 						<xsl:value-of select="$vars/audit/uuid/text()" />

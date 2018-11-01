@@ -1202,7 +1202,7 @@
 			<ParserLimitsMaxLocalNames>60000</ParserLimitsMaxLocalNames>
 			<ParserLimitsAttachmentByteCount>2000000000</ParserLimitsAttachmentByteCount>
 			<ParserLimitsAttachmentPackageByteCount>0</ParserLimitsAttachmentPackageByteCount>
-			<DebugMode persisted="false">off</DebugMode>
+			<DebugMode persisted="false">on</DebugMode>
 			<DebuggerType>internal</DebuggerType>
 			<DebugHistory>25</DebugHistory>
 			<FlowControl>off</FlowControl>
