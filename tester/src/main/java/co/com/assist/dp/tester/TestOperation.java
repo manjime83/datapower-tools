@@ -219,9 +219,13 @@ public class TestOperation {
 								m.getName());
 						importResults = prettyOutputter.outputString(resultElement);
 					} else {
-						Element importResultsElement = responseElement.getChild("import", dp).getChild("import-results")
-								.setAttribute("module", m.getName());
-						importResults = prettyOutputter.outputString(importResultsElement);
+						try {
+							Element importResultsElement = responseElement.getChild("import", dp)
+									.getChild("import-results").setAttribute("module", m.getName());
+							importResults = prettyOutputter.outputString(importResultsElement);
+						} catch (NullPointerException e) {
+							importResults = prettyOutputter.outputString(responseElement);
+						}	
 					}
 
 					if (importResults.contains("Authentication failure")

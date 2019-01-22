@@ -9,7 +9,7 @@
 	<configuration domain="itau">
 		<CryptoSSKey name="CryptSSK_ApiGw">
 			<mAdminState>enabled</mAdminState>
-			<Filename>cert:///api-gateway-client-1-secret.txt</Filename>
+			<Filename>cert:///CryptSSK_ApiGw.txt</Filename>
 		</CryptoSSKey>
 		<OAuthSupportedClient name="OACP_ApiGw.Asenda">
 			<mAdminState>enabled</mAdminState>
@@ -72,6 +72,6 @@
 		</OAuthSupportedClientGroup>
 	</configuration>
 	<files>
-		<file name="cert:///api-gateway-client-1-secret.txt" src="cert/api-gateway-client-1-secret.txt" location="cert" />
+		<file name="cert:///CryptSSK_ApiGw.txt" src="cert/CryptSSK_ApiGw.txt" location="cert" />
 	</files>
 </datapower-configuration>

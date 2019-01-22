@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -33,7 +34,7 @@ public class ApplyTemplate {
 		File root = new File(args[0]);
 
 		try (InputStream is = new FileInputStream(new File(root, "templater.properties"))) {
-			props.load(is);
+			props.load(new InputStreamReader(is, "UTF-8"));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -46,8 +47,8 @@ public class ApplyTemplate {
 		}
 
 		Configuration cfg = new Configuration(Configuration.VERSION_2_3_26);
-		cfg.setDirectoryForTemplateLoading(template);
 		cfg.setDefaultEncoding("UTF-8");
+		cfg.setDirectoryForTemplateLoading(template);
 		cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 		cfg.setLogTemplateExceptions(false);
 
@@ -63,7 +64,7 @@ public class ApplyTemplate {
 			String name = FilenameUtils.getBaseName(propertiesFile.getName());
 
 			Properties properties = new Properties();
-			properties.load(new FileInputStream(propertiesFile));
+			properties.load(new InputStreamReader(new FileInputStream(propertiesFile), "UTF-8"));
 			Set<Entry<Object, Object>> entrySet = properties.entrySet();
 
 			Map<String, String> dataModel = new HashMap<String, String>(properties.size());

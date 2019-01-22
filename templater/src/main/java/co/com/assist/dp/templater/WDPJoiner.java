@@ -27,7 +27,7 @@ public class WDPJoiner {
 	private File wdpFile;
 
 	public static void main(String[] args) throws IOException, JDOMException {
-		File wdpFile = new File(args[0]);
+		File wdpFile = new File("C:\\Users\\manji\\workspaces\\colpatria\\mbc.entregas\\entrega.20181212.2\\wdp");
 		new WDPJoiner(wdpFile).run();
 	}
 
