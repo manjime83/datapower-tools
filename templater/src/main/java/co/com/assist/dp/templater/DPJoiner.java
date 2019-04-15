@@ -35,7 +35,7 @@ public class DPJoiner implements Runnable {
 				"PortafolioESBV1", "PrestamoESBV1", "ProductoESBV1", "ProfuturoESBV1", "TarjetaCreditoESBV1",
 				"TarjetaPrepagadaESBV1", "TransferenciaESBV1" };
 
-		File output = new File("C:\\Users\\manji\\workspaces\\bgeneral\\bgeneral.template\\servicios");
+		File output = new File("C:\\Users\\manji\\Documents\\assist\\multibank\\workspace\\mb.entregas\\entrega.20190207.1\\idg");
 		FileUtils.deleteQuietly(output);
 
 		Map<String, Element> dpConfigurations = new HashMap<String, Element>();

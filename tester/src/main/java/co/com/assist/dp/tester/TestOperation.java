@@ -225,7 +225,7 @@ public class TestOperation {
 							importResults = prettyOutputter.outputString(importResultsElement);
 						} catch (NullPointerException e) {
 							importResults = prettyOutputter.outputString(responseElement);
-						}	
+						}
 					}
 
 					if (importResults.contains("Authentication failure")
