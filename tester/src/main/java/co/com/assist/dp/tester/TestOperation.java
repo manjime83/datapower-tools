@@ -109,6 +109,12 @@ public class TestOperation {
 		if (type != null) {
 			if (type.equals("src")) {
 				test.importSource(project, module, object);
+				int waitBeforeTest = Integer.parseInt(props.getProperty("dp.waitBeforeTest", "0")) * 1000;
+				try {
+					Thread.sleep(waitBeforeTest);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				test.executeTest(project, module, null);
 			} else if (type.equals("bin")) {
 				test.buildBinary(project, module, object);
@@ -156,7 +162,7 @@ public class TestOperation {
 		String url = props.getProperty("dp.url");
 		String username = props.getProperty("dp.username");
 		String password = decrypt(props.getProperty("dp.password"));
-		int wait = Integer.parseInt(props.getProperty("dp.wait", "0")) * 1000;
+		int waitBetweenImports = Integer.parseInt(props.getProperty("dp.waitBetweenImports", "0")) * 1000;
 
 		System.out.println("url: " + url);
 		System.out.println("username: " + username);
@@ -234,7 +240,7 @@ public class TestOperation {
 							|| importResults.contains("result=\"ERROR\"")
 							|| importResults.contains("status=\"ERROR\"")) {
 						System.err.println(importResults);
-						Thread.sleep(wait);
+						Thread.sleep(waitBetweenImports);
 					} else {
 						System.out.println(importResults);
 					}
