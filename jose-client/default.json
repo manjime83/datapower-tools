@@ -1,0 +1,15 @@
+{
+    "client-private-key": "certs/rbm.security.client.key",
+    "client-public-certificate": "certs/rbm.security.client.cer",
+    "server-public-certificate": "certs/rbm.cer",
+    "request-url": "https://ubuntu:8061/helloWorld",
+    "request-user": "manuel.jimenez",
+    "request-password": "s3cret",
+    "request-body": {
+        "fruit": "Apple",
+        "size": "Large",
+        "color": "Red"
+    },
+    "request-timeout": 5,
+    "enable-encryption": false
+}

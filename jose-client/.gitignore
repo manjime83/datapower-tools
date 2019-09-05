@@ -1,0 +1,5 @@
+/build/
+/certs/
+/logs/
+/node_modules/
+/.project
