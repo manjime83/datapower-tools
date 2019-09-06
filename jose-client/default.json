@@ -10,6 +10,6 @@
         "size": "Large",
         "color": "Red"
     },
-    "request-timeout": 5,
+    "request-timeout": 10,
     "enable-encryption": false
 }
