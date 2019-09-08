@@ -73,15 +73,16 @@ function makeLogsDirectory() {
 }
 
 function signAndEncrypt() {
-    const options = {
+    const signOptions = {
         fields: {
             kid: certificates.clientKey.kid,
             typ: 'json',
-            cty: 'application/json'
+            cty: 'application/json',
+            alg: 'RS256'
         }
     };
 
-    jose.JWS.createSign(options, certificates.clientKey).update(JSON.stringify(profile['request-body']), 'utf8').final().then((signedBody) => {
+    jose.JWS.createSign(signOptions, certificates.clientKey).update(JSON.stringify(profile['request-body']), 'utf8').final().then((signedBody) => {
         fs.writeFile(`logs/${profileName}-signed.json`, JSON.stringify(signedBody, null, 2), 'utf8', (err) => {
             if (err) {
                 return console.error('Error writing signed file:', err.message);
@@ -89,8 +90,16 @@ function signAndEncrypt() {
         });
 
         if (profile['enable-encryption']) {
-            options.fields.kid = certificates.serverCertificate.kid;
-            jose.JWE.createEncrypt(options, certificates.serverCertificate).update(JSON.stringify(signedBody)).final().then(function (encryptedBody) {
+            const encryptOptions = {
+                fields: {
+                    kid: certificates.serverCertificate.kid,
+                    typ: 'json',
+                    cty: 'application/json',
+                    alg: 'RSA-OAEP'
+                }
+            };
+
+            jose.JWE.createEncrypt(encryptOptions, certificates.serverCertificate).update(JSON.stringify(signedBody)).final().then(function (encryptedBody) {
                 fs.writeFile(`logs/${profileName}-encrypted.json`, JSON.stringify(encryptedBody, null, 2), 'utf8', (err) => {
                     if (err) {
                         return console.error('Error writing encrypted file:', err.message);
@@ -129,7 +138,11 @@ function sendRequest(body) {
 
 function decryptAndVerify(responseData) {
     if (profile['enable-encryption']) {
-        jose.JWE.createDecrypt(certificates.clientKey).decrypt(responseData).then((decryptedBody) => {
+        const decryptOptions = {
+            algorithms: ["*"]
+        };
+
+        jose.JWE.createDecrypt(certificates.clientKey, decryptOptions).decrypt(responseData).then((decryptedBody) => {
             const decryptedBodyPayload = JSON.parse(decryptedBody.payload);
 
             fs.writeFile(`logs/${profileName}-decrypted.json`, JSON.stringify(decryptedBodyPayload, null, 2), 'utf8', (err) => {
@@ -148,7 +161,11 @@ function decryptAndVerify(responseData) {
 }
 
 function verify(signedBody) {
-    jose.JWS.createVerify(certificates.serverCertificate).verify(signedBody).then((verifiedBody) => {
+    const verifyOptions = {
+        algorithms: ["*"]
+    };
+
+    jose.JWS.createVerify(certificates.serverCertificate, verifyOptions).verify(signedBody).then((verifiedBody) => {
         const verifiedBodyPayload = JSON.parse(verifiedBody.payload);
 
         fs.writeFile(`logs/${profileName}-verified.json`, JSON.stringify(verifiedBodyPayload, null, 2), 'utf8', (err) => {
