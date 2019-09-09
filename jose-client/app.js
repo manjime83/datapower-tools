@@ -139,7 +139,7 @@ function sendRequest(body) {
 function decryptAndVerify(responseData) {
     if (profile['enable-encryption']) {
         const decryptOptions = {
-            algorithms: ["*"]
+            algorithms: ["A*GCM", "RSA*"]
         };
 
         jose.JWE.createDecrypt(certificates.clientKey, decryptOptions).decrypt(responseData).then((decryptedBody) => {
@@ -162,7 +162,7 @@ function decryptAndVerify(responseData) {
 
 function verify(signedBody) {
     const verifyOptions = {
-        algorithms: ["*"]
+        algorithms: ["RS*"]
     };
 
     jose.JWS.createVerify(certificates.serverCertificate, verifyOptions).verify(signedBody).then((verifiedBody) => {

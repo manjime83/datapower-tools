@@ -1,10 +1,10 @@
 {
   "name": "jose-client",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "build": "pkg --targets node10-win-x64 --output build/jose-client-1.0.0 app.js"
+    "build": "pkg --targets node10-win-x64 --output build/jose-client-1.0.1 app.js"
   },
   "author": "Manuel Jiménez",
   "dependencies": {
