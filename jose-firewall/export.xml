@@ -1,0 +1,1210 @@
+<datapower-configuration version="3">
+	<export-details>
+		<description>Exported Configuration</description>
+		<user>mjimenez</user>
+		<domain>RBM.DP.TEST</domain>
+		<comment/>
+		<product-id>242632X</product-id>
+		<product>XG45</product>
+		<display-product>XG45</display-product>
+		<model>DataPower XG45</model>
+		<display-model>DataPower XG45</display-model>
+		<device-name>BTADPSEG02</device-name>
+		<serial-number>6804721</serial-number>
+		<firmware-version>XG45.7.7.1.3</firmware-version>
+		<display-firmware-version>XG45.7.7.1.3</display-firmware-version>
+		<firmware-build>302338</firmware-build>
+		<firmware-timestamp>2018/08/28 13:13:34</firmware-timestamp>
+		<current-date>2019-09-16</current-date>
+		<current-time>11:57:53 DST</current-time>
+		<reset-date>2019-07-26</reset-date>
+		<reset-time>14:29:51 DST</reset-time>
+		<login-message/>
+		<custom-ui-file/>
+		<intrusion-detection>enable</intrusion-detection>
+	</export-details>
+	<interface-data>
+		<interface name="mgt0" type="Ethernet" vers="ipv4" ip-addr="192.168.17.120"/>
+		<interface name="eth11" type="Ethernet" vers="ipv4" ip-addr="172.20.216.4"/>
+		<interface name="eth11" type="Ethernet" vers="ipv4" ip-addr="172.20.216.5"/>
+	</interface-data>
+	<configuration domain="RBM.DP.TEST">
+		<DomainSettings name="default" intrinsic="true" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<PasswordTreatment>none</PasswordTreatment>
+		</DomainSettings>
+		<PasswordAlias name="RBMTEST2021" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<DomainSettings class="DomainSettings">default</DomainSettings>
+		</PasswordAlias>
+		<CryptoKey name="privkey.redeban.com.co" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<Filename>cert:///www.txstestrbm.com202107.p12</Filename>
+			<PasswordAlias>on</PasswordAlias>
+			<Alias class="PasswordAlias">RBMTEST2021</Alias>
+		</CryptoKey>
+		<CryptoCertificate name="cert.redeban.com.co" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<Filename>cert:///www.txstestrbm.com202107cer.cer</Filename>
+			<PasswordAlias>off</PasswordAlias>
+			<IgnoreExpiration>off</IgnoreExpiration>
+		</CryptoCertificate>
+		<CryptoCertificate name="cert.redeban.com.co.interm" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<Filename>cert:///www.txstestrbm.com202107In.cer</Filename>
+			<PasswordAlias>off</PasswordAlias>
+			<IgnoreExpiration>off</IgnoreExpiration>
+		</CryptoCertificate>
+		<CryptoCertificate name="cert.redeban.com.co.root" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<Filename>cert:///www.txstestrbm.com202107Ra.cer</Filename>
+			<PasswordAlias>off</PasswordAlias>
+			<IgnoreExpiration>off</IgnoreExpiration>
+		</CryptoCertificate>
+		<CryptoIdentCred name="RedebanCIC" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<Key class="CryptoKey">privkey.redeban.com.co</Key>
+			<Certificate class="CryptoCertificate">cert.redeban.com.co</Certificate>
+			<CA class="CryptoCertificate">cert.redeban.com.co.interm</CA>
+			<CA class="CryptoCertificate">cert.redeban.com.co.root</CA>
+		</CryptoIdentCred>
+		<CryptoValCred name="RedebanTemplateCVC" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<CertValidationMode>exact-match</CertValidationMode>
+			<UseCRL>on</UseCRL>
+			<RequireCRL>off</RequireCRL>
+			<CRLDPHandling>ignore</CRLDPHandling>
+			<InitialPolicySet>2.5.29.32.0</InitialPolicySet>
+			<ExplicitPolicy>off</ExplicitPolicy>
+			<CheckDates>on</CheckDates>
+		</CryptoValCred>
+		<SSLServerProfile name="RedebanTempateSSP" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<Protocols>
+				<SSLv3>off</SSLv3>
+				<TLSv1d0>off</TLSv1d0>
+				<TLSv1d1>off</TLSv1d1>
+				<TLSv1d2>on</TLSv1d2>
+			</Protocols>
+			<Ciphers>ECDHE_ECDSA_WITH_AES_256_GCM_SHA384</Ciphers>
+			<Ciphers>ECDHE_RSA_WITH_AES_256_GCM_SHA384</Ciphers>
+			<Ciphers>ECDHE_ECDSA_WITH_AES_256_CBC_SHA384</Ciphers>
+			<Ciphers>ECDHE_RSA_WITH_AES_256_CBC_SHA384</Ciphers>
+			<Ciphers>ECDHE_ECDSA_WITH_AES_256_CBC_SHA</Ciphers>
+			<Ciphers>ECDHE_RSA_WITH_AES_256_CBC_SHA</Ciphers>
+			<Ciphers>DHE_DSS_WITH_AES_256_GCM_SHA384</Ciphers>
+			<Ciphers>DHE_RSA_WITH_AES_256_GCM_SHA384</Ciphers>
+			<Ciphers>DHE_RSA_WITH_AES_256_CBC_SHA256</Ciphers>
+			<Ciphers>DHE_DSS_WITH_AES_256_CBC_SHA256</Ciphers>
+			<Ciphers>DHE_RSA_WITH_AES_256_CBC_SHA</Ciphers>
+			<Ciphers>DHE_DSS_WITH_AES_256_CBC_SHA</Ciphers>
+			<Ciphers>RSA_WITH_AES_256_GCM_SHA384</Ciphers>
+			<Ciphers>RSA_WITH_AES_256_CBC_SHA256</Ciphers>
+			<Ciphers>RSA_WITH_AES_256_CBC_SHA</Ciphers>
+			<Ciphers>ECDHE_ECDSA_WITH_AES_128_GCM_SHA256</Ciphers>
+			<Ciphers>ECDHE_RSA_WITH_AES_128_GCM_SHA256</Ciphers>
+			<Ciphers>ECDHE_ECDSA_WITH_AES_128_CBC_SHA256</Ciphers>
+			<Ciphers>ECDHE_RSA_WITH_AES_128_CBC_SHA256</Ciphers>
+			<Ciphers>ECDHE_ECDSA_WITH_AES_128_CBC_SHA</Ciphers>
+			<Ciphers>ECDHE_RSA_WITH_AES_128_CBC_SHA</Ciphers>
+			<Ciphers>DHE_DSS_WITH_AES_128_GCM_SHA256</Ciphers>
+			<Ciphers>DHE_RSA_WITH_AES_128_GCM_SHA256</Ciphers>
+			<Ciphers>DHE_RSA_WITH_AES_128_CBC_SHA256</Ciphers>
+			<Ciphers>DHE_DSS_WITH_AES_128_CBC_SHA256</Ciphers>
+			<Ciphers>DHE_RSA_WITH_AES_128_CBC_SHA</Ciphers>
+			<Ciphers>DHE_DSS_WITH_AES_128_CBC_SHA</Ciphers>
+			<Ciphers>RSA_WITH_AES_128_GCM_SHA256</Ciphers>
+			<Ciphers>RSA_WITH_AES_128_CBC_SHA256</Ciphers>
+			<Ciphers>RSA_WITH_AES_128_CBC_SHA</Ciphers>
+			<Ciphers>ECDHE_ECDSA_WITH_3DES_EDE_CBC_SHA</Ciphers>
+			<Ciphers>ECDHE_RSA_WITH_3DES_EDE_CBC_SHA</Ciphers>
+			<Ciphers>DHE_RSA_WITH_3DES_EDE_CBC_SHA</Ciphers>
+			<Ciphers>DHE_DSS_WITH_3DES_EDE_CBC_SHA</Ciphers>
+			<Ciphers>RSA_WITH_3DES_EDE_CBC_SHA</Ciphers>
+			<Idcred class="CryptoIdentCred">RedebanCIC</Idcred>
+			<RequestClientAuth>on</RequestClientAuth>
+			<RequireClientAuth>on</RequireClientAuth>
+			<ValidateClientCert>on</ValidateClientCert>
+			<SendClientAuthCAList>on</SendClientAuthCAList>
+			<Valcred class="CryptoValCred">RedebanTemplateCVC</Valcred>
+			<Caching>on</Caching>
+			<CacheTimeout>300</CacheTimeout>
+			<CacheSize>20</CacheSize>
+			<SSLOptions>
+				<max-duration>off</max-duration>
+				<max-renegotiation>off</max-renegotiation>
+			</SSLOptions>
+			<MaxSSLDuration>60</MaxSSLDuration>
+			<NumberOfRenegotiationAllowed>0</NumberOfRenegotiationAllowed>
+			<ProhibitResumeOnReneg>off</ProhibitResumeOnReneg>
+			<Compression>off</Compression>
+			<AllowLegacyRenegotiation>off</AllowLegacyRenegotiation>
+			<PreferServerCiphers>on</PreferServerCiphers>
+			<EllipticCurves>secp521r1</EllipticCurves>
+			<EllipticCurves>secp384r1</EllipticCurves>
+			<EllipticCurves>secp256k1</EllipticCurves>
+			<EllipticCurves>secp256r1</EllipticCurves>
+		</SSLServerProfile>
+		<HTTPSSourceProtocolHandler name="RedebanTemplateFSH" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<LocalAddress>RBM.DP.TEST</LocalAddress>
+			<LocalPort>8443</LocalPort>
+			<HTTPVersion>HTTP/1.1</HTTPVersion>
+			<AllowedFeatures>
+				<HTTP-1.0>on</HTTP-1.0>
+				<HTTP-1.1>on</HTTP-1.1>
+				<HTTP-2.0>off</HTTP-2.0>
+				<POST>on</POST>
+				<GET>off</GET>
+				<PUT>off</PUT>
+				<HEAD>off</HEAD>
+				<OPTIONS>off</OPTIONS>
+				<TRACE>off</TRACE>
+				<DELETE>off</DELETE>
+				<CONNECT>off</CONNECT>
+				<CustomMethods>off</CustomMethods>
+				<QueryString>off</QueryString>
+				<FragmentIdentifiers>off</FragmentIdentifiers>
+				<DotDot>off</DotDot>
+				<CmdExe>off</CmdExe>
+			</AllowedFeatures>
+			<PersistentConnections>on</PersistentConnections>
+			<MaxPersistentConnectionsReuse>0</MaxPersistentConnectionsReuse>
+			<AllowCompression>off</AllowCompression>
+			<AllowWebSocketUpgrade>off</AllowWebSocketUpgrade>
+			<WebSocketIdleTimeout>0</WebSocketIdleTimeout>
+			<MaxURLLen>16384</MaxURLLen>
+			<MaxTotalHdrLen>128000</MaxTotalHdrLen>
+			<MaxHdrCount>0</MaxHdrCount>
+			<MaxNameHdrLen>0</MaxNameHdrLen>
+			<MaxValueHdrLen>0</MaxValueHdrLen>
+			<MaxQueryStringLen>0</MaxQueryStringLen>
+			<CredentialCharset>protocol</CredentialCharset>
+			<SSLServerConfigType>server</SSLServerConfigType>
+			<SSLServer class="SSLServerProfile">RedebanTempateSSP</SSLServer>
+			<HTTP2MaxStreams>100</HTTP2MaxStreams>
+			<HTTP2MaxFrameSize>16384</HTTP2MaxFrameSize>
+			<HTTP2StreamHeader>off</HTTP2StreamHeader>
+			<ChunkedEncoding>on</ChunkedEncoding>
+		</HTTPSSourceProtocolHandler>
+		<HTTPSourceProtocolHandler name="TestSeguridadFSH2" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<LocalAddress>RBM.DP.TEST</LocalAddress>
+			<LocalPort>9000</LocalPort>
+			<HTTPVersion>HTTP/1.1</HTTPVersion>
+			<AllowedFeatures>
+				<HTTP-1.0>on</HTTP-1.0>
+				<HTTP-1.1>on</HTTP-1.1>
+				<HTTP-2.0>off</HTTP-2.0>
+				<POST>on</POST>
+				<GET>off</GET>
+				<PUT>on</PUT>
+				<HEAD>off</HEAD>
+				<OPTIONS>off</OPTIONS>
+				<TRACE>off</TRACE>
+				<DELETE>off</DELETE>
+				<CONNECT>off</CONNECT>
+				<CustomMethods>off</CustomMethods>
+				<QueryString>on</QueryString>
+				<FragmentIdentifiers>on</FragmentIdentifiers>
+				<DotDot>off</DotDot>
+				<CmdExe>off</CmdExe>
+			</AllowedFeatures>
+			<PersistentConnections>on</PersistentConnections>
+			<MaxPersistentConnectionsReuse>0</MaxPersistentConnectionsReuse>
+			<AllowCompression>off</AllowCompression>
+			<AllowWebSocketUpgrade>off</AllowWebSocketUpgrade>
+			<WebSocketIdleTimeout>0</WebSocketIdleTimeout>
+			<MaxURLLen>16384</MaxURLLen>
+			<MaxTotalHdrLen>128000</MaxTotalHdrLen>
+			<MaxHdrCount>0</MaxHdrCount>
+			<MaxNameHdrLen>0</MaxNameHdrLen>
+			<MaxValueHdrLen>0</MaxValueHdrLen>
+			<MaxQueryStringLen>0</MaxQueryStringLen>
+			<CredentialCharset>protocol</CredentialCharset>
+			<HTTP2MaxStreams>100</HTTP2MaxStreams>
+			<HTTP2MaxFrameSize>16384</HTTP2MaxFrameSize>
+			<HTTP2StreamHeader>off</HTTP2StreamHeader>
+			<ChunkedEncoding>on</ChunkedEncoding>
+		</HTTPSourceProtocolHandler>
+		<LoadBalancerGroup name="LBG_RH" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<UserSummary>Balancer Group RedHat</UserSummary>
+			<Algorithm>weighted-round-robin</Algorithm>
+			<Damp>60</Damp>
+			<NeverReturnSickMember>on</NeverReturnSickMember>
+			<LBGroupMembers>
+				<Server>10.9.200.250</Server>
+				<Weight>1000</Weight>
+				<MappedPort>0</MappedPort>
+				<Activity/>
+				<HealthPort>1636</HealthPort>
+				<LBMemberState>enabled</LBMemberState>
+			</LBGroupMembers>
+			<LBGroupMembers>
+				<Server>10.9.200.28</Server>
+				<Weight>1</Weight>
+				<MappedPort>0</MappedPort>
+				<Activity/>
+				<HealthPort>1636</HealthPort>
+				<LBMemberState>enabled</LBMemberState>
+			</LBGroupMembers>
+			<TryEveryServerBeforeFailing>off</TryEveryServerBeforeFailing>
+			<LBGroupChecks>
+				<Active>on</Active>
+				<URI>/</URI>
+				<Port>1636</Port>
+				<SSL>LDAP</SSL>
+				<Post>on</Post>
+				<Input>store:///healthcheck.xml</Input>
+				<Timeout>10</Timeout>
+				<Frequency>60</Frequency>
+				<XPath>/</XPath>
+				<Filter>store:///healthcheck.xsl</Filter>
+				<SSLProxyProfile/>
+				<EnforceTimeout>off</EnforceTimeout>
+				<IndependentChecks>off</IndependentChecks>
+				<GatewayScriptChecks>off</GatewayScriptChecks>
+				<GatewayScriptReqMethod>GET</GatewayScriptReqMethod>
+				<GatewayScriptCustomReqMethod/>
+				<GatewayScriptReqDoc>store:///healthcheck.json</GatewayScriptReqDoc>
+				<GatewayScriptReqContentType>application/json</GatewayScriptReqContentType>
+				<GatewayScriptRspHandlerMetadata/>
+				<GatewayScriptRspHandler>store:///healthcheck.js</GatewayScriptRspHandler>
+				<TCPConnectionType>Full</TCPConnectionType>
+				<SSLClientConfigType>proxy</SSLClientConfigType>
+				<SSLClient/>
+			</LBGroupChecks>
+			<MasqueradeMember>off</MasqueradeMember>
+		</LoadBalancerGroup>
+		<HTTPUserAgent name="default" intrinsic="true" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<UserSummary>Default User Agent</UserSummary>
+			<MaxRedirects>8</MaxRedirects>
+			<Timeout>300</Timeout>
+		</HTTPUserAgent>
+		<XMLManager name="RedebanTemplateXM" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<CacheSize>256</CacheSize>
+			<SHA1Caching>on</SHA1Caching>
+			<StaticDocumentCalls>on</StaticDocumentCalls>
+			<SearchResults>on</SearchResults>
+			<SupportTxWarn>off</SupportTxWarn>
+			<VirtualServers class="LoadBalancerGroup">LBG_RH</VirtualServers>
+			<Memoization>on</Memoization>
+			<ParserLimitsBytesScanned>4194304</ParserLimitsBytesScanned>
+			<ParserLimitsElementDepth>512</ParserLimitsElementDepth>
+			<ParserLimitsAttributeCount>128</ParserLimitsAttributeCount>
+			<ParserLimitsMaxNodeSize>33554432</ParserLimitsMaxNodeSize>
+			<ParserLimitsForbidExternalReferences>on</ParserLimitsForbidExternalReferences>
+			<ParserLimitsExternalReferences>forbid</ParserLimitsExternalReferences>
+			<ParserLimitsMaxPrefixes>1024</ParserLimitsMaxPrefixes>
+			<ParserLimitsMaxNamespaces>1024</ParserLimitsMaxNamespaces>
+			<ParserLimitsMaxLocalNames>60000</ParserLimitsMaxLocalNames>
+			<DocCacheMaxDocs>5000</DocCacheMaxDocs>
+			<DocCacheSize>0</DocCacheSize>
+			<DocMaxWrites>32768</DocMaxWrites>
+			<UserAgent class="HTTPUserAgent">default</UserAgent>
+		</XMLManager>
+		<CryptoCertificate name="RedebanSecurityClientCC" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<Filename>cert:///rbm.security.client.cer</Filename>
+			<PasswordAlias>off</PasswordAlias>
+			<IgnoreExpiration>off</IgnoreExpiration>
+		</CryptoCertificate>
+		<CryptoValCred name="RedebanTemplateBackendCVC" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<Certificate class="CryptoCertificate">RedebanSecurityClientCC</Certificate>
+			<CertValidationMode>exact-match</CertValidationMode>
+			<UseCRL>on</UseCRL>
+			<RequireCRL>off</RequireCRL>
+			<CRLDPHandling>ignore</CRLDPHandling>
+			<InitialPolicySet>2.5.29.32.0</InitialPolicySet>
+			<ExplicitPolicy>off</ExplicitPolicy>
+			<CheckDates>on</CheckDates>
+		</CryptoValCred>
+		<SSLClientProfile name="RedebanTemplateSCP" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<Protocols>
+				<SSLv3>off</SSLv3>
+				<TLSv1d0>off</TLSv1d0>
+				<TLSv1d1>off</TLSv1d1>
+				<TLSv1d2>on</TLSv1d2>
+			</Protocols>
+			<Ciphers>ECDHE_ECDSA_WITH_AES_256_GCM_SHA384</Ciphers>
+			<Ciphers>ECDHE_RSA_WITH_AES_256_GCM_SHA384</Ciphers>
+			<Ciphers>ECDHE_ECDSA_WITH_AES_256_CBC_SHA384</Ciphers>
+			<Ciphers>ECDHE_RSA_WITH_AES_256_CBC_SHA384</Ciphers>
+			<Ciphers>ECDHE_ECDSA_WITH_AES_256_CBC_SHA</Ciphers>
+			<Ciphers>ECDHE_RSA_WITH_AES_256_CBC_SHA</Ciphers>
+			<Ciphers>DHE_DSS_WITH_AES_256_GCM_SHA384</Ciphers>
+			<Ciphers>DHE_RSA_WITH_AES_256_GCM_SHA384</Ciphers>
+			<Ciphers>DHE_RSA_WITH_AES_256_CBC_SHA256</Ciphers>
+			<Ciphers>DHE_DSS_WITH_AES_256_CBC_SHA256</Ciphers>
+			<Ciphers>DHE_RSA_WITH_AES_256_CBC_SHA</Ciphers>
+			<Ciphers>DHE_DSS_WITH_AES_256_CBC_SHA</Ciphers>
+			<Ciphers>RSA_WITH_AES_256_GCM_SHA384</Ciphers>
+			<Ciphers>RSA_WITH_AES_256_CBC_SHA256</Ciphers>
+			<Ciphers>RSA_WITH_AES_256_CBC_SHA</Ciphers>
+			<Ciphers>ECDHE_ECDSA_WITH_AES_128_GCM_SHA256</Ciphers>
+			<Ciphers>ECDHE_RSA_WITH_AES_128_GCM_SHA256</Ciphers>
+			<Ciphers>ECDHE_ECDSA_WITH_AES_128_CBC_SHA256</Ciphers>
+			<Ciphers>ECDHE_RSA_WITH_AES_128_CBC_SHA256</Ciphers>
+			<Ciphers>ECDHE_ECDSA_WITH_AES_128_CBC_SHA</Ciphers>
+			<Ciphers>ECDHE_RSA_WITH_AES_128_CBC_SHA</Ciphers>
+			<Ciphers>DHE_DSS_WITH_AES_128_GCM_SHA256</Ciphers>
+			<Ciphers>DHE_RSA_WITH_AES_128_GCM_SHA256</Ciphers>
+			<Ciphers>DHE_RSA_WITH_AES_128_CBC_SHA256</Ciphers>
+			<Ciphers>DHE_DSS_WITH_AES_128_CBC_SHA256</Ciphers>
+			<Ciphers>DHE_RSA_WITH_AES_128_CBC_SHA</Ciphers>
+			<Ciphers>DHE_DSS_WITH_AES_128_CBC_SHA</Ciphers>
+			<Ciphers>RSA_WITH_AES_128_GCM_SHA256</Ciphers>
+			<Ciphers>RSA_WITH_AES_128_CBC_SHA256</Ciphers>
+			<Ciphers>RSA_WITH_AES_128_CBC_SHA</Ciphers>
+			<Idcred class="CryptoIdentCred">RedebanCIC</Idcred>
+			<ValidateServerCert>off</ValidateServerCert>
+			<Valcred class="CryptoValCred">RedebanTemplateBackendCVC</Valcred>
+			<Caching>on</Caching>
+			<CacheTimeout>300</CacheTimeout>
+			<CacheSize>100</CacheSize>
+			<SSLClientFeatures>
+				<use-sni>off</use-sni>
+				<permit-insecure-servers>off</permit-insecure-servers>
+				<compression>off</compression>
+			</SSLClientFeatures>
+			<EllipticCurves>secp521r1</EllipticCurves>
+			<EllipticCurves>secp384r1</EllipticCurves>
+			<EllipticCurves>secp256k1</EllipticCurves>
+			<EllipticCurves>secp256r1</EllipticCurves>
+			<UseCustomSNIHostname>yes</UseCustomSNIHostname>
+		</SSLClientProfile>
+		<MessageMatching name="RedebanTemplateMM" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<HTTPMethod>any</HTTPMethod>
+		</MessageMatching>
+		<MessageType name="RedebanTemplateMT" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<Matching class="MessageMatching">RedebanTemplateMM</Matching>
+		</MessageType>
+		<FilterAction name="RedebanTemplateMFA" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<Type>reject</Type>
+			<LogLevel>debug</LogLevel>
+			<BlockInterval>0</BlockInterval>
+		</FilterAction>
+		<CountMonitor name="RedebanTemplateCM" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<MessageType class="MessageType">RedebanTemplateMT</MessageType>
+			<Measure>requests</Measure>
+			<Source>all</Source>
+			<Header>X-Client-IP</Header>
+			<Filter>
+				<Name>max-tps</Name>
+				<Interval>10000</Interval>
+				<RateLimit>3</RateLimit>
+				<BurstLimit>6</BurstLimit>
+				<Action class="FilterAction">RedebanTemplateMFA</Action>
+			</Filter>
+			<MaxSources>10000</MaxSources>
+		</CountMonitor>
+		<CountMonitor name="RedebanTemplateIPCM" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<MessageType class="MessageType">RedebanTemplateMT</MessageType>
+			<Measure>requests</Measure>
+			<Source>each-ip</Source>
+			<Header>X-Client-IP</Header>
+			<Filter>
+				<Name>max-tps</Name>
+				<Interval>10000</Interval>
+				<RateLimit>1</RateLimit>
+				<BurstLimit>2</BurstLimit>
+				<Action class="FilterAction">RedebanTemplateMFA</Action>
+			</Filter>
+			<MaxSources>10000</MaxSources>
+		</CountMonitor>
+		<DurationMonitor name="RedebanTemplateDM" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<MessageType class="MessageType">RedebanTemplateMT</MessageType>
+			<Measure>messages</Measure>
+		</DurationMonitor>
+		<Matching name="RedebanTemplateMR" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<MatchRules>
+				<Type>url</Type>
+				<HttpTag/>
+				<HttpValue/>
+				<Url>*</Url>
+				<ErrorCode/>
+				<XPATHExpression/>
+				<Method>default</Method>
+				<CustomMethod/>
+			</MatchRules>
+			<MatchWithPCRE>off</MatchWithPCRE>
+			<CombineWithOr>off</CombineWithOr>
+		</Matching>
+		<LDAPSearchParameters name="ParametrosBusquedaTDS" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<LDAPBaseDN>cn=users,dc=redeban,dc=com</LDAPBaseDN>
+			<LDAPReturnedAttribute>dn</LDAPReturnedAttribute>
+			<LDAPFilterPrefix>uid=</LDAPFilterPrefix>
+			<LDAPScope>subtree</LDAPScope>
+		</LDAPSearchParameters>
+		<CryptoCertificate name="BTASCLDAP01" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<Filename>cert:///btascldap01.redeban.com2.cer</Filename>
+			<PasswordAlias>off</PasswordAlias>
+			<IgnoreExpiration>off</IgnoreExpiration>
+		</CryptoCertificate>
+		<CryptoCertificate name="BTASTLDAP02" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<Filename>cert:///btastldap02.redeban.com.cer</Filename>
+			<PasswordAlias>off</PasswordAlias>
+			<IgnoreExpiration>off</IgnoreExpiration>
+		</CryptoCertificate>
+		<CryptoValCred name="VC_ServidorTDS" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<Certificate class="CryptoCertificate">BTASCLDAP01</Certificate>
+			<Certificate class="CryptoCertificate">BTASTLDAP02</Certificate>
+			<CertValidationMode>legacy</CertValidationMode>
+			<UseCRL>on</UseCRL>
+			<RequireCRL>off</RequireCRL>
+			<CRLDPHandling>ignore</CRLDPHandling>
+			<InitialPolicySet>2.5.29.32.0</InitialPolicySet>
+			<ExplicitPolicy>off</ExplicitPolicy>
+			<CheckDates>on</CheckDates>
+		</CryptoValCred>
+		<SSLClientProfile name="ClienteLdapTdsSCP" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<Protocols>
+				<SSLv3>off</SSLv3>
+				<TLSv1d0>on</TLSv1d0>
+				<TLSv1d1>on</TLSv1d1>
+				<TLSv1d2>on</TLSv1d2>
+			</Protocols>
+			<Ciphers>ECDHE_ECDSA_WITH_AES_256_GCM_SHA384</Ciphers>
+			<Ciphers>ECDHE_RSA_WITH_AES_256_GCM_SHA384</Ciphers>
+			<Ciphers>ECDHE_ECDSA_WITH_AES_256_CBC_SHA384</Ciphers>
+			<Ciphers>ECDHE_RSA_WITH_AES_256_CBC_SHA384</Ciphers>
+			<Ciphers>ECDHE_ECDSA_WITH_AES_256_CBC_SHA</Ciphers>
+			<Ciphers>ECDHE_RSA_WITH_AES_256_CBC_SHA</Ciphers>
+			<Ciphers>DHE_DSS_WITH_AES_256_GCM_SHA384</Ciphers>
+			<Ciphers>DHE_RSA_WITH_AES_256_GCM_SHA384</Ciphers>
+			<Ciphers>DHE_RSA_WITH_AES_256_CBC_SHA256</Ciphers>
+			<Ciphers>DHE_DSS_WITH_AES_256_CBC_SHA256</Ciphers>
+			<Ciphers>DHE_RSA_WITH_AES_256_CBC_SHA</Ciphers>
+			<Ciphers>DHE_DSS_WITH_AES_256_CBC_SHA</Ciphers>
+			<Ciphers>RSA_WITH_AES_256_GCM_SHA384</Ciphers>
+			<Ciphers>RSA_WITH_AES_256_CBC_SHA256</Ciphers>
+			<Ciphers>RSA_WITH_AES_256_CBC_SHA</Ciphers>
+			<Ciphers>ECDHE_ECDSA_WITH_AES_128_GCM_SHA256</Ciphers>
+			<Ciphers>ECDHE_RSA_WITH_AES_128_GCM_SHA256</Ciphers>
+			<Ciphers>ECDHE_ECDSA_WITH_AES_128_CBC_SHA256</Ciphers>
+			<Ciphers>ECDHE_RSA_WITH_AES_128_CBC_SHA256</Ciphers>
+			<Ciphers>ECDHE_ECDSA_WITH_AES_128_CBC_SHA</Ciphers>
+			<Ciphers>ECDHE_RSA_WITH_AES_128_CBC_SHA</Ciphers>
+			<Ciphers>DHE_DSS_WITH_AES_128_GCM_SHA256</Ciphers>
+			<Ciphers>DHE_RSA_WITH_AES_128_GCM_SHA256</Ciphers>
+			<Ciphers>DHE_RSA_WITH_AES_128_CBC_SHA256</Ciphers>
+			<Ciphers>DHE_DSS_WITH_AES_128_CBC_SHA256</Ciphers>
+			<Ciphers>DHE_RSA_WITH_AES_128_CBC_SHA</Ciphers>
+			<Ciphers>DHE_DSS_WITH_AES_128_CBC_SHA</Ciphers>
+			<Ciphers>RSA_WITH_AES_128_GCM_SHA256</Ciphers>
+			<Ciphers>RSA_WITH_AES_128_CBC_SHA256</Ciphers>
+			<Ciphers>RSA_WITH_AES_128_CBC_SHA</Ciphers>
+			<Ciphers>ECDHE_ECDSA_WITH_3DES_EDE_CBC_SHA</Ciphers>
+			<Ciphers>ECDHE_RSA_WITH_3DES_EDE_CBC_SHA</Ciphers>
+			<Ciphers>DHE_RSA_WITH_3DES_EDE_CBC_SHA</Ciphers>
+			<Ciphers>DHE_DSS_WITH_3DES_EDE_CBC_SHA</Ciphers>
+			<Ciphers>RSA_WITH_3DES_EDE_CBC_SHA</Ciphers>
+			<ValidateServerCert>on</ValidateServerCert>
+			<Valcred class="CryptoValCred">VC_ServidorTDS</Valcred>
+			<Caching>on</Caching>
+			<CacheTimeout>300</CacheTimeout>
+			<CacheSize>100</CacheSize>
+			<SSLClientFeatures>
+				<use-sni>off</use-sni>
+				<permit-insecure-servers>off</permit-insecure-servers>
+				<compression>off</compression>
+			</SSLClientFeatures>
+			<EllipticCurves>secp521r1</EllipticCurves>
+			<EllipticCurves>secp384r1</EllipticCurves>
+			<EllipticCurves>secp256k1</EllipticCurves>
+			<EllipticCurves>secp256r1</EllipticCurves>
+			<UseCustomSNIHostname>no</UseCustomSNIHostname>
+		</SSLClientProfile>
+		<PasswordAlias name="LdapTDSPMA" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<UserSummary>userPassword</UserSummary>
+			<DomainSettings class="DomainSettings">default</DomainSettings>
+		</PasswordAlias>
+		<AAAPolicy name="AAA_AutenticLDAPHttpBasic" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<ExtractIdentity>
+				<EIBitmap>
+					<http-basic-auth>on</http-basic-auth>
+					<wssec-username>off</wssec-username>
+					<wssec-derived-key>off</wssec-derived-key>
+					<wssec-binary-token>off</wssec-binary-token>
+					<ws-secure-conversation>off</ws-secure-conversation>
+					<ws-trust>off</ws-trust>
+					<kerberos>off</kerberos>
+					<kerberos-spnego>off</kerberos-spnego>
+					<client-ssl>off</client-ssl>
+					<saml-attr-name>off</saml-attr-name>
+					<saml-authen-name>off</saml-authen-name>
+					<saml-artifact>off</saml-artifact>
+					<client-ip-address>off</client-ip-address>
+					<signer-dn>off</signer-dn>
+					<token>off</token>
+					<cookie-token>off</cookie-token>
+					<ltpa>off</ltpa>
+					<metadata>off</metadata>
+					<jwt>off</jwt>
+					<custom>off</custom>
+					<html-forms-auth>off</html-forms-auth>
+					<social-login>off</social-login>
+					<oauth>off</oauth>
+				</EIBitmap>
+				<EICustomURL/>
+				<EIXPath/>
+				<EISignerDNValcred/>
+				<EICookieName/>
+				<EIBasicAuthRealm>login</EIBasicAuthRealm>
+				<EIUseWSSec>off</EIUseWSSec>
+				<EIMetadata/>
+				<EIAllowRemoteTokenReference>off</EIAllowRemoteTokenReference>
+				<EIRemoteTokenProcessService/>
+				<EIPasswordRetrievalMechanism>xmlfile</EIPasswordRetrievalMechanism>
+				<EIPasswordRetrievalCustomURL/>
+				<EIPasswordRetrievalAAAInfoURL/>
+				<EISSLProxyProfile/>
+				<EIFormsLoginPolicy/>
+				<EIOAuthClientGroup/>
+				<EISSLClientConfigType>proxy</EISSLClientConfigType>
+				<EISSLClientProfile/>
+				<EIJWTValidator/>
+				<EISocialLoginPolicy/>
+				<EISAMLResponseValCred/>
+			</ExtractIdentity>
+			<Authenticate>
+				<AUMethod>ldap</AUMethod>
+				<AUCustomURL/>
+				<AUMapURL/>
+				<AUHost>10.9.200.250</AUHost>
+				<AUPort>1636</AUPort>
+				<AUSSLValcred/>
+				<AUCacheAllow>absolute</AUCacheAllow>
+				<AUCacheTTL>3</AUCacheTTL>
+				<AUKerberosPrincipal/>
+				<AUKerberosPassword/>
+				<AUClearTrustServerURL/>
+				<AUClearTrustApplication/>
+				<AUSAMLArtifactResponder/>
+				<AUKerberosVerifySignature>on</AUKerberosVerifySignature>
+				<AUNetegrityBaseURI/>
+				<AUSAMLAuthQueryServer/>
+				<AUSAMLVersion>1.1</AUSAMLVersion>
+				<AULDAPPrefix>cn=</AULDAPPrefix>
+				<AULDAPSuffix/>
+				<AULDAPLoadBalanceGroup class="LoadBalancerGroup">LBG_RH</AULDAPLoadBalanceGroup>
+				<AUKerberosKeytab/>
+				<AUWSTrustURL/>
+				<AUSAML2Issuer/>
+				<AUSignerValcred/>
+				<AUSignedXPath/>
+				<AUSSLProxyProfile/>
+				<AUNetegrityConfig/>
+				<AULDAPBindDN>uid=datapower,ou=appsadmin,dc=redeban,dc=com</AULDAPBindDN>
+				<AULDAPBindPassword/>
+				<AULDAPSearchAttribute>userPassword</AULDAPSearchAttribute>
+				<AULTPATokenVersionsBitmap>
+					<LTPA>off</LTPA>
+					<LTPA2>on</LTPA2>
+					<LTPADomino>off</LTPADomino>
+				</AULTPATokenVersionsBitmap>
+				<AULTPAKeyFile/>
+				<AULTPAKeyFilePassword/>
+				<AULTPAStashFile/>
+				<AUBinaryTokenX509Valcred/>
+				<AUTAMServer/>
+				<AUAllowRemoteTokenReference>off</AUAllowRemoteTokenReference>
+				<AURemoteTokenProcessService/>
+				<AUWSTrustVersion>1.2</AUWSTrustVersion>
+				<AULDAPSearchForDN>on</AULDAPSearchForDN>
+				<AULDAPSearchParameters class="LDAPSearchParameters">ParametrosBusquedaTDS</AULDAPSearchParameters>
+				<AUWSTrustRequireClientEntropy>off</AUWSTrustRequireClientEntropy>
+				<AUWSTrustClientEntropySize>32</AUWSTrustClientEntropySize>
+				<AUWSTrustRequireServerEntropy>off</AUWSTrustRequireServerEntropy>
+				<AUWSTrustServerEntropySize>32</AUWSTrustServerEntropySize>
+				<AUWSTrustRequireRSTC>off</AUWSTrustRequireRSTC>
+				<AUWSTrustRequireAppliesToHeader>off</AUWSTrustRequireAppliesToHeader>
+				<AUWSTrustAppliesToHeader/>
+				<AUWSTrustEncryptionCertificate/>
+				<AUZOSNSSConfig/>
+				<AULDAPAttributes/>
+				<AUSkewTime>0</AUSkewTime>
+				<AUTAMPACReturn>off</AUTAMPACReturn>
+				<AULDAPReadTimeout>60</AULDAPReadTimeout>
+				<AUSSLClientConfigType>client</AUSSLClientConfigType>
+				<AUSSLClientProfile class="SSLClientProfile">ClienteLdapTdsSCP</AUSSLClientProfile>
+				<AULDAPBindPasswordAlias class="PasswordAlias">LdapTDSPMA</AULDAPBindPasswordAlias>
+				<AULTPAKeyFilePasswordAlias/>
+				<AUSMRequestType>webagent</AUSMRequestType>
+				<AUSMCookieFlow>
+					<frontend>off</frontend>
+					<backend>off</backend>
+				</AUSMCookieFlow>
+				<AUSMHeaderFlow>
+					<frontend>off</frontend>
+					<backend>off</backend>
+				</AUSMHeaderFlow>
+				<AUSMCookieAttributes/>
+				<AUCacheControl>default</AUCacheControl>
+			</Authenticate>
+			<MapCredentials>
+				<MCMethod>none</MCMethod>
+				<MCCustomURL/>
+				<MCMapURL/>
+				<MCMapXPath/>
+				<MCTFIMEndpoint/>
+			</MapCredentials>
+			<ExtractResource>
+				<ERBitmap>
+					<target-url>off</target-url>
+					<original-url>on</original-url>
+					<request-uri>off</request-uri>
+					<request-opname>off</request-opname>
+					<http-method>off</http-method>
+					<XPath>off</XPath>
+					<metadata>off</metadata>
+				</ERBitmap>
+				<ERXPath/>
+				<ERMetadata/>
+			</ExtractResource>
+			<MapResource>
+				<MRMethod>none</MRMethod>
+				<MRCustomURL/>
+				<MRMapURL/>
+				<MRMapXPath/>
+				<MRTAMMap>WebSEAL</MRTAMMap>
+				<MRTAMInstancePrefix/>
+				<MRTAMWebSEALDynURLFile/>
+			</MapResource>
+			<Authorize>
+				<AZMethod>anyauthenticated</AZMethod>
+				<AZCustomURL/>
+				<AZMapURL/>
+				<AZHost/>
+				<AZPort/>
+				<AZLDAPGroup/>
+				<AZValcred/>
+				<AZSAMLURL/>
+				<AZSAMLType>any</AZSAMLType>
+				<AZSAMLXPath/>
+				<AZSAMLNameQualifier/>
+				<AZCacheAllow>absolute</AZCacheAllow>
+				<AZCacheTTL>3</AZCacheTTL>
+				<AZNetegrityBaseURI/>
+				<AZNetegrityOpNameExtension/>
+				<AZClearTrustServerURL/>
+				<AZSAMLVersion>1.1</AZSAMLVersion>
+				<AZLDAPLoadBalanceGroup/>
+				<AZLDAPBindDN/>
+				<AZLDAPBindPassword/>
+				<AZLDAPGroupAttribute>member</AZLDAPGroupAttribute>
+				<AZSSLProxyProfile/>
+				<AZNetegrityConfig/>
+				<AZLDAPSearchScope>subtree</AZLDAPSearchScope>
+				<AZLDAPSearchFilter>(objectClass=*)</AZLDAPSearchFilter>
+				<AZXACMLVersion>2.0</AZXACMLVersion>
+				<AZXACMLPEPType>deny-biased</AZXACMLPEPType>
+				<AZXACMLUseOnBoxPDP>on</AZXACMLUseOnBoxPDP>
+				<AZXACMLPDP/>
+				<AZXACMLExternalPDPUrl/>
+				<AZXACMLBindingMethod>custom</AZXACMLBindingMethod>
+				<AZXACMLBindingObject/>
+				<AZXACMLBindingXSL/>
+				<AZXACMLCustomObligation/>
+				<AZXACMLUseSAML2>off</AZXACMLUseSAML2>
+				<AZTAMServer/>
+				<AZTAMDefaultAction>T</AZTAMDefaultAction>
+				<AZTAMActionResourceMap/>
+				<AZXACMLUseSOAP>off</AZXACMLUseSOAP>
+				<AZZOSNSSConfig/>
+				<AZSAFDefaultAction>r</AZSAFDefaultAction>
+				<AZLDAPAttributes/>
+				<AZSkewTime>0</AZSkewTime>
+				<AZOAuthValidationEndpointType>tfim</AZOAuthValidationEndpointType>
+				<AZTFIMEndpoint/>
+				<AZOAuthEnforceScope>off</AZOAuthEnforceScope>
+				<AZOAuthExportHeaders>on</AZOAuthExportHeaders>
+				<AZTAMPACReturn>off</AZTAMPACReturn>
+				<AZTAMPACUse>off</AZTAMPACUse>
+				<AZLDAPReadTimeout>60</AZLDAPReadTimeout>
+				<AZSSLClientConfigType>proxy</AZSSLClientConfigType>
+				<AZSSLClientProfile/>
+				<AZLDAPBindPasswordAlias/>
+				<AZSMRequestType>webagent</AZSMRequestType>
+				<AZSMCookieFlow>
+					<frontend>off</frontend>
+					<backend>off</backend>
+				</AZSMCookieFlow>
+				<AZSMHeaderFlow>
+					<frontend>off</frontend>
+					<backend>off</backend>
+				</AZSMHeaderFlow>
+				<AZSMCookieAttributes/>
+				<AZCacheControl>default</AZCacheControl>
+			</Authorize>
+			<PostProcess>
+				<PPEnabled>off</PPEnabled>
+				<PPCustomURL/>
+				<PPSAMLAuthAssertion>off</PPSAMLAuthAssertion>
+				<PPSAMLServerName>XS</PPSAMLServerName>
+				<PPSAMLNameQualifier/>
+				<PPKerberosTicket>off</PPKerberosTicket>
+				<PPKerberosClient/>
+				<PPKerberosClientPassword/>
+				<PPKerberosServer/>
+				<PPWSTrust>off</PPWSTrust>
+				<PPTimestamp>on</PPTimestamp>
+				<PPTimestampExpiry>0</PPTimestampExpiry>
+				<PPAllowRenewal>off</PPAllowRenewal>
+				<PPSAMLVersion>2.0</PPSAMLVersion>
+				<PPSAMLSendSLO>off</PPSAMLSendSLO>
+				<PPSAMLSLOEndpoint/>
+				<PPSSLProxyProfile/>
+				<PPWSUsernameToken>off</PPWSUsernameToken>
+				<PPWSUsernameTokenPasswordType>Digest</PPWSUsernameTokenPasswordType>
+				<PPSAMLValidity>0</PPSAMLValidity>
+				<PPSAMLSkew>0</PPSAMLSkew>
+				<PPWSUsernameTokenIncludePwd>on</PPWSUsernameTokenIncludePwd>
+				<PPLTPA>off</PPLTPA>
+				<PPLTPAVersion>LTPA2</PPLTPAVersion>
+				<PPLTPAExpiry>600</PPLTPAExpiry>
+				<PPLTPAKeyFile/>
+				<PPLTPAKeyFilePassword/>
+				<PPLTPAStashFile/>
+				<PPKerberosSPNEGOToken>off</PPKerberosSPNEGOToken>
+				<PPKerberosBstValueType>http://docs.oasis-open.org/wss/oasis-wss-kerberos-token-profile-1.1#GSS_Kerberosv5_AP_REQ</PPKerberosBstValueType>
+				<PPSAMLUseWSSec>off</PPSAMLUseWSSec>
+				<PPKerberosClientKeytab/>
+				<PPUseWSSec>off</PPUseWSSec>
+				<PPActorRoleID/>
+				<PPTFIMTokenMapping>off</PPTFIMTokenMapping>
+				<PPTFIMEndpoint/>
+				<PPWSDerivedKeyUsernameToken>off</PPWSDerivedKeyUsernameToken>
+				<PPWSDerivedKeyUsernameTokenIterations>1000</PPWSDerivedKeyUsernameTokenIterations>
+				<PPWSUsernameTokenAllowReplacement>off</PPWSUsernameTokenAllowReplacement>
+				<PPTFIMReplaceMethod>all</PPTFIMReplaceMethod>
+				<PPTFIMRetrieveMode>CallTFIM</PPTFIMRetrieveMode>
+				<PPHMACSigningAlg>hmac-sha1</PPHMACSigningAlg>
+				<PPSigningHashAlg>sha1</PPSigningHashAlg>
+				<PPWSTrustHeader>off</PPWSTrustHeader>
+				<PPWSSCKeySource>random</PPWSSCKeySource>
+				<PPSharedSecretKey/>
+				<PPWSTrustRenewalWait>0</PPWSTrustRenewalWait>
+				<PPWSTrustNewInstance>off</PPWSTrustNewInstance>
+				<PPWSTrustNewKey>off</PPWSTrustNewKey>
+				<PPWSTrustNeverExpire>off</PPWSTrustNeverExpire>
+				<PPICRXToken>off</PPICRXToken>
+				<PPICRXUserRealm/>
+				<PPSAMLIdentityProvider>off</PPSAMLIdentityProvider>
+				<PPSAMLProtocol>assertion</PPSAMLProtocol>
+				<PPSAMLResponseDestination/>
+				<PPResultWrapup>wssec-new</PPResultWrapup>
+				<PPSAMLAssertionType>
+					<authentication>on</authentication>
+					<attribute>on</attribute>
+					<authorization>off</authorization>
+				</PPSAMLAssertionType>
+				<PPSAMLSubjectConfirm>bearer</PPSAMLSubjectConfirm>
+				<PPSAMLNameID>on</PPSAMLNameID>
+				<PPSAMLNameIDFormat/>
+				<PPSAMLRecipient/>
+				<PPSAMLAudience/>
+				<PPSAMLOmitNotBefore>off</PPSAMLOmitNotBefore>
+				<PPOneTimeUse>off</PPOneTimeUse>
+				<PPSAMLProxy>off</PPSAMLProxy>
+				<PPSAMLProxyAudience/>
+				<PPSAMLProxyCount>0</PPSAMLProxyCount>
+				<PPSAMLAuthzAction>AllHTTP</PPSAMLAuthzAction>
+				<PPSAMLAttributes/>
+				<PPLTPAInsertCookie>on</PPLTPAInsertCookie>
+				<PPTAMPACPropagate>off</PPTAMPACPropagate>
+				<PPTAMHeader>HTTP_IV_CREDS</PPTAMHeader>
+				<PPTAMHeaderSize>0</PPTAMHeaderSize>
+				<PPKerberosUseS4U2Proxy>off</PPKerberosUseS4U2Proxy>
+				<PPCookieAttributes/>
+				<PPKerberosUseS4U2SelfAndS4U2Proxy>off</PPKerberosUseS4U2SelfAndS4U2Proxy>
+				<PPKerberosClientSource>mc-output</PPKerberosClientSource>
+				<PPKerberosSelf/>
+				<PPKerberosSelfKeytab/>
+				<PPKerberosClientCustomURL/>
+				<PPKerberosClientCtxVar/>
+				<PPKerberosServerSource>as-is-string</PPKerberosServerSource>
+				<PPKerberosServerCustomURL/>
+				<PPKerberosServerCtxVar/>
+				<PPSSLClientConfigType>proxy</PPSSLClientConfigType>
+				<PPSSLClientProfile/>
+				<PPLTPAKeyFilePasswordAlias/>
+				<PPJWT>off</PPJWT>
+				<PPJWTGenerator/>
+			</PostProcess>
+			<SAMLSigningHashAlg>sha1</SAMLSigningHashAlg>
+			<SAMLSigningAlg>rsa</SAMLSigningAlg>
+			<LDAPsuffix/>
+			<LogAllowed>on</LogAllowed>
+			<LogAllowedLevel>info</LogAllowedLevel>
+			<LogRejected>on</LogRejected>
+			<LogRejectedLevel>warn</LogRejectedLevel>
+			<PingIdentityCompatibility>off</PingIdentityCompatibility>
+			<DoSValve>1</DoSValve>
+			<LDAPVersion>v3</LDAPVersion>
+			<EnforceSOAPActor>on</EnforceSOAPActor>
+			<WSSecActorRoleID/>
+			<DynConfig>none</DynConfig>
+		</AAAPolicy>
+		<StylePolicyAction name="RedebanTemplatePolicy_rule_0_aaa_0" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<Type>aaa</Type>
+			<Input>NULL</Input>
+			<ParseSettingsReference>
+				<URL/>
+				<Literal/>
+				<Default/>
+			</ParseSettingsReference>
+			<ParseMetricsResultType>none</ParseMetricsResultType>
+			<TransformLanguage>none</TransformLanguage>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>NULL</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<AAA class="AAAPolicy">AAA_AutenticLDAPHttpBasic</AAA>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="RedebanTemplatePolicy_rule_0_jose-decrypt_0" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<Type>jose-decrypt</Type>
+			<Input>INPUT</Input>
+			<ParseSettingsReference>
+				<URL/>
+				<Literal/>
+				<Default/>
+			</ParseSettingsReference>
+			<ParseMetricsResultType>none</ParseMetricsResultType>
+			<TransformLanguage>none</TransformLanguage>
+			<GatewayScriptLocation>store:///js/jose-decrypt.js</GatewayScriptLocation>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>PIPE</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JOSEDecryptType>single-key</JOSEDecryptType>
+			<SingleKey class="CryptoKey">privkey.redeban.com.co</SingleKey>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="RedebanTemplatePolicy_rule_0_gatewayscript_1" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<Type>gatewayscript</Type>
+			<Input>PIPE</Input>
+			<ParseSettingsReference>
+				<URL/>
+				<Literal/>
+				<Default/>
+			</ParseSettingsReference>
+			<ParseMetricsResultType>none</ParseMetricsResultType>
+			<TransformLanguage>none</TransformLanguage>
+			<GatewayScriptLocation>local:///js/jose-verify-with-config.js</GatewayScriptLocation>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>OUTPUT</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyRule name="RedebanTemplatePolicy_rule_0" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<Actions class="StylePolicyAction">RedebanTemplatePolicy_rule_0_aaa_0</Actions>
+			<Actions class="StylePolicyAction">RedebanTemplatePolicy_rule_0_jose-decrypt_0</Actions>
+			<Actions class="StylePolicyAction">RedebanTemplatePolicy_rule_0_gatewayscript_1</Actions>
+			<Direction>request-rule</Direction>
+			<InputFormat>none</InputFormat>
+			<OutputFormat>none</OutputFormat>
+			<NonXMLProcessing>off</NonXMLProcessing>
+			<Unprocessed>off</Unprocessed>
+		</StylePolicyRule>
+		<JWSSignature name="RedebanJWS" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<Algorithm>RS512</Algorithm>
+			<Key class="CryptoKey">privkey.redeban.com.co</Key>
+			<ProtectedHeader>
+				<HeaderName>kid</HeaderName>
+				<HeaderValue>rbmcolombia.com</HeaderValue>
+			</ProtectedHeader>
+		</JWSSignature>
+		<StylePolicyAction name="RedebanTemplatePolicy_rule_1_jose-sign_0" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<Type>jose-sign</Type>
+			<Input>INPUT</Input>
+			<ParseSettingsReference>
+				<URL/>
+				<Literal/>
+				<Default/>
+			</ParseSettingsReference>
+			<ParseMetricsResultType>none</ParseMetricsResultType>
+			<TransformLanguage>none</TransformLanguage>
+			<GatewayScriptLocation>store:///js/jose-sign.js</GatewayScriptLocation>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>PIPE</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JOSESerializationType>compact</JOSESerializationType>
+			<JWSSignatureObject class="JWSSignature">RedebanJWS</JWSSignatureObject>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyAction name="RedebanTemplatePolicy_rule_1_gatewayscript_2" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<Type>gatewayscript</Type>
+			<Input>PIPE</Input>
+			<ParseSettingsReference>
+				<URL/>
+				<Literal/>
+				<Default/>
+			</ParseSettingsReference>
+			<ParseMetricsResultType>none</ParseMetricsResultType>
+			<TransformLanguage>none</TransformLanguage>
+			<GatewayScriptLocation>local:///js/jose-encrypt-with-config.js</GatewayScriptLocation>
+			<ActionDebug persisted="false">off</ActionDebug>
+			<Output>OUTPUT</Output>
+			<NamedInOutLocationType>default</NamedInOutLocationType>
+			<SSLClientConfigType>proxy</SSLClientConfigType>
+			<Transactional>off</Transactional>
+			<SOAPValidation>body</SOAPValidation>
+			<SQLSourceType>static</SQLSourceType>
+			<JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+			<Asynchronous>off</Asynchronous>
+			<ResultsMode>first-available</ResultsMode>
+			<RetryCount>0</RetryCount>
+			<RetryInterval>1000</RetryInterval>
+			<MultipleOutputs>off</MultipleOutputs>
+			<IteratorType>XPATH</IteratorType>
+			<Timeout>0</Timeout>
+			<MethodRewriteType>GET</MethodRewriteType>
+			<MethodType>POST</MethodType>
+			<MethodType2>POST</MethodType2>
+		</StylePolicyAction>
+		<StylePolicyRule name="RedebanTemplatePolicy_rule_1" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<Actions class="StylePolicyAction">RedebanTemplatePolicy_rule_1_jose-sign_0</Actions>
+			<Actions class="StylePolicyAction">RedebanTemplatePolicy_rule_1_gatewayscript_2</Actions>
+			<Direction>response-rule</Direction>
+			<InputFormat>none</InputFormat>
+			<OutputFormat>none</OutputFormat>
+			<NonXMLProcessing>off</NonXMLProcessing>
+			<Unprocessed>off</Unprocessed>
+		</StylePolicyRule>
+		<StylePolicy name="RedebanTemplatePolicy" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<DefStylesheetForSoap>store:///filter-reject-all.xsl</DefStylesheetForSoap>
+			<DefStylesheetForXsl>store:///identity.xsl</DefStylesheetForXsl>
+			<DefXQueryForJSON>store:///reject-all-json.xq</DefXQueryForJSON>
+			<PolicyMaps>
+				<Match class="Matching">RedebanTemplateMR</Match>
+				<Rule class="StylePolicyRule">RedebanTemplatePolicy_rule_0</Rule>
+			</PolicyMaps>
+			<PolicyMaps>
+				<Match class="Matching">RedebanTemplateMR</Match>
+				<Rule class="StylePolicyRule">RedebanTemplatePolicy_rule_1</Rule>
+			</PolicyMaps>
+		</StylePolicy>
+		<PolicyAttachments name="RedebanTemplateMPG" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<EnforcementMode>enforce</EnforcementMode>
+			<PolicyReferences>on</PolicyReferences>
+			<SLAEnforcementMode>allow-if-no-sla</SLAEnforcementMode>
+		</PolicyAttachments>
+		<MultiProtocolGateway name="RedebanTemplateMPG" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+			<mAdminState>enabled</mAdminState>
+			<UserSummary>Template Service</UserSummary>
+			<Priority>normal</Priority>
+			<FrontProtocol class="HTTPSSourceProtocolHandler">RedebanTemplateFSH</FrontProtocol>
+			<FrontProtocol class="HTTPSourceProtocolHandler">TestSeguridadFSH2</FrontProtocol>
+			<XMLManager class="XMLManager">RedebanTemplateXM</XMLManager>
+			<SSLClientConfigType>client</SSLClientConfigType>
+			<SSLClient class="SSLClientProfile">RedebanTemplateSCP</SSLClient>
+			<DefaultParamNamespace>http://www.datapower.com/param/config</DefaultParamNamespace>
+			<QueryParamNamespace>http://www.datapower.com/param/query</QueryParamNamespace>
+			<BackendUrl>https://10.9.200.153:8181</BackendUrl>
+			<PropagateURI>on</PropagateURI>
+			<CountMonitors class="CountMonitor">RedebanTemplateCM</CountMonitors>
+			<CountMonitors class="CountMonitor">RedebanTemplateIPCM</CountMonitors>
+			<DurationMonitors class="DurationMonitor">RedebanTemplateDM</DurationMonitors>
+			<MonitorProcessingPolicy>terminate-at-first-throttle</MonitorProcessingPolicy>
+			<RequestAttachments>strip</RequestAttachments>
+			<ResponseAttachments>strip</ResponseAttachments>
+			<RequestAttachmentsFlowControl>off</RequestAttachmentsFlowControl>
+			<ResponseAttachmentsFlowControl>off</ResponseAttachmentsFlowControl>
+			<RootPartNotFirstAction>process-in-order</RootPartNotFirstAction>
+			<FrontAttachmentFormat>dynamic</FrontAttachmentFormat>
+			<BackAttachmentFormat>dynamic</BackAttachmentFormat>
+			<MIMEFrontHeaders>on</MIMEFrontHeaders>
+			<MIMEBackHeaders>on</MIMEBackHeaders>
+			<StreamOutputToBack>buffer-until-verification</StreamOutputToBack>
+			<StreamOutputToFront>buffer-until-verification</StreamOutputToFront>
+			<MaxMessageSize>0</MaxMessageSize>
+			<GatewayParserLimits>off</GatewayParserLimits>
+			<ParserLimitsElementDepth>512</ParserLimitsElementDepth>
+			<ParserLimitsAttributeCount>128</ParserLimitsAttributeCount>
+			<ParserLimitsMaxNodeSize>33554432</ParserLimitsMaxNodeSize>
+			<ParserLimitsForbidExternalReferences>on</ParserLimitsForbidExternalReferences>
+			<ParserLimitsExternalReferences>forbid</ParserLimitsExternalReferences>
+			<ParserLimitsMaxPrefixes>1024</ParserLimitsMaxPrefixes>
+			<ParserLimitsMaxNamespaces>1024</ParserLimitsMaxNamespaces>
+			<ParserLimitsMaxLocalNames>60000</ParserLimitsMaxLocalNames>
+			<ParserLimitsAttachmentByteCount>2000000000</ParserLimitsAttachmentByteCount>
+			<ParserLimitsAttachmentPackageByteCount>0</ParserLimitsAttachmentPackageByteCount>
+			<DebugMode persisted="false">off</DebugMode>
+			<DebuggerType>internal</DebuggerType>
+			<DebugHistory>25</DebugHistory>
+			<FlowControl>off</FlowControl>
+			<SOAPSchemaURL>store:///schemas/soap-envelope.xsd</SOAPSchemaURL>
+			<FrontTimeout>30</FrontTimeout>
+			<BackTimeout>30</BackTimeout>
+			<FrontPersistentTimeout>180</FrontPersistentTimeout>
+			<BackPersistentTimeout>180</BackPersistentTimeout>
+			<IncludeResponseTypeEncoding>off</IncludeResponseTypeEncoding>
+			<BackHTTPVersion>HTTP/1.1</BackHTTPVersion>
+			<PersistentConnections>on</PersistentConnections>
+			<LoopDetection>off</LoopDetection>
+			<DoHostRewriting>on</DoHostRewriting>
+			<DoChunkedUpload>off</DoChunkedUpload>
+			<ProcessHTTPErrors>on</ProcessHTTPErrors>
+			<HTTPClientIPLabel>X-Client-IP</HTTPClientIPLabel>
+			<HTTPLogCorIDLabel>X-Global-Transaction-ID</HTTPLogCorIDLabel>
+			<InOrderMode>
+				<Request>off</Request>
+				<Backend>off</Backend>
+				<Response>off</Response>
+			</InOrderMode>
+			<WSAMode>sync2sync</WSAMode>
+			<WSARequireAAA>on</WSARequireAAA>
+			<WSAStrip>on</WSAStrip>
+			<WSADefaultReplyTo>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</WSADefaultReplyTo>
+			<WSADefaultFaultTo>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</WSADefaultFaultTo>
+			<WSAForce>off</WSAForce>
+			<WSAGenStyle>sync</WSAGenStyle>
+			<WSAHTTPAsyncResponseCode>204</WSAHTTPAsyncResponseCode>
+			<WSATimeout>120</WSATimeout>
+			<WSRMEnabled>off</WSRMEnabled>
+			<WSRMSequenceExpiration>3600</WSRMSequenceExpiration>
+			<WSRMDestinationAcceptCreateSequence>on</WSRMDestinationAcceptCreateSequence>
+			<WSRMDestinationMaximumSequences>400</WSRMDestinationMaximumSequences>
+			<WSRMDestinationInOrder>off</WSRMDestinationInOrder>
+			<WSRMDestinationMaximumInOrderQueueLength>10</WSRMDestinationMaximumInOrderQueueLength>
+			<WSRMDestinationAcceptOffers>off</WSRMDestinationAcceptOffers>
+			<WSRMFrontForce>off</WSRMFrontForce>
+			<WSRMBackForce>off</WSRMBackForce>
+			<WSRMBackCreateSequence>off</WSRMBackCreateSequence>
+			<WSRMFrontCreateSequence>off</WSRMFrontCreateSequence>
+			<WSRMSourceMakeOffer>off</WSRMSourceMakeOffer>
+			<WSRMUsesSequenceSSL>off</WSRMUsesSequenceSSL>
+			<WSRMSourceMaximumSequences>400</WSRMSourceMaximumSequences>
+			<WSRMSourceRetransmissionInterval>10</WSRMSourceRetransmissionInterval>
+			<WSRMSourceExponentialBackoff>on</WSRMSourceExponentialBackoff>
+			<WSRMSourceMaximumRetransmissions>4</WSRMSourceMaximumRetransmissions>
+			<WSRMSourceMaximumQueueLength>30</WSRMSourceMaximumQueueLength>
+			<WSRMSourceRequestAckCount>1</WSRMSourceRequestAckCount>
+			<WSRMSourceInactivityClose>360</WSRMSourceInactivityClose>
+			<ForcePolicyExec>off</ForcePolicyExec>
+			<RewriteErrors>on</RewriteErrors>
+			<DelayErrors>on</DelayErrors>
+			<DelayErrorsDuration>1000</DelayErrorsDuration>
+			<RequestType>preprocessed</RequestType>
+			<ResponseType>preprocessed</ResponseType>
+			<FollowRedirects>on</FollowRedirects>
+			<RewriteLocationHeader>off</RewriteLocationHeader>
+			<StylePolicy class="StylePolicy">RedebanTemplatePolicy</StylePolicy>
+			<Type>static-backend</Type>
+			<AllowCompression>off</AllowCompression>
+			<AllowCacheControlHeader>off</AllowCacheControlHeader>
+			<PolicyAttachments class="PolicyAttachments">RedebanTemplateMPG</PolicyAttachments>
+			<WSMAgentMonitor>off</WSMAgentMonitor>
+			<WSMAgentMonitorPCM>all-messages</WSMAgentMonitorPCM>
+			<ProxyHTTPResponse>off</ProxyHTTPResponse>
+			<TransactionTimeout>0</TransactionTimeout>
+		</MultiProtocolGateway>
+	</configuration>
+	<files>
+		<file name="cert:///www.txstestrbm.com202107.p12" src="cert/www.txstestrbm.com202107.p12" location="cert" key="true"/>
+		<file name="cert:///www.txstestrbm.com202107cer.cer" src="cert/www.txstestrbm.com202107cer.cer" location="cert" key="true"/>
+		<file name="cert:///www.txstestrbm.com202107In.cer" src="cert/www.txstestrbm.com202107In.cer" location="cert" key="true"/>
+		<file name="cert:///www.txstestrbm.com202107Ra.cer" src="cert/www.txstestrbm.com202107Ra.cer" location="cert" key="true"/>
+		<file name="store:///healthcheck.xml" src="store/healthcheck.xml" location="store" hash="LvIzTFgKgCrtz8VptDaqwCgWN0I="/>
+		<file name="store:///healthcheck.json" src="store/healthcheck.json" location="store" hash="vyGp6PvFo4RvsFtPoIWeCReyIC8="/>
+		<file name="store:///healthcheck.js" src="store/healthcheck.js" location="store" hash="bN8DS27FK8uny6ZxR8NJ6pWngRM="/>
+		<file name="cert:///rbm.security.client.cer" src="cert/rbm.security.client.cer" location="cert" key="true"/>
+		<file name="cert:///btascldap01.redeban.com2.cer" src="cert/btascldap01.redeban.com2.cer" location="cert" key="true"/>
+		<file name="cert:///btastldap02.redeban.com.cer" src="cert/btastldap02.redeban.com.cer" location="cert" key="true"/>
+		<file name="store:///js/jose-decrypt.js" src="store/js/jose-decrypt.js" location="store" hash="WYPfSbOXaMOa+qpsjKH53PmmlCE="/>
+		<file name="local:///js/jose-verify-with-config.js" src="local/js/jose-verify-with-config.js" location="local" hash="AfM/aJNK4Y1xSpOHwJhxCw6QNTI="/>
+		<file name="store:///js/jose-sign.js" src="store/js/jose-sign.js" location="store" hash="NtFmeccvTO8MufUEUa6MI7D9NCY="/>
+		<file name="local:///js/jose-encrypt-with-config.js" src="local/js/jose-encrypt-with-config.js" location="local" hash="jOabQuZ3tgYI9f9z1me20znARRU="/>
+		<file name="webgui:///clixform.xsl" src="dp-aux/clixform.xsl" location="dp-aux" internal="true" hash="5D6rHcHlxffHkL6WqXFk5rM/MSw="/>
+		<file name="webgui:///SchemaUtil.xsl" src="dp-aux/SchemaUtil.xsl" location="dp-aux" internal="true" hash="ZnCYHBrcIPvfLAXYOIKIL0KXIbo="/>
+		<file name="webgui:///management.xsl" src="dp-aux/management.xsl" location="dp-aux" internal="true" hash="pi0c46mGrlbqTpsWjG3QUxFOCYU="/>
+		<file name="webgui:///map-dmz.xsl" src="dp-aux/map-dmz.xsl" location="dp-aux" internal="true" hash="S8LbpfukTeInHK2d6DnQfdiZmd4="/>
+		<file name="webgui:///drMgmt.xml" src="dp-aux/drMgmt.xml" location="dp-aux" internal="true" hash="gVcmx5bY4f+JbJnR/JH+o0oq7sc="/>
+		<file name="webgui:///basetypes.xml" src="dp-aux/basetypes.xml" location="dp-aux" internal="true" hash="HrLsg2FhC6fPlGYI25NijeP828E="/>
+	</files>
+</datapower-configuration>

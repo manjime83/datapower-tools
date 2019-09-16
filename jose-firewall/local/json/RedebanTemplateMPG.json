@@ -1,0 +1,15 @@
+{
+    "config": {
+        "http-header": null,
+        "jws-header": null,
+        "context-variable": "var://service/WSM/identity/username",
+        "jwe": {
+            "enc": "A256GCM",
+            "alg": "RSA-OAEP-256",
+            "format": "json_flat"
+        }
+    },
+    "certs": {
+        "testSDK2": "RedebanSecurityClientCC"
+    }
+}
