@@ -12,9 +12,9 @@ runProfile(profileName);
 function runProfile(profileName) {
     console.log(`running ${profileName} profile...`);
 
-    fs.readFile(`${profileName}.json`, 'utf8', (err, data) => {
-        if (err) {
-            console.error(`Error loading ${profileName} profile:`, err.message);
+    fs.readFile(`${profileName}.json`, 'utf8', (error, data) => {
+        if (error) {
+            console.error(`Error loading ${profileName} profile:`, error);
         } else {
             Object.assign(profile, JSON.parse(data));
             loadClientKey();
@@ -23,25 +23,12 @@ function runProfile(profileName) {
 }
 
 function loadClientKey() {
-    fs.readFile(profile['client-private-key'], 'utf8', (err, data) => {
-        if (err) {
-            console.error('Error loading client private key:', err.message);
+    fs.readFile(profile['client-private-key'], 'utf8', (error, data) => {
+        if (error) {
+            console.error('Error loading client private key:', error);
         } else {
             jose.JWK.asKey(data, 'pem').then((clientKey) => {
                 Object.assign(certificates, { clientKey, pemClientKey: data });
-                loadClientCertificate();
-            });
-        }
-    });
-}
-
-function loadClientCertificate() {
-    fs.readFile(profile['client-public-certificate'], 'utf8', (err, data) => {
-        if (err) {
-            console.error('Error loading client public certificate:', err.message);
-        } else {
-            jose.JWK.asKey(data, 'pem').then((clientCertificate) => {
-                Object.assign(certificates, { clientCertificate, pemClientCertificate: data });
                 loadServerCertificate();
             });
         }
@@ -49,9 +36,9 @@ function loadClientCertificate() {
 }
 
 function loadServerCertificate() {
-    fs.readFile(profile['server-public-certificate'], 'utf8', (err, data) => {
-        if (err) {
-            console.error('Error loading server public certificate:', err.message);
+    fs.readFile(profile['server-public-certificate'], 'utf8', (error, data) => {
+        if (error) {
+            console.error('Error loading server public certificate:', error);
         } else {
             jose.JWK.asKey(data, 'pem').then((serverCertificate) => {
                 Object.assign(certificates, { serverCertificate, pemServerCertificate: data });
@@ -63,59 +50,84 @@ function loadServerCertificate() {
 }
 
 function makeLogsDirectory() {
-    fs.mkdir('logs', (err) => {
-        if (err && err.code !== 'EEXIST') {
-            console.error('Error creating logs directory:', err.message);
+    fs.mkdir('logs', (error) => {
+        if (error && error.code !== 'EEXIST') {
+            console.error('Error creating logs directory:', error);
         } else {
-            signAndEncrypt();
+            loadRequest();
         }
     });
 }
 
-function signAndEncrypt() {
+function loadRequest() {
+    let body = profile['request-body'];
+    if (typeof body === 'object') {
+        body = JSON.stringify(body);
+        signAndEncrypt(body);
+    } else {
+        fs.readFile(body, 'utf8', (error, data) => {
+            if (error) {
+                console.error(`Error loading ${body} file:`, error);
+            } else {
+                signAndEncrypt(data);
+            }
+        });
+    }
+}
+
+function signAndEncrypt(body) {
     const signOptions = {
-        fields: {
-            kid: certificates.clientKey.kid,
-            typ: 'json',
-            cty: 'application/json',
-            alg: 'RS256'
-        }
+        fields: Object.assign({ alg: 'RS256' }, profile['signature-headers']),
+        format: profile['signature-format']
     };
 
-    jose.JWS.createSign(signOptions, certificates.clientKey).update(JSON.stringify(profile['request-body']), 'utf8').final().then((signedBody) => {
-        fs.writeFile(`logs/${profileName}-signed.json`, JSON.stringify(signedBody, null, 2), 'utf8', (err) => {
-            if (err) {
-                return console.error('Error writing signed file:', err.message);
+    jose.JWS.createSign(signOptions, certificates.clientKey).update(body, 'utf8').final().then((signedBody) => {
+        if (profile['signature-format'] === 'flattened') {
+            signedBody = JSON.stringify(signedBody);
+        }
+
+        fs.writeFile(`logs/${profileName}-signed.txt`, signedBody, 'utf8', (error) => {
+            if (error) {
+                return console.error('Error writing signed file:', error);
             }
         });
 
         if (profile['enable-encryption']) {
             const encryptOptions = {
-                fields: {
-                    kid: certificates.serverCertificate.kid,
-                    typ: 'json',
-                    cty: 'application/json',
-                    alg: 'RSA-OAEP'
-                }
+                fields: { enc: profile['encryption-enc'], alg: profile['encryption-alg'] },
+                format: profile['encryption-format']
             };
 
-            jose.JWE.createEncrypt(encryptOptions, certificates.serverCertificate).update(JSON.stringify(signedBody)).final().then(function (encryptedBody) {
-                fs.writeFile(`logs/${profileName}-encrypted.json`, JSON.stringify(encryptedBody, null, 2), 'utf8', (err) => {
-                    if (err) {
-                        return console.error('Error writing encrypted file:', err.message);
+            jose.JWE.createEncrypt(encryptOptions, certificates.serverCertificate).update(signedBody).final().then(function (encryptedBody) {
+                if (profile['encryption-format'] === 'flattened') {
+                    encryptedBody = JSON.stringify(encryptedBody);
+                }
+
+                fs.writeFile(`logs/${profileName}-encrypted.txt`, encryptedBody, 'utf8', (error) => {
+                    if (error) {
+                        return console.error('Error writing encrypted file:', error);
                     }
                 });
 
-                sendRequest(encryptedBody);
+                sendRequest(encryptedBody, profile['encryption-format']);
             });
         } else {
-            sendRequest(signedBody);
+            sendRequest(signedBody, profile['signature-format']);
         }
     });
 }
 
-function sendRequest(body) {
+function sendRequest(body, format) {
+    let contentType;
+    if (format === 'compact') {
+        contentType = 'text/plain';
+    } else if (format === 'flattened') {
+        contentType = 'application/json';
+        body = JSON.parse(body);
+    }
+
     console.time('response time');
+
     axios.post(profile['request-url'], body, {
         httpsAgent: new https.Agent({
             key: certificates.pemClientKey,
@@ -125,58 +137,72 @@ function sendRequest(body) {
                 return undefined;
             }
         }),
-        headers: { 'Content-Type': 'application/json' },
+        headers: Object.assign({ 'content-type': contentType }, profile['request-headers']),
         auth: { username: profile['request-user'], password: profile['request-password'] },
         timeout: profile['request-timeout'] * 1000
     }).then((response) => {
         console.timeEnd('response time');
-        decryptAndVerify(response.data);
+        console.log(response.status, response.statusText);
+
+        if (format === 'compact') {
+            decryptAndVerify(response.data);
+        } else if (format === 'flattened') {
+            decryptAndVerify(JSON.stringify(response.data));
+        }
     }).catch((error) => {
         console.error('Error on server request:', error.message);
+        console.error('Error on server request:', error.response.data);
     });
 }
 
-function decryptAndVerify(responseData) {
+function decryptAndVerify(data) {
     if (profile['enable-encryption']) {
+        if (profile['encryption-format'] === 'flattened') {
+            data = JSON.parse(data);
+        }
+
         const decryptOptions = {
             algorithms: ["A*GCM", "RSA*"]
         };
 
-        jose.JWE.createDecrypt(certificates.clientKey, decryptOptions).decrypt(responseData).then((decryptedBody) => {
-            const decryptedBodyPayload = JSON.parse(decryptedBody.payload);
+        jose.JWE.createDecrypt(certificates.clientKey, decryptOptions).decrypt(data).then((decryptedBody) => {
+            decryptedBody = decryptedBody.payload.toString();
 
-            fs.writeFile(`logs/${profileName}-decrypted.json`, JSON.stringify(decryptedBodyPayload, null, 2), 'utf8', (err) => {
-                if (err) {
-                    return console.error('Error writing decrypted file:', err.message);
+            fs.writeFile(`logs/${profileName}-decrypted.txt`, decryptedBody, 'utf8', (error) => {
+                if (error) {
+                    return console.error('Error writing decrypted file:', error);
                 }
-
-                verify(decryptedBodyPayload);
             });
+
+            verify(decryptedBody);
         }).catch((error) => {
-            console.error('Error on decrypting response:', error.message);
+            console.error('Error on decrypting response:', error);
         });
     } else {
-        verify(responseData);
+        verify(data);
     }
 }
 
 function verify(signedBody) {
+    if (profile['signature-format'] === 'flattened') {
+        signedBody = JSON.parse(signedBody);
+    }
+
     const verifyOptions = {
         algorithms: ["RS*"]
     };
 
     jose.JWS.createVerify(certificates.serverCertificate, verifyOptions).verify(signedBody).then((verifiedBody) => {
-        const verifiedBodyPayload = JSON.parse(verifiedBody.payload);
+        verifiedBody = verifiedBody.payload.toString()
 
-        fs.writeFile(`logs/${profileName}-verified.json`, JSON.stringify(verifiedBodyPayload, null, 2), 'utf8', (err) => {
-            if (err) {
-                return console.error('Error writing verified file:', err.message);
+        fs.writeFile(`logs/${profileName}-verified.txt`, verifiedBody, 'utf8', (error) => {
+            if (error) {
+                return console.error('Error writing verified file:', error);
             }
-
-            console.log(profile['request-body']);
-            console.log(verifiedBodyPayload);
         });
+
+        console.log(verifiedBody);
     }).catch((error) => {
-        console.error('Error on verifiying response:', error.message);
+        console.error('Error on verifiying response:', error);
     });
 }

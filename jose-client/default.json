@@ -1,15 +1,24 @@
 {
     "client-private-key": "certs/rbm.security.client.key",
-    "client-public-certificate": "certs/rbm.security.client.cer",
-    "server-public-certificate": "certs/rbm.cer",
+    "server-public-certificate": "certs/www.txstestrbm.com.cer",
     "request-url": "https://ubuntu:8061/helloWorld",
     "request-user": "manuel.jimenez",
     "request-password": "s3cret",
+    "request-headers": {
+        "billetera-2": "TEST"
+    },
     "request-body": {
         "fruit": "Apple",
         "size": "Large",
         "color": "Red"
     },
     "request-timeout": 10,
-    "enable-encryption": false
+    "signature-headers": {
+        "kid": "helloworld"
+    },
+    "signature-format": "compact",
+    "enable-encryption": true,
+    "encryption-enc": "A256CBC-HS512",
+    "encryption-alg": "RSA-OAEP-256",
+    "encryption-format": "flattened"
 }
