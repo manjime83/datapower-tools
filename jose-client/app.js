@@ -151,7 +151,6 @@ function sendRequest(body, format) {
         }
     }).catch((error) => {
         console.error('Error on server request:', error.message);
-        console.error('Error on server request:', error.response.data);
     });
 }
 
