@@ -1,5 +1,7 @@
 package com.aossas.dp.deployer;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.StringReader;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -35,17 +37,22 @@ public final class HttpClient {
 
 	private static Date resquestDate = null;
 
-	public HttpClient() {
+	private HttpClient() {
 	}
 
 	private static CloseableHttpClient getHttpClient() {
+		String keystoreFile = Deploy.props.getProperty("ssl.keystore.file");
+		String keystorePassword = Deploy.decrypt(Deploy.props.getProperty("ssl.keystore.password"));
+
 		try {
-			SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(new TrustStrategy() {
-				@Override
-				public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-					return true;
-				}
-			}).build();
+			SSLContext sslContext = SSLContexts.custom().loadKeyMaterial(new File(keystoreFile),
+					keystorePassword.toCharArray(), keystorePassword.toCharArray())
+					.loadTrustMaterial(new TrustStrategy() {
+						@Override
+						public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+							return true;
+						}
+					}).build();
 			HttpClientBuilder builder = HttpClients.custom();
 			builder.setSSLContext(sslContext);
 			builder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE);
@@ -81,6 +88,14 @@ public final class HttpClient {
 
 	public static Date getResquestDate() {
 		return resquestDate;
+	}
+
+	public static void close() {
+		try {
+			httpClient.close();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

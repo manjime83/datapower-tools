@@ -40,8 +40,7 @@ public class Deploy {
 
 	private static byte[] key;
 
-	private static final XMLOutputter prettyOutputter = new XMLOutputter(
-			Format.getPrettyFormat().setOmitDeclaration(true).setIndent("\t"));
+	private static final XMLOutputter prettyOutputter = new XMLOutputter(Format.getPrettyFormat().setOmitDeclaration(true).setIndent("\t"));
 
 	private static final Namespace env = Namespace.getNamespace("env", "http://schemas.xmlsoap.org/soap/envelope/");
 	private static final Namespace dp = Namespace.getNamespace("dp", "http://www.datapower.com/schemas/management");
@@ -72,12 +71,11 @@ public class Deploy {
 	}
 
 	private void deploy(String project) {
-		File wdp;
+		File idg;
 		File log;
 		try {
-			wdp = new File(project, "wdp").getCanonicalFile();
-			log = new File(project, "wdplog." + logDateFormat.format(new Date(System.currentTimeMillis())))
-					.getCanonicalFile();
+			idg = new File(project, "idg").getCanonicalFile();
+			log = new File(project, "idglog." + logDateFormat.format(new Date(System.currentTimeMillis()))).getCanonicalFile();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -101,7 +99,7 @@ public class Deploy {
 			throw new RuntimeException(e);
 		}
 
-		File[] domains = wdp.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
+		File[] domains = idg.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
 
 		for (File domain : domains) {
 			String domainName = props.getProperty("domain.mapping." + domain.getName(), domain.getName());
@@ -121,8 +119,7 @@ public class Deploy {
 
 					try {
 						Document response = HttpClient.sendRequest(url, request, headers);
-						Element responseElement = response.getRootElement().getChild("Body", env).getChild("response",
-								dp);
+						Element responseElement = response.getRootElement().getChild("Body", env).getChild("response", dp);
 						String importResults = prettyOutputter.outputString(responseElement);
 						System.out.println(importResults);
 						lines.add(importResults);
@@ -146,8 +143,7 @@ public class Deploy {
 					throw new RuntimeException(e);
 				}
 
-				File importlog = new File(log + File.separator + domainName,
-						FilenameUtils.getBaseName(zip.getName()) + ".log");
+				File importlog = new File(log + File.separator + domainName, FilenameUtils.getBaseName(zip.getName()) + ".log");
 				try {
 					FileUtils.writeLines(importlog, "UTF-8", lines);
 				} catch (IOException e) {
@@ -189,7 +185,6 @@ public class Deploy {
 
 	protected static String decrypt(String encrypted) {
 		String data = "";
-
 		try {
 			SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
 			Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
@@ -199,7 +194,6 @@ public class Deploy {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return data;
 	}
 
@@ -214,7 +208,6 @@ public class Deploy {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return data;
 	}
 
