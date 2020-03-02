@@ -75,7 +75,7 @@ public class Deploy {
 		File log;
 		try {
 			idg = new File(project, "idg").getCanonicalFile();
-			log = new File(project, "idglog." + logDateFormat.format(new Date(System.currentTimeMillis()))).getCanonicalFile();
+			log = new File("log" + File.separator + project, logDateFormat.format(new Date(System.currentTimeMillis()))).getCanonicalFile();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -130,7 +130,7 @@ public class Deploy {
 						lines.add(sw.toString());
 					} finally {
 						System.out.println("elapsed time: " + HttpClient.getElapsedTime());
-						lines.add("elapsed time: " + HttpClient.getElapsedTime());
+						// lines.add("elapsed time: " + HttpClient.getElapsedTime());
 						System.out.println();
 
 						try {
@@ -143,7 +143,7 @@ public class Deploy {
 					throw new RuntimeException(e);
 				}
 
-				File importlog = new File(log + File.separator + domainName, FilenameUtils.getBaseName(zip.getName()) + ".log");
+				File importlog = new File(log + File.separator + domain.getName(), FilenameUtils.getBaseName(zip.getName()) + ".xml");
 				try {
 					FileUtils.writeLines(importlog, "UTF-8", lines);
 				} catch (IOException e) {
@@ -190,7 +190,7 @@ public class Deploy {
 			Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
 			cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
 			byte[] decrypted = cipher.doFinal(Hex.decodeHex(encrypted.toCharArray()));
-			data = new String(decrypted);
+			data = new String(decrypted).trim();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -203,7 +203,7 @@ public class Deploy {
 			SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
 			Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
 			cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
-			byte[] encrypted = cipher.doFinal(clearText.getBytes("UTF-8"));
+			byte[] encrypted = cipher.doFinal(clearText.trim().getBytes("UTF-8"));
 			data = Hex.encodeHexString(encrypted);
 		} catch (Exception e) {
 			e.printStackTrace();
