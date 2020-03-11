@@ -12,7 +12,6 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
@@ -36,9 +35,10 @@ import org.jdom2.output.XMLOutputter;
 
 public class Deploy {
 
-	protected static Properties props = new Properties();
+	private String project;
+	private Properties props = new Properties();
 
-	private static byte[] key;
+	private byte[] key;
 
 	private static final XMLOutputter prettyOutputter = new XMLOutputter(Format.getPrettyFormat().setOmitDeclaration(true).setIndent("\t"));
 
@@ -47,11 +47,8 @@ public class Deploy {
 
 	private static final DateFormat logDateFormat = new SimpleDateFormat("yyyyMMdd.HHmmss", Locale.US);
 
-	public static void main(String[] args) {
-		System.out.println("args: " + Arrays.toString(args) + System.lineSeparator());
-
-		String project = args[0];
-		String target = args[1];
+	public Deploy(String project, String target) {
+		this.project = project;
 
 		try (InputStream is = new FileInputStream(target + ".xml")) {
 			props.loadFromXML(is);
@@ -65,12 +62,13 @@ public class Deploy {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-
-		Deploy deploy = new Deploy();
-		deploy.deploy(project);
+	}
+	
+	public Properties getProps() {
+		return props;
 	}
 
-	private void deploy(String project) {
+	public void deploy() {
 		File idg;
 		File log;
 		try {
@@ -99,6 +97,8 @@ public class Deploy {
 			throw new RuntimeException(e);
 		}
 
+		HttpClient httpClient = new HttpClient(this);
+
 		File[] domains = idg.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
 
 		for (File domain : domains) {
@@ -118,7 +118,7 @@ public class Deploy {
 					// lines.add(importRequest);
 
 					try {
-						Document response = HttpClient.sendRequest(url, request, headers);
+						Document response = httpClient.sendRequest(url, request, headers);
 						Element responseElement = response.getRootElement().getChild("Body", env).getChild("response", dp);
 						String importResults = prettyOutputter.outputString(responseElement);
 						System.out.println(importResults);
@@ -129,7 +129,7 @@ public class Deploy {
 						System.out.println(sw.toString());
 						lines.add(sw.toString());
 					} finally {
-						System.out.println("elapsed time: " + HttpClient.getElapsedTime());
+						System.out.println("elapsed time: " + httpClient.getElapsedTime());
 						// lines.add("elapsed time: " + HttpClient.getElapsedTime());
 						System.out.println();
 
@@ -153,7 +153,7 @@ public class Deploy {
 		}
 	}
 
-	public Document buildDoImportRequest(String domain, String deploymentPolicy, byte[] file) {
+	private Document buildDoImportRequest(String domain, String deploymentPolicy, byte[] file) {
 		Document document = new Document();
 
 		Element envelope = new Element("Envelope", env);
@@ -183,7 +183,7 @@ public class Deploy {
 		return document;
 	}
 
-	protected static String decrypt(String encrypted) {
+	protected String decrypt(String encrypted) {
 		String data = "";
 		try {
 			SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
@@ -197,7 +197,7 @@ public class Deploy {
 		return data;
 	}
 
-	protected static String encrypt(String clearText) {
+	protected String encrypt(String clearText) {
 		String data = "";
 		try {
 			SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");

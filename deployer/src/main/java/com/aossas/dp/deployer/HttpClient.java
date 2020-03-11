@@ -29,24 +29,20 @@ import org.jdom2.output.XMLOutputter;
 
 public final class HttpClient {
 
-	private static final CloseableHttpClient httpClient = getHttpClient();
+	private CloseableHttpClient httpClient;
 
 	private static final XMLOutputter outputter = new XMLOutputter();
 
-	private static long elapsedTime = 0L;
+	private long elapsedTime = 0L;
 
-	private static Date resquestDate = null;
+	private Date resquestDate = null;
 
-	private HttpClient() {
-	}
-
-	private static CloseableHttpClient getHttpClient() {
-		String keystoreFile = Deploy.props.getProperty("ssl.keystore.file");
-		String keystorePassword = Deploy.decrypt(Deploy.props.getProperty("ssl.keystore.password"));
+	public HttpClient(Deploy deploy) {
+		String keystoreFile = deploy.getProps().getProperty("ssl.keystore.file");
+		String keystorePassword = deploy.decrypt(deploy.getProps().getProperty("ssl.keystore.password"));
 
 		try {
-			SSLContext sslContext = SSLContexts.custom().loadKeyMaterial(new File(keystoreFile),
-					keystorePassword.toCharArray(), keystorePassword.toCharArray())
+			SSLContext sslContext = SSLContexts.custom().loadKeyMaterial(new File(keystoreFile), keystorePassword.toCharArray(), keystorePassword.toCharArray())
 					.loadTrustMaterial(new TrustStrategy() {
 						@Override
 						public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
@@ -56,13 +52,13 @@ public final class HttpClient {
 			HttpClientBuilder builder = HttpClients.custom();
 			builder.setSSLContext(sslContext);
 			builder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE);
-			return builder.build();
+			httpClient = builder.build();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public static Document sendRequest(String url, Document request, Map<String, String> headers) throws Exception {
+	public Document sendRequest(String url, Document request, Map<String, String> headers) throws Exception {
 		String req = outputter.outputString(request);
 
 		HttpPost httpPost = new HttpPost(url);
@@ -82,15 +78,15 @@ public final class HttpClient {
 		}
 	}
 
-	public static long getElapsedTime() {
+	public long getElapsedTime() {
 		return elapsedTime;
 	}
 
-	public static Date getResquestDate() {
+	public Date getResquestDate() {
 		return resquestDate;
 	}
 
-	public static void close() {
+	public void close() {
 		try {
 			httpClient.close();
 		} catch (IOException e) {
