@@ -4,7 +4,7 @@
 
 	<groupId>com.aossas.dp</groupId>
 	<artifactId>deployer</artifactId>
-	<version>1.0</version>
+	<version>1.2</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -15,12 +15,12 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.5.2</version>
+			<version>4.5.11</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.5</version>
+			<version>2.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jdom</groupId>
@@ -34,50 +34,47 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.6.0</version>
+				<version>3.8.1</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.0.2</version>
-				<configuration>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-							<classpathPrefix>lib</classpathPrefix>
-							<mainClass>com.aossas.dp.deployer.Deploy</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>3.0.0</version>
-				<configuration>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-					<archive>
-						<manifest>
-							<mainClass>com.aossas.dp.deployer.Deploy</mainClass>
-						</manifest>
-					</archive>
-					<outputDirectory>${project.basedir}</outputDirectory>
-				</configuration>
+				<groupId>com.github.wvengen</groupId>
+				<artifactId>proguard-maven-plugin</artifactId>
+				<version>2.2.0</version>
 				<executions>
 					<execution>
-						<id>make-assembly</id>
 						<phase>package</phase>
 						<goals>
-							<goal>single</goal>
+							<goal>proguard</goal>
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<assembly>
+						<inclusions>
+							<inclusion>
+								<groupId>*</groupId>
+								<artifactId>*</artifactId>
+								<library>true</library>
+							</inclusion>
+						</inclusions>
+					</assembly>
+					<archive>
+						<manifest>
+							<mainClass>com.aossas.dp.deployer.Main</mainClass>
+						</manifest>
+					</archive>
+					<options>
+						<option>-keep public class com.aossas.dp.deployer.Main { public static void main(java.lang.String[]); }</option>
+					</options>
+					<libs>
+						<lib>${java.home}/lib/rt.jar</lib>
+						<lib>${java.home}/lib/jce.jar</lib>
+					</libs>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

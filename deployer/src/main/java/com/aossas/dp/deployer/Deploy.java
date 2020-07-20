@@ -12,7 +12,6 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
@@ -36,23 +35,20 @@ import org.jdom2.output.XMLOutputter;
 
 public class Deploy {
 
-	protected static Properties props = new Properties();
+	private String project;
+	private Properties props = new Properties();
 
-	private static byte[] key;
+	private byte[] key;
 
-	private static final XMLOutputter prettyOutputter = new XMLOutputter(
-			Format.getPrettyFormat().setOmitDeclaration(true).setIndent("\t"));
+	private static final XMLOutputter prettyOutputter = new XMLOutputter(Format.getPrettyFormat().setOmitDeclaration(true).setIndent("\t"));
 
 	private static final Namespace env = Namespace.getNamespace("env", "http://schemas.xmlsoap.org/soap/envelope/");
 	private static final Namespace dp = Namespace.getNamespace("dp", "http://www.datapower.com/schemas/management");
 
 	private static final DateFormat logDateFormat = new SimpleDateFormat("yyyyMMdd.HHmmss", Locale.US);
 
-	public static void main(String[] args) {
-		System.out.println("args: " + Arrays.toString(args) + System.lineSeparator());
-
-		String project = args[0];
-		String target = args[1];
+	public Deploy(String project, String target) {
+		this.project = project;
 
 		try (InputStream is = new FileInputStream(target + ".xml")) {
 			props.loadFromXML(is);
@@ -66,18 +62,18 @@ public class Deploy {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-
-		Deploy deploy = new Deploy();
-		deploy.deploy(project);
+	}
+	
+	public Properties getProps() {
+		return props;
 	}
 
-	private void deploy(String project) {
-		File wdp;
+	public void deploy() {
+		File idg;
 		File log;
 		try {
-			wdp = new File(project, "wdp").getCanonicalFile();
-			log = new File(project, "wdplog." + logDateFormat.format(new Date(System.currentTimeMillis())))
-					.getCanonicalFile();
+			idg = new File(project, "idg").getCanonicalFile();
+			log = new File("log" + File.separator + project, logDateFormat.format(new Date(System.currentTimeMillis()))).getCanonicalFile();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -101,7 +97,9 @@ public class Deploy {
 			throw new RuntimeException(e);
 		}
 
-		File[] domains = wdp.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
+		HttpClient httpClient = new HttpClient(this);
+
+		File[] domains = idg.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY);
 
 		for (File domain : domains) {
 			String domainName = props.getProperty("domain.mapping." + domain.getName(), domain.getName());
@@ -120,9 +118,8 @@ public class Deploy {
 					// lines.add(importRequest);
 
 					try {
-						Document response = HttpClient.sendRequest(url, request, headers);
-						Element responseElement = response.getRootElement().getChild("Body", env).getChild("response",
-								dp);
+						Document response = httpClient.sendRequest(url, request, headers);
+						Element responseElement = response.getRootElement().getChild("Body", env).getChild("response", dp);
 						String importResults = prettyOutputter.outputString(responseElement);
 						System.out.println(importResults);
 						lines.add(importResults);
@@ -132,8 +129,8 @@ public class Deploy {
 						System.out.println(sw.toString());
 						lines.add(sw.toString());
 					} finally {
-						System.out.println("elapsed time: " + HttpClient.getElapsedTime());
-						lines.add("elapsed time: " + HttpClient.getElapsedTime());
+						System.out.println("elapsed time: " + httpClient.getElapsedTime());
+						// lines.add("elapsed time: " + HttpClient.getElapsedTime());
 						System.out.println();
 
 						try {
@@ -146,8 +143,7 @@ public class Deploy {
 					throw new RuntimeException(e);
 				}
 
-				File importlog = new File(log + File.separator + domainName,
-						FilenameUtils.getBaseName(zip.getName()) + ".log");
+				File importlog = new File(log + File.separator + domain.getName(), FilenameUtils.getBaseName(zip.getName()) + ".xml");
 				try {
 					FileUtils.writeLines(importlog, "UTF-8", lines);
 				} catch (IOException e) {
@@ -157,7 +153,7 @@ public class Deploy {
 		}
 	}
 
-	public Document buildDoImportRequest(String domain, String deploymentPolicy, byte[] file) {
+	private Document buildDoImportRequest(String domain, String deploymentPolicy, byte[] file) {
 		Document document = new Document();
 
 		Element envelope = new Element("Envelope", env);
@@ -187,34 +183,31 @@ public class Deploy {
 		return document;
 	}
 
-	protected static String decrypt(String encrypted) {
+	protected String decrypt(String encrypted) {
 		String data = "";
-
 		try {
 			SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
 			Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
 			cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
 			byte[] decrypted = cipher.doFinal(Hex.decodeHex(encrypted.toCharArray()));
-			data = new String(decrypted);
+			data = new String(decrypted).trim();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return data;
 	}
 
-	protected static String encrypt(String clearText) {
+	protected String encrypt(String clearText) {
 		String data = "";
 		try {
 			SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
 			Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
 			cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
-			byte[] encrypted = cipher.doFinal(clearText.getBytes("UTF-8"));
+			byte[] encrypted = cipher.doFinal(clearText.trim().getBytes("UTF-8"));
 			data = Hex.encodeHexString(encrypted);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return data;
 	}
 

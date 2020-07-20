@@ -31,7 +31,7 @@ public final class HttpClient {
 
 	private static final CloseableHttpClient httpClient = getHttpClient();
 
-	public static final XMLOutputter outputter = new XMLOutputter();
+	private static final XMLOutputter outputter = new XMLOutputter();
 
 	private static long elapsedTime = 0L;
 

@@ -273,7 +273,11 @@ public class TestOperation {
 			}
 		}
 
-		IOUtils.closeQuietly(zos);
+		try {
+			IOUtils.close(zos);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 		return zip.toByteArray();
 	}
 
