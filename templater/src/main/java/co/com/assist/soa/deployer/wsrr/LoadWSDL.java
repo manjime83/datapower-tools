@@ -40,7 +40,7 @@ public class LoadWSDL {
 		Map<String, String> headers = new HashMap<String, String>();
 		headers.put("Authorization", "Basic " + Base64.encodeBase64String("wasadmin:wasadmin".getBytes("UTF-8")));
 
-		File wsdl = new File("C:\\Users\\manji\\Documents\\assist\\multibank\\workspace\\mb.template\\etc\\upload");
+		File wsdl = new File(args[0]);
 		Collection<File> files = FileUtils.listFiles(wsdl, new String[] { "wsdl" }, false);
 		for (File f : files) {
 			Document executeQuery = getExecuteQueryRequest(FilenameUtils.getName(f.getName()));
