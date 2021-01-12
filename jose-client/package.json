@@ -8,7 +8,7 @@
   },
   "author": "Manuel Jiménez",
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "node-jose": "^2.0.0"
   },
   "devDependencies": {
